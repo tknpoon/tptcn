@@ -8,7 +8,6 @@ CREATE TABLE `tSymbol` (
   `name` varchar(255) NULL, 
   `currency` varchar(32) NULL,
   PRIMARY KEY (`symbol`),
-  KEY `index_exchange` (`exchange`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tDailyPrice` (
