@@ -25,3 +25,13 @@ CREATE TABLE `tDailyPrice` (
   KEY `index_symbol` (`symbol`) 
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+CREATE VIEW `vDaily` AS
+  SELECT d.`symbol` AS `symbol`,
+    d.`priceDate` AS `date`,
+    d.`openPrice` AS `open`,
+    d.`highPrice` AS `high`,
+    d.`lowPrice` AS `low`,
+    d.`closePrice` AS `close`,
+    d.`volume` AS `volume` 
+  FROM  `tDailyPrice` d 
+  INNER JOIN `tSymbol` s ON (s.preferredVendor = d.vendorName AND s.symbol = d.symbol);
