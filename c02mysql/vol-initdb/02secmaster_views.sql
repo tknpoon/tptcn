@@ -7,4 +7,3 @@ CREATE VIEW `vSymbol` AS
  FROM    exchange e
  INNER JOIN symbol s ON (s.exchange_id = e.id);  
 
-INSERT INTO `vSymbol`(`exch`, `ticker`, `name`,`currency`) VALUES ("HKG","0001.HK","CKJH","HKD");
