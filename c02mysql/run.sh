@@ -11,7 +11,7 @@ docker run \
 --name c02mysql \
 -e MYSQL_DATABASE=secmaster \
 -e MYSQL_ROOT_PASSWORD=useItOnce -e MYSQL_ONETIME_PASSWORD=yes \
--e MYSQL_USER=tptcn -e MYSQL_PASSWORD=tptcnpass\
+-e MYSQL_USER=tptcn -e MYSQL_PASSWORD=tptcnpass \
 -p 12336:3306 \
 -d \
 mysql:5.7 \
