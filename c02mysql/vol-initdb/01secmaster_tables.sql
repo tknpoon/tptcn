@@ -1,6 +1,3 @@
-CREATE USER 'sec_user'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON secmaster.* TO 'sec_user'@'localhost';
-FLUSH PRIVILEGES;
 
 CREATE TABLE `exchange` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -34,7 +31,7 @@ CREATE TABLE `daily_price` (
   `low_price` decimal(19,4) NULL,
   `close_price` decimal(19,4) NULL,
   `volume` bigint NULL,
-  PRIMARY KEY (`id`),  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`),
   KEY `index_data_vendor_id` (`data_vendor_id`),
   KEY `index_synbol_id` (`symbol_id`) 
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
