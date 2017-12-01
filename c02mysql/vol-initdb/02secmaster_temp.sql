@@ -12,13 +12,4 @@ INSERT INTO `tDailyPrice` (`vendorName`, `symbol`, `priceDate`, `openPrice`, `hi
 INSERT INTO `tDailyPrice` (`vendorName`, `symbol`, `priceDate`, `openPrice`, `highPrice`, `lowPrice`, `closePrice`, `volume`)
   VALUES ("yahoo", "0001.HK", "2017-12-01", 2,2,0,2,20);
 
-CREATE VIEW `vDaily` AS
-  SELECT d.`symbol` AS `symbol`,
-    d.`priceDate` AS `date`,
-    d.`openPrice` AS `open`,
-    d.`highPrice` AS `high`,
-    d.`lowPrice` AS `low`,
-    d.`closePrice` AS `close`,
-    d.`volume` AS `volume` 
-  FROM  `tDailyPrice` d 
-  INNER JOIN `tSymbol` s ON (s.preferredVendor = d.vendorName AND s.symbol = d.symbol);
+
