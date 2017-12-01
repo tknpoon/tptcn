@@ -17,4 +17,4 @@ CREATE VIEW `vDaily` AS
     d.`closePrice` AS `close`,
     d.`volume` AS `volume` 
   FROM  `tDailyPrice` d 
-  INNER JOIN `tSymbol` s ON (s.preferredVendor = d.vendorName);
+  INNER JOIN `tSymbol` s ON (s.preferredVendor = d.vendorName AND s.symbol = d.symbol);
