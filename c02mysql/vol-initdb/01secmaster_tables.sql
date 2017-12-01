@@ -7,7 +7,7 @@ CREATE TABLE `tSymbol` (
   `symbol` varchar(15) NOT NULL,
   `name` varchar(255) NULL, 
   `currency` varchar(32) NULL,
-  PRIMARY KEY (`symbol`),
+  PRIMARY KEY (`symbol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tDailyPrice` (
