@@ -3,20 +3,18 @@ import smtpd , asyncore, json, os, telepot
 
 class CustomSMTPServer(smtpd.SMTPServer):
     def process_message(self, peer, mailfrom, rcpttos, data):
-        token = os.environ['TOKEN']
-        chat_id = os.environ['CHAT_ID']
         print 'Message addressed from:', mailfrom
         if mailfrom == 'frommail@tknpoon':
             print 'Message addressed to  :', rcpttos
             #print 'Data :',data
             msg = data.splitlines()
-            #skip to blankline
+            
+            #skip to blank line
             while len(msg[0]) > 0:
                 del msg[0]
-            #del msg[0]
-            
             message = "\n".join(msg)
             print 'Message :', message
+
             telepot.Bot(os.environ['TOKEN']).sendMessage( 
                 os.environ['CHAT_ID'], message, parse_mode='HTML' 
             )
