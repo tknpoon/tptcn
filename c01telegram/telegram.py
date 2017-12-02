@@ -17,8 +17,7 @@ class CustomSMTPServer(smtpd.SMTPServer):
             
             message = "\n".join(msg)
             print 'Message :', message
-            TelegramBot = telepot.Bot(token)
-            TelegramBot.sendMessage(chat_id, message, parse_mode='HTML')
+            telepot.Bot(os.environ['TOKEN']).sendMessage( os.environ['CHAT_ID'], message, parse_mode='HTML' )
         return
 
 server = CustomSMTPServer(('0.0.0.0', 25), None)
