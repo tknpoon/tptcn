@@ -12,4 +12,3 @@ docker run \
  -d \
  tknpoon/private:$CONTAINER_NAME \
  python /telegram.py
-

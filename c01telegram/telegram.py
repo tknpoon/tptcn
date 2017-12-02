@@ -1,7 +1,5 @@
 #!/usr/bin/python
-import smtpd
-import asyncore
-import json
+import smtpd , asyncore, json, os, telepot
 
 class CustomSMTPServer(smtpd.SMTPServer):
     def process_message(self, peer, mailfrom, rcpttos, data):
@@ -10,10 +8,11 @@ class CustomSMTPServer(smtpd.SMTPServer):
         print 'Message addressed from:', mailfrom
         if mailfrom == 'frommail@tknpoon':
             print 'Message addressed to  :', rcpttos
+            print 'Data :',data
             msg = data.splitlines()
-            while len(msg[0]) > 0:
-                del msg[0]
-            del msg[0]
+            #while len(msg[0]) > 0:
+            #    del msg[0]
+            #del msg[0]
             
             message = "\n".join(msg)
             print 'Message :', message

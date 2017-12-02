@@ -9,3 +9,4 @@ RUN pip install --upgrade telepot
 COPY telegram.py /telegram.py 
 
 EXPOSE 1025
+
