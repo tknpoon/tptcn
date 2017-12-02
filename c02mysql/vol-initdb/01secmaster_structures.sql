@@ -20,6 +20,7 @@ CREATE TABLE `tDailyPrice` (
   `lowPrice` decimal(19,4) NULL,
   `closePrice` decimal(19,4) NULL,
   `volume` bigint NULL,
+  `adjClosePrice` decimal(19,4) NULL,
   PRIMARY KEY (`symbol`,`priceDate`,`vendorName`),
   KEY `index_vendor` (`vendorName`),
   KEY `index_symbol` (`symbol`) 
