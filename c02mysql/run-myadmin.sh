@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 docker run \
  --name c02myadmin \
  --link c02mysql:db \
