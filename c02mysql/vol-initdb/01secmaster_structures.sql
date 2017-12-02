@@ -5,9 +5,9 @@ CREATE TABLE `tVendor` (
 
 CREATE TABLE `tSymbol` (
   `symbol` varchar(15) NOT NULL,
-  `name` varchar(255) NULL, 
-  `currency` varchar(32) NULL,
   `preferredVendor` varchar(10) NULL,
+  `currency` varchar(10) NULL,
+  `name` varchar(255) NULL, 
   PRIMARY KEY (`symbol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
