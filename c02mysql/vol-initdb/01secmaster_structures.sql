@@ -6,6 +6,7 @@ CREATE TABLE `tVendor` (
 CREATE TABLE `tSymbol` (
   `symbol` varchar(15) NOT NULL,
   `preferredVendor` varchar(10) NULL,
+  `availVendors` varchar(30) NULL,
   `currency` varchar(10) NULL,
   `name` varchar(255) NULL, 
   PRIMARY KEY (`symbol`)
