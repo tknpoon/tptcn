@@ -8,7 +8,7 @@ docker run \
  --name $CONTAINER_NAME \
  -e TOKEN='405736720:AAEvJ1Sza0_csF6CZ8uORLmeeguG7O1y0-8' \
  -e CHAT_ID='386573013' \
- -p 11025:1025 \
+ -p 11025:25 \
  -d \
  tknpoon/private:$CONTAINER_NAME \
  python /telegram.py

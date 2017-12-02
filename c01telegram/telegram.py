@@ -8,10 +8,11 @@ class CustomSMTPServer(smtpd.SMTPServer):
         print 'Message addressed from:', mailfrom
         if mailfrom == 'frommail@tknpoon':
             print 'Message addressed to  :', rcpttos
-            print 'Data :',data
+            #print 'Data :',data
             msg = data.splitlines()
-            #while len(msg[0]) > 0:
-            #    del msg[0]
+            #skip to blankline
+            while len(msg[0]) > 0:
+                del msg[0]
             #del msg[0]
             
             message = "\n".join(msg)
@@ -20,5 +21,5 @@ class CustomSMTPServer(smtpd.SMTPServer):
             TelegramBot.sendMessage(chat_id, message, parse_mode='HTML')
         return
 
-server = CustomSMTPServer(('0.0.0.0', 1025), None)
+server = CustomSMTPServer(('0.0.0.0', 25), None)
 asyncore.loop()
