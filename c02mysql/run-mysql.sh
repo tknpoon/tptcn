@@ -1,4 +1,6 @@
 #!/bin/bash
+. $HOME/.self_env
+
 CONTAINER_NAME=c02mysql
 
 CURDIR=`cd $(dirname $0); pwd`
