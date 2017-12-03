@@ -7,4 +7,3 @@ sudo /bin/bash ~/repo/tptcn/00mkswap.sh
 
 sudo /bin/bash ~/repo/tptcn/01install_docker.sh
 
-#End
