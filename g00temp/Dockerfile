@@ -7,5 +7,5 @@ RUN pip install --upgrade pip
 RUN pip install --upgrade scrapy telepot dj-database-url regex
 
 RUN groupadd --gid 500 ubuntu
-RUN useradd --create-home --comment "Ubuntu User" --uid 500 --gid 500
+RUN useradd --create-home --comment "Ubuntu User" --uid 500 --gid 500 ubuntu
 USER ubuntu
