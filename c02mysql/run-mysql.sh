@@ -12,8 +12,8 @@ docker run \
  -v $CURDIR/vol-initdb:/docker-entrypoint-initdb.d \
  --name $CONTAINER_NAME \
  -e MYSQL_DATABASE=secmaster \
- -e MYSQL_ROOT_PASSWORD=useItOnce -e MYSQL_ONETIME_PASSWORD=yes \
- -e MYSQL_USER=tptcn -e MYSQL_PASSWORD=tptcnpass \
+ -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
+ -e MYSQL_USER=$MYSQL_USER -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
  -p 12336:3306 \
  -d \
  mysql:5.7 \
