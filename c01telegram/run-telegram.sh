@@ -1,13 +1,13 @@
 #!/bin/bash
-CONTAINER_NAME=c01telegram
 
-CURDIR=`cd $(dirname $0); pwd`
-VOLDIR=$HOME/vol/$CONTAINER_NAME
+. $HOME/.self_env
+
+CONTAINER_NAME=c01telegram
 
 docker run \
  --name $CONTAINER_NAME \
- -e TOKEN='405736720:AAEvJ1Sza0_csF6CZ8uORLmeeguG7O1y0-8' \
- -e CHAT_ID='386573013' \
+ -e TOKEN=$TELEGRAM_TOKEN \
+ -e CHAT_ID=$TELEGRAM_CHAT_ID \
  -p 11025:25 \
  -d \
  tknpoon/private:$CONTAINER_NAME \
