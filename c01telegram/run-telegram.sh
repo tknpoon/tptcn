@@ -1,12 +1,6 @@
 #!/bin/bash
-<<<<<<< HEAD
-
 . $HOME/.self_env
 
-=======
-. $HOME/.self_env
-
->>>>>>> 97409e308f01459a0608131cb91a06a784b75ba2
 CONTAINER_NAME=c01telegram
 
 docker run \
