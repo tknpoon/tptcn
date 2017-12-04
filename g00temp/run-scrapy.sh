@@ -11,7 +11,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 docker run \
  -v $VOLDIR/vol-datadir:/scrapyproj \
  --name $CONTAINER_NAME \
- -ti \
+ -d \
  tknpoon/private:$CONTAINER_NAME \
- bash
+ bash -c 'while [ 1 ]; do sleep 5; done'
 
