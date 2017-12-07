@@ -1,7 +1,7 @@
 #!/bin/bash
 . $HOME/.self_env
 
-CONTAINER_NAME=c03scrapy
+CONTAINER_NAME=c03scrapyd
 
 CURDIR=`cd $(dirname $0); pwd`
 VOLDIR=$HOME/vol/$CONTAINER_NAME
@@ -10,7 +10,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 [ ! -d $VOLDIR/vol-lib_scrapyd ] && mkdir -p $VOLDIR/vol-lib_scrapyd
 
 docker run \
- -v $VOLDIR/vol-etc_scrapyd:/etc/scrapyd \ 
+ -v $VOLDIR/vol-etc_scrapyd:/etc/scrapyd \
  -v $VOLDIR/vol-lib_scrapyd:/var/lib/scrapyd \
  --name $CONTAINER_NAME \
  -p 13680:6800 \
