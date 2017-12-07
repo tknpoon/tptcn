@@ -61,5 +61,8 @@ COPY ./scrapyd.conf /etc/scrapyd/
 VOLUME /etc/scrapyd/ /var/lib/scrapyd/
 EXPOSE 6800
 
+RUN groupadd --gid 500 ubuntu
+RUN useradd --create-home --comment "Ubuntu User" --uid 500 --gid 500 ubuntu
+USER ubuntu
 
 CMD ["scrapyd", "--pidfile="]
