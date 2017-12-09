@@ -13,6 +13,7 @@ docker run \
  -v $VOLDIR/vol-etc_scrapyd:/etc/scrapyd \
  -v $VOLDIR/vol-lib_scrapyd:/var/lib/scrapyd \
  --link c04nginx:web \
+ --link c02mysql:db \
  --name $CONTAINER_NAME \
  -p 13680:6800 \
  -d \
