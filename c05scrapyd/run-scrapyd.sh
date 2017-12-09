@@ -1,7 +1,7 @@
 #!/bin/bash
 . $HOME/.self_env
 
-CONTAINER_NAME=c03scrapyd
+CONTAINER_NAME=c05scrapyd
 
 CURDIR=`cd $(dirname $0); pwd`
 VOLDIR=$HOME/vol/$CONTAINER_NAME
@@ -12,8 +12,8 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 docker run \
  -v $VOLDIR/vol-etc_scrapyd:/etc/scrapyd \
  -v $VOLDIR/vol-lib_scrapyd:/var/lib/scrapyd \
+ --link c04nginx:web \
  --name $CONTAINER_NAME \
  -p 13680:6800 \
  -d \
- tknpoon/private:$CONTAINER_NAME
-
+ vimagick/scrapyd
