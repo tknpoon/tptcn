@@ -5,7 +5,6 @@ RUN apt-get install -y python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev
 
 RUN pip install --upgrade pip
 RUN pip install --upgrade scrapy telepot dj-database-url regex
+RUN pip install --upgrade pandas pandas_datareader
 
-RUN groupadd --gid 500 ubuntu
-RUN useradd --create-home --comment "Ubuntu User" --uid 500 --gid 500 ubuntu
-USER ubuntu
+COPY yahoo.py /yahoo.py

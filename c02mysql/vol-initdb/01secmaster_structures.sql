@@ -1,7 +1,7 @@
 CREATE TABLE `tVendor` (
   `name` varchar(10) NOT NULL,
   PRIMARY KEY (`name`) 
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tSymbol` (
   `symbol` varchar(15) NOT NULL,
@@ -10,7 +10,20 @@ CREATE TABLE `tSymbol` (
   `currency` varchar(10) NULL,
   `name` varchar(255) NULL, 
   PRIMARY KEY (`symbol`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tDailyPrice_yahoo` (
+  `symbol` varchar(15) NOT NULL,
+  `Date` datetime NOT NULL,
+  `Open` decimal(19,4) NULL,
+  `High` decimal(19,4) NULL,
+  `Low` decimal(19,4) NULL,
+  `Close` decimal(19,4) NULL,
+  `Adj Close` decimal(19,4) NULL,
+  `Volume` bigint NULL,
+  PRIMARY KEY (`symbol`,`Date`),
+  KEY `index_symbol` (`symbol`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tDailyPrice` (
   `vendorName` varchar(10) NOT NULL,
@@ -25,7 +38,7 @@ CREATE TABLE `tDailyPrice` (
   PRIMARY KEY (`symbol`,`priceDate`,`vendorName`),
   KEY `index_vendor` (`vendorName`),
   KEY `index_symbol` (`symbol`) 
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE VIEW `vDaily` AS
   SELECT d.`symbol` AS `symbol`,
