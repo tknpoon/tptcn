@@ -40,6 +40,19 @@ CREATE TABLE `tDailyPrice` (
   KEY `index_symbol` (`symbol`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `tYahooDaily` (
+  `symbol` varchar(15) NOT NULL,
+  `Date` datetime NOT NULL,
+  `Open` decimal(19,4) NULL,
+  `High` decimal(19,4) NULL,
+  `Low` decimal(19,4) NULL,
+  `Close` decimal(19,4) NULL,
+  `Adj Close` decimal(19,4) NULL,
+  `Volume` bigint NULL,
+  PRIMARY KEY (`symbol`,`Date`),
+  KEY `index_symbol` (`symbol`) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE VIEW `vDaily` AS
   SELECT d.`symbol` AS `symbol`,
     d.`priceDate` AS `date`,
