@@ -12,19 +12,6 @@ CREATE TABLE `tSymbol` (
   PRIMARY KEY (`symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tDailyPrice_yahoo` (
-  `symbol` varchar(15) NOT NULL,
-  `Date` datetime NOT NULL,
-  `Open` decimal(19,4) NULL,
-  `High` decimal(19,4) NULL,
-  `Low` decimal(19,4) NULL,
-  `Close` decimal(19,4) NULL,
-  `Adj Close` decimal(19,4) NULL,
-  `Volume` bigint NULL,
-  PRIMARY KEY (`symbol`,`Date`),
-  KEY `index_symbol` (`symbol`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `tDailyPrice` (
   `vendorName` varchar(10) NOT NULL,
   `symbol` varchar(15) NOT NULL,
@@ -40,7 +27,7 @@ CREATE TABLE `tDailyPrice` (
   KEY `index_symbol` (`symbol`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tYahooDaily` (
+CREATE TABLE `tDailyPrice_yahoo` (
   `symbol` varchar(15) NOT NULL,
   `Date` datetime NOT NULL,
   `Open` decimal(19,4) NULL,
