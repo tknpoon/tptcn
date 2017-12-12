@@ -18,4 +18,4 @@ docker run \
  -e MYSQL_DB=$MYSQL_DB \
  --rm -ti \
  tknpoon/private:$CONTAINER_NAME \
- mysql --host=db --database=$MYSQL_DB --user=$MYSQL_USER --password=$MYSQL_PASSWORD < /scripts/replace_yahoo.sql
+ bash -c "mysql --host=db --database=$MYSQL_DB --user=$MYSQL_USER --password=$MYSQL_PASSWORD < /scripts/replace_yahoo.sql"
