@@ -10,6 +10,22 @@ from multiprocessing import Pool
 from sqlalchemy import create_engine
 
 ##############################
+def save_sql(symbol, df):
+    ##
+    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+    cursor = conn.cursor()
+    for index, row in df.iterrows():
+        #print index,row
+        stmt = """REPLACE INTO tDailyPrice_yahoo (symbol, Date, Open, High, Low, Close, Volume, `Adj Close`) 
+            VALUES ('%s','%s',%f,%f,%f,%f,%d,%f)
+            """ % (symbol, index, row['Open'], row['High'], row['Low'], row['Close'], row['Volume'], row['Adj Close'])
+        #print stmt
+        r = cursor.execute(stmt)
+        #print "Exec result:",r
+    conn.commit()
+    conn.close()
+
+##############################
 def grabyahoo(symbol):
     source='yahoo'
     start='01/01/1990'
@@ -25,21 +41,9 @@ def grabyahoo(symbol):
     conn.close()
     qt= web.DataReader(symbol, source, start, end)
     qt.dropna(inplace = True)
-    
+    print symbol, len(qt.index)
     ##
-    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
-    cursor = conn.cursor()
-    for index, row in qt.iterrows():
-        #print index,row
-        stmt = """REPLACE INTO tDailyPrice_yahoo (symbol, Date, Open, High, Low, Close, Volume, `Adj Close`) 
-            VALUES ('%s','%s',%f,%f,%f,%f,%d,%f)
-            """ % (symbol, index, row['Open'], row['High'], row['Low'], row['Close'], row['Volume'], row['Adj Close'])
-        #print stmt
-        r = cursor.execute(stmt)
-        #print "Exec result:",r
-        
-    conn.commit()
-    conn.close()
+    save_sql(symbol, qt)
     
     return symbol
 
@@ -58,7 +62,9 @@ if __name__ == '__main__':
         symlist.append(row[0][0])
     conn.close()
 
-#    p = Pool(3)
-#    print(p.map(grabyahoo, symlist))
-    for s in symlist:
-        grabyahoo(s)
+    use_pool = True
+    if use_pool :
+        Pool(4).map(grabyahoo, symlist)
+    else:
+        for s in symlist:
+            grabyahoo(s)
