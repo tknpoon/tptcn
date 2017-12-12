@@ -9,5 +9,3 @@ RUN pip install --upgrade scrapy telepot dj-database-url regex
 RUN pip install --upgrade pandas pandas_datareader
 RUN pip install --upgrade sqlalchemy MySQL-python
 
-COPY yahoo.py /yahoo.py
-COPY testmy.py /testmy.py
