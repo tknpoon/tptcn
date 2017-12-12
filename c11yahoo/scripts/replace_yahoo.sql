@@ -1,9 +1,11 @@
 REPLACE INTO tDailyPrice(`vendorName`, `symbol`, `priceDate`, `openPrice`, `highPrice`, `lowPrice`, `closePrice`, `volume`, `adjClosePrice`)
-  SELECT 'yahoo', `symbol`, `Date` as `priceDate`,
-    `Open` as `openPrice`, 
-    GREATEST(`Open`, `Close`, `High`) as `highPrice`,
-    LEAST(`Open`, `Close`, `Low` ) as `lowPrice`,
-    `Close` as `closePrice`,
-    `Volume` as `volume`,
-    `Adj Close` as `adjClosePrice`
-  FROM `tDailyPrice_yahoo`
+  SELECT 'yahoo', y.`symbol`, y.`Date` as `priceDate`,
+    y.`Open` as `openPrice`, 
+    GREATEST(y.`Open`, y.`Close`, y.`High`) as `highPrice`,
+    LEAST(y.`Open`, y.`Close`, y.`Low` ) as `lowPrice`,
+    y.`Close` as `closePrice`,
+    y.`Volume` as `volume`,
+    y.`Adj Close` as `adjClosePrice`
+  FROM `tDailyPrice_yahoo` AS y
+  WHERE y.`symbol` IN 
+    (SELECT `tSymbol`.`symbol` FROM `tSymbol` WHERE `preferredVendor`='yahoo')
