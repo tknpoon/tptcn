@@ -51,17 +51,19 @@ def grabyahoo(symbol):
 ##############################
 # main
 if __name__ == '__main__':
+    #Get a list of RIC
+    symlist=[]
     conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
     conn.query("select symbol from tSymbol where availVendors like '%yahoo%' ")
     r=conn.use_result()
     
-    symlist=[]
     while (True) :
         row = r.fetch_row()
         if len(row) == 0: break
         symlist.append(row[0][0])
     conn.close()
 
+    # Grab the bars
     use_pool = True
     if use_pool :
         Pool(4).map(grabyahoo, symlist)
