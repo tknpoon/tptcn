@@ -39,13 +39,17 @@ def grabyahoo(symbol):
         if len(row) == 0 or row[0][0] is None: break
         start= row[0][0].strftime('%m/%d/%Y')
     conn.close()
-    qt= web.DataReader(symbol, source, start, end)
-    qt.dropna(inplace = True)
-    print symbol, len(qt.index)
-    ##
-    save_sql(symbol, qt)
-    
-    return symbol
+
+    try:
+        qt= web.DataReader(symbol, source, start, end)
+        qt.dropna(inplace = True)
+        print symbol, len(qt.index)
+        ##
+        save_sql(symbol, qt)
+        return symbol
+    except:
+        print "Failed to get", symbol
+        return None
 
     
 ##############################
