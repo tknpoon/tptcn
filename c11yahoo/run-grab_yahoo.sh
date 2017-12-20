@@ -1,6 +1,8 @@
 #!/bin/bash
 . $HOME/.self_env
 
+PARAM=$1
+
 CURDIR=`cd $(dirname $0);pwd`
 CONTAINER_NAME=$(basename `(cd $CURDIR; pwd)`)
 
@@ -18,4 +20,4 @@ docker run \
  -e MYSQL_DB=$MYSQL_DB \
  --rm -i \
  tknpoon/private:$CONTAINER_NAME \
- python /scripts/grab_yahoo.py
+ python /scripts/grab_yahoo.py $PARAM
