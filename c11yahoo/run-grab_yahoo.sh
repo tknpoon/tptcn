@@ -16,6 +16,6 @@ docker run \
  -e MYSQL_USER=$MYSQL_USER \
  -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
  -e MYSQL_DB=$MYSQL_DB \
- --rm -ti \
+ --rm -i \
  tknpoon/private:$CONTAINER_NAME \
  python /scripts/grab_yahoo.py
