@@ -16,4 +16,5 @@ docker run \
  --name $CONTAINER_NAME \
  -p 15680:6800 \
  -d \
+ --restart=always \
  tknpoon/private:c05scrapyd

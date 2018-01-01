@@ -13,5 +13,6 @@ docker run \
  -v $CURDIR/nginx-default.conf:/etc/nginx/conf.d/default.conf:ro \
  --name c04nginx \
  -d \
+ --restart=always \
  -p 14080:80 \
  nginx

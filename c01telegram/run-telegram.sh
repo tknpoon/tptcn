@@ -9,5 +9,6 @@ docker run \
  -e CHAT_ID=$TELEGRAM_CHAT_ID \
  -p 11025:25 \
  -d \
+ --restart=always \
  tknpoon/private:$CONTAINER_NAME \
  python /telegram.py

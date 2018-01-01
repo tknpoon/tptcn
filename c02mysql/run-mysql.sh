@@ -18,6 +18,7 @@ docker run \
  -e MYSQL_USER=$MYSQL_USER -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
  -p 12336:3306 \
  -d \
+ --restart=always \
  mysql:5.7 \
  --character-set-server=utf8mb4 \
  --collation-server=utf8mb4_unicode_ci
