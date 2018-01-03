@@ -50,3 +50,7 @@ CREATE VIEW `vDaily` AS
     d.`volume` AS `volume` 
   FROM  `tDailyPrice` d 
   INNER JOIN `tSymbol` s ON (s.preferredVendor = d.vendorName AND s.symbol = d.symbol);
+
+CREATE PROCEDURE `pDaily`(IN `symbol` VARCHAR(15))
+ SELECT * FROM vDaily
+  WHERE vDaily.symbol = symbol
