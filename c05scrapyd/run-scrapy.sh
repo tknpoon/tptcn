@@ -8,14 +8,14 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 [ ! -d $VOLDIR/vol-lib_scrapyd ] && mkdir -p $VOLDIR/vol-lib_scrapyd
 
+echo docker run -e PYTHONDONTWRITEBYTECODE=1 -v `pwd`:/code --rm vimagick/scrapyd scrapy runspider /code/stackoverflow_spider.py -o /code/top-stackoverflow-questions.json
+
 docker run \
- -v $CURDIR/scrapyd.conf:/etc/scrapyd/scrapyd.conf \
+ -e PYTHONDONTWRITEBYTECODE=1 \
  -v $VOLDIR/vol-lib_scrapyd:/var/lib/scrapyd \
  --link c04nginx:web \
  --link c02mysql:db \
- --name $CONTAINER_NAME \
- -p 15680:6800 \
- -d \
- --restart=always \
- tknpoon/private:c05scrapyd
-
+ --rm \
+ -ti \
+ vimagick/scrapyd \
+ scrapy runspider /var/lib/scrapyd/d180105e.py
