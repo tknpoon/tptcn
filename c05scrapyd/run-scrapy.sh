@@ -11,7 +11,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 echo docker run -e PYTHONDONTWRITEBYTECODE=1 -v `pwd`:/code --rm vimagick/scrapyd scrapy runspider /code/stackoverflow_spider.py -o /code/top-stackoverflow-questions.json
 
 docker run \
- -e PYTHONDONTWRITEBYTECODE=1 \
+ --env-file $HOME/.self_env \
  -v $VOLDIR/vol-lib_scrapyd:/var/lib/scrapyd \
  --link c04nginx:web \
  --link c02mysql:db \
