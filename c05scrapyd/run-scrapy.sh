@@ -8,8 +8,6 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 [ ! -d $VOLDIR/vol-lib_scrapyd ] && mkdir -p $VOLDIR/vol-lib_scrapyd
 
-echo docker run -e PYTHONDONTWRITEBYTECODE=1 -v `pwd`:/code --rm vimagick/scrapyd scrapy runspider /code/stackoverflow_spider.py -o /code/top-stackoverflow-questions.json
-
 docker run \
  --env-file $HOME/.self_env \
  -v $VOLDIR/vol-lib_scrapyd:/var/lib/scrapyd \
