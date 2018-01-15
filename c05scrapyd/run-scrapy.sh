@@ -10,7 +10,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 docker run \
  --env-file $HOME/.self_env \
- -v $VOLDIR/vol-lib_scrapyd:/var/lib/scrapyd \
+ -v $CURDIR/vol-lib_scrapyd:/var/lib/scrapyd \
  --link c04nginx:web \
  --link c02mysql:db \
  --rm \
