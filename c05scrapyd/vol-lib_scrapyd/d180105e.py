@@ -10,13 +10,38 @@ class QuotSpider(scrapy.Spider):
         wholequotes=[]
         for line in response.css("::text").extract():
             wholequotes.extend(line.replace("\r\n", "\n").splitlines())
-        quoteList = self.getQuoteList(wholequotes)
+        quotes = self.getQuotes(wholequotes)
         
-        print "start"
+    ################################################################
+    ################################################################
+    def getQuotes(self, wholequotes):
+        quotes=[]
+        quoteList = self.getQuoteList(wholequotes)
         for q in quoteList:
-            print q
+            if len(q) < 148: continue
+            t={
+            'symbol' : '{:04d}.HK'.format(int(q[1:6].strip())),
+            'name' : q[7:24].strip(),
+            'cur' : q[24:27].strip(),
+            'pclose' : float(q[27:37].strip()),
+            'ask' : float(q[37:45].strip()),
+            'high' : float(q[45:54].strip()),
+            'vol' : int(q[54:74].strip()),
+            'close' : float(q[99:111].strip()),
+            'bid' : float(q[111:118].strip()),
+            'low' : float(q[118:128].strip()),
+            'turnover' : float(q[128:148].strip())
+            }
+            print t
+            quotes.append(t)
+        print "start"
+        for quote in quotes:
+            print quote
         print "end"
-    ################################
+            
+            
+        
+    ################################################################
     def getQuoteList(self, wholequotes):
         quoteList=[]
         quote=""
@@ -44,7 +69,7 @@ class QuotSpider(scrapy.Spider):
                 
         return quoteList
         
-    ################################
+    ################################################################
     def getQuotations(self, wholequotes):
         quotations=[]
         toc_met=False
