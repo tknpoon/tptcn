@@ -6,7 +6,7 @@ CONTAINER_NAME=c05scrapyd
 CURDIR=`cd $(dirname $0); pwd`
 VOLDIR=$HOME/vol/$CONTAINER_NAME
 
-[ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $VOLDIR/vol-lib_scrapyd
+[ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $CURDIR/vol-lib_scrapyd
 
 docker run \
  --env-file $HOME/.self_env \
