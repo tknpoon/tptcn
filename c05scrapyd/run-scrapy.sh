@@ -19,4 +19,4 @@ docker run \
  --rm \
  -ti \
  tknpoon/private:c05scrapyd \
- scrapy runspider /var/lib/scrapyd/d180105e.py
+ scrapy runspider /var/lib/scrapyd/work_today.py
