@@ -9,11 +9,14 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 [ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $CURDIR/vol-lib_scrapyd
 
 docker run \
- --env-file $HOME/.self_env \
  -v $CURDIR/vol-lib_scrapyd:/var/lib/scrapyd \
  --link c04nginx:web \
  --link c02mysql:db \
+ -e MYSQL_USER=$MYSQL_USER \
+ -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
+ -e MYSQL_DB=$MYSQL_DB \
+ -e PYTHONDONTWRITEBYTECODE=true \
  --rm \
  -ti \
- vimagick/scrapyd \
+ tknpoon/private:c05scrapyd \
  scrapy runspider /var/lib/scrapyd/d180105e.py
