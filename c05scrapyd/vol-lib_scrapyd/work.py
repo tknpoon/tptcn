@@ -6,8 +6,10 @@ import MySQLdb as my
 
 class QuotSpider(scrapy.Spider):
     name = 'quot'
-    start_urls = ['http://web/raw/hkex_quot/2018/d180115e.htm']
-
+    urlToScrap = os.environ['URL_TO_SCRAP']
+    #start_urls = [dt.datetime.today().strftime('http://web/raw/hkex_quot/%Y/d%y%m%de.htm')]
+    start_urls = [urlToScrap]
+    
     ################################
     def parse(self, response):
         wholequotes=[]
