@@ -6,7 +6,7 @@ import MySQLdb as my
 
 class QuotSpider(scrapy.Spider):
     name = 'quot'
-    start_urls = ['http://web/raw/hkex_quot/2018/d180105e.htm']
+    start_urls = ['http://web/raw/hkex_quot/2018/d180115e.htm']
 
     ################################
     def parse(self, response):
