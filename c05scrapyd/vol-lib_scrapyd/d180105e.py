@@ -19,30 +19,31 @@ class QuotSpider(scrapy.Spider):
         quoteList = self.getQuoteList(wholequotes)
         for q in quoteList:
             if len(q) < 148: continue
+            print q
             symbol = '{:04d}.HK'.format(int(q[1:6].strip()))
             name = q[7:24].strip()
             cur = q[24:27].strip()
-            pclose = float(q[27:37].strip().replace(',', ''))
-            ask = float(q[37:45].strip().replace(',', ''))
-            high = float(q[45:54].strip().replace(',', ''))
-            vol = int(q[54:74].strip().replace(',', ''))
-            close = float(q[99:111].strip().replace(',', ''))
-            bid = float(q[111:118].strip().replace(',', ''))
-            low = float(q[118:128].strip().replace(',', ''))
-            turnover = float(q[128:148].strip().replace(',', ''))
+            pclose = q[27:37].strip().replace(',', '')
+            ask = q[37:45].strip().replace(',', '')
+            high = q[45:54].strip().replace(',', '')
+            vol = q[54:74].strip().replace(',', '')
+            close = q[99:111].strip().replace(',', '')
+            bid = q[111:119].strip().replace(',', '')
+            low = q[119:128].strip().replace(',', '')
+            turnover = q[128:148].strip().replace(',', '')
 
             t={
                 'symbol' : symbol,
                 'name' : name,
                 'cur' : cur,
-                'pclose' : float( '-1' if pclose =='-' else pclose),
-                'ask' : float( '-1' if ask =='-' else ask),
-                'high' : float( '-1' if high =='-' else high),
-                'vol' : int( '-1' if vol =='-' else vol),
-                'close' : float( '-1' if close =='-' else close),
-                'bid' : float( '-1' if bid =='-' else bid),
-                'low' : float( '-1' if low =='-' else low),
-                'turnover' : float( '-1' if turnover =='-' else turnover)
+                'pclose' : float( '-1' if (pclose =='-' or pclose=='N/A') else pclose),
+                'ask' : float( '-1' if (ask =='-'  or ask=='N/A') else ask),
+                'high' : float( '-1' if (high =='-'  or high=='N/A') else high),
+                'vol' : int( '-1' if (vol =='-'  or vol=='N/A') else vol),
+                'close' : float( '-1' if (close =='-'  or close=='N/A') else close),
+                'bid' : float( '-1' if (bid =='-'  or bid=='N/A') else bid),
+                'low' : float( '-1' if (low =='-'  or low=='N/A') else low),
+                'turnover' : float( '-1' if (turnover =='-' or turnover=='N/A') else turnover)
             }
             print t
             quotes.append(t)
