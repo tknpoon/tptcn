@@ -34,7 +34,6 @@ class QuotSpider(scrapy.Spider):
     ################################################################
     def saveQuotes(self, thedate, quotes):
         ##
-        print os.environ['MYSQL_USER'], os.environ['MYSQL_PASSWORD'], os.environ['MYSQL_DB']
         conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
         cursor = conn.cursor()
         for row in quotes:
