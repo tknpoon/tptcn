@@ -19,18 +19,30 @@ class QuotSpider(scrapy.Spider):
         quoteList = self.getQuoteList(wholequotes)
         for q in quoteList:
             if len(q) < 148: continue
+            symbol = '{:04d}.HK'.format(int(q[1:6].strip()))
+            name = q[7:24].strip()
+            cur = q[24:27].strip()
+            pclose = float(q[27:37].strip().replace(',', ''))
+            ask = float(q[37:45].strip().replace(',', ''))
+            high = float(q[45:54].strip().replace(',', ''))
+            vol = int(q[54:74].strip().replace(',', ''))
+            close = float(q[99:111].strip().replace(',', ''))
+            bid = float(q[111:118].strip().replace(',', ''))
+            low = float(q[118:128].strip().replace(',', ''))
+            turnover = float(q[128:148].strip().replace(',', ''))
+
             t={
-            'symbol' : '{:04d}.HK'.format(int(q[1:6].strip())),
-            'name' : q[7:24].strip(),
-            'cur' : q[24:27].strip(),
-            'pclose' : float(q[27:37].strip()),
-            'ask' : float(q[37:45].strip()),
-            'high' : float(q[45:54].strip()),
-            'vol' : int(q[54:74].strip()),
-            'close' : float(q[99:111].strip()),
-            'bid' : float(q[111:118].strip()),
-            'low' : float(q[118:128].strip()),
-            'turnover' : float(q[128:148].strip())
+                'symbol' : symbol,
+                'name' : name,
+                'cur' : cur,
+                'pclose' : float( '-1' if pclose =='-' else pclose),
+                'ask' : float( '-1' if ask =='-' else ask),
+                'high' : float( '-1' if high =='-' else high),
+                'vol' : int( '-1' if vol =='-' else vol),
+                'close' : float( '-1' if close =='-' else close),
+                'bid' : float( '-1' if bid =='-' else bid),
+                'low' : float( '-1' if low =='-' else low),
+                'turnover' : float( '-1' if turnover =='-' else turnover)
             }
             print t
             quotes.append(t)
