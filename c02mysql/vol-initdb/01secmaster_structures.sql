@@ -53,7 +53,8 @@ CREATE TABLE `tHKEX_Quotation` (
   `Volume` bigint NULL,
   `Turnover` bigint NULL,
   PRIMARY KEY (`symbol`,`Date`),
-  KEY `index_symbol` (`symbol`)
+  KEY `index_symbol` (`symbol`),
+  KEY `index_date` (`Date`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE VIEW `vDaily` AS
