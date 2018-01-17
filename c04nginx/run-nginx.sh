@@ -6,7 +6,7 @@ CONTAINER_NAME=c04nginx
 CURDIR=`cd $(dirname $0); pwd`
 VOLDIR=$HOME/vol/$CONTAINER_NAME
 
-#[ ! -d $VOLDIR/vol-datadir ] && mkdir -p $VOLDIR/vol-datadir
+[ ! -d $VOLDIR/vol-datadir ] && mkdir -p $VOLDIR/vol-datadir
 
 docker run \
  -v $HOME/store:/usr/share/nginx/html:ro \
