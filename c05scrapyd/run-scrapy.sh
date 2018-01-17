@@ -8,15 +8,25 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 [ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $CURDIR/vol-lib_scrapyd
 
-docker run \
- -v $CURDIR/vol-lib_scrapyd:/var/lib/scrapyd \
- --link c04nginx:web \
- --link c02mysql:db \
- -e MYSQL_USER=$MYSQL_USER \
- -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
- -e MYSQL_DB=$MYSQL_DB \
- -e PYTHONDONTWRITEBYTECODE=true \
- --rm \
- -ti \
- tknpoon/private:c05scrapyd \
- scrapy runspider /var/lib/scrapyd/work_today.py
+today=1
+
+for u in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*; find raw/hkex_quot -name \*${today}\*htm\*)`
+do
+  url=`printf "http://web/%s" $u | sed -e 's/.gz$//'`
+
+  docker run \
+   -v $CURDIR/vol-lib_scrapyd:/var/lib/scrapyd \
+   --link c04nginx:web \
+   --link c02mysql:db \
+   -e MYSQL_USER=$MYSQL_USER \
+   -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
+   -e MYSQL_DB=$MYSQL_DB \
+   -e URL_TO_SCRAP=$url \
+   -e PYTHONDONTWRITEBYTECODE=true \
+   --rm \
+   -t \
+   tknpoon/private:c05scrapyd \
+   scrapy runspider /var/lib/scrapyd/work.py
+
+  echo ====== Done working on $url
+done

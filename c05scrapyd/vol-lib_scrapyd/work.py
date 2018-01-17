@@ -16,6 +16,7 @@ class QuotSpider(scrapy.Spider):
         for line in response.css("::text").extract():
             wholequotes.extend(line.replace("\r\n", "\n").splitlines())
         thedate = self.getDate(wholequotes)
+        #print "thedate",thedate
         if thedate is None:
             return
         
@@ -38,23 +39,23 @@ class QuotSpider(scrapy.Spider):
         conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
         cursor = conn.cursor()
         for row in quotes:
-            stmt = """
-            INSERT INTO tDailyQuote_hkex (symbol, Date, Currency) 
-                                VALUES   ('%s',   '%s', '%s')
+            stmt = """INSERT INTO tHKEX_Quotation (symbol, Date)  VALUES   ('%s',   '%s')
             ON DUPLICATE KEY UPDATE Currency='%s'
-            """ % ( row['symbol'], thedate.strftime('%Y-%m-%d'), row['cur'], 
-                                            row['cur']
-            )
+            """ % ( row['symbol'], thedate.strftime('%Y-%m-%d'), row['cur'] )
             r = cursor.execute(stmt)
             
-            if 'pclose' in row: r = cursor.execute("UPDATE tDailyQuote_hkex SET PrevClose=%f WHERE symbol = '%s' and Date = '%s'" %(row['pclose'], row['symbol'],thedate.strftime('%Y-%m-%d')) )
-            if 'high' in row:   r = cursor.execute("UPDATE tDailyQuote_hkex SET High=%f WHERE symbol = '%s' and Date = '%s'" %(row['high'], row['symbol'],thedate.strftime('%Y-%m-%d')) )
-            if 'low' in row:    r = cursor.execute("UPDATE tDailyQuote_hkex SET Low=%f WHERE symbol = '%s' and Date = '%s'" %(row['low'], row['symbol'],thedate.strftime('%Y-%m-%d')) )
-            if 'close' in row:  r = cursor.execute("UPDATE tDailyQuote_hkex SET Close=%f WHERE symbol = '%s' and Date = '%s'" %(row['close'], row['symbol'],thedate.strftime('%Y-%m-%d')) )
-            if 'bid' in row:    r = cursor.execute("UPDATE tDailyQuote_hkex SET Bid=%f WHERE symbol = '%s' and Date = '%s'" %(row['bid'], row['symbol'],thedate.strftime('%Y-%m-%d')) )
-            if 'ask' in row:    r = cursor.execute("UPDATE tDailyQuote_hkex SET Ask=%f WHERE symbol = '%s' and Date = '%s'" %(row['ask'], row['symbol'],thedate.strftime('%Y-%m-%d')) )
-            if 'vol' in row:    r = cursor.execute("UPDATE tDailyQuote_hkex SET Volume=%d WHERE symbol = '%s' and Date = '%s'" %(row['vol'], row['symbol'],thedate.strftime('%Y-%m-%d')) )
-            if 'tover' in row:  r = cursor.execute("UPDATE tDailyQuote_hkex SET Turnover=%d WHERE symbol = '%s' and Date = '%s'" %(row['tover'], row['symbol'],thedate.strftime('%Y-%m-%d')) )
+            stmt = "UPDATE tHKEX_Quotation SET "
+            stmt = stmt + " Currency='%s' " % (row['cur'])
+            if 'pclose' in row: stmt = stmt + ", PrevClose=%f " %(row['pclose'])
+            if 'high' in row:   stmt = stmt + ", High=%f " %(row['high'])
+            if 'low' in row:    stmt = stmt + ", Low=%f " %(row['low'])
+            if 'close' in row:  stmt = stmt + ", Close=%f " %(row['close'])
+            if 'bid' in row:    stmt = stmt + ", Bid=%f " %(row['bid'])
+            if 'ask' in row:    stmt = stmt + ", Ask=%f " %(row['ask'])
+            if 'vol' in row:    stmt = stmt + ", Volume=%d " %(row['vol'])
+            if 'tover' in row:  stmt = stmt + ", Turnover=%d " %(row['tover'])
+            stmt = stmt + " WHERE symbol = '%s' and Date = '%s'" %(row['symbol'], thedate.strftime('%Y-%m-%d'))
+            r = cursor.execute(stmt)
             conn.commit()
         conn.close()
     
@@ -64,8 +65,8 @@ class QuotSpider(scrapy.Spider):
         quoteList = self.getQuoteList(wholequotes)
         for q in quoteList:
             if len(q) < 148: continue
-#            print q
-            symbol = '{:04d}.HK'.format(int(q[1:6].strip()))
+            #print q
+            symbol = '{:04d}.HK'.format(int(q[0:6].replace('*','').strip()))
             name = q[7:24].strip()
             cur = q[24:27].strip()
             pclose = q[27:37].strip().replace(',', '')
@@ -105,7 +106,7 @@ class QuotSpider(scrapy.Spider):
         inQuote=False
         quotationLines=self.getQuotations(wholequotes)
         for quoteline in quotationLines:
-            mm = re.match('^[\s\*]\s*\d+ ', quoteline)
+            mm = re.match('^[\s\*]\s*\d+', quoteline[:6])
             #print "@@", inQuote, quoteline, mm
             if mm :
                 if inQuote: 
@@ -132,11 +133,11 @@ class QuotSpider(scrapy.Spider):
         toc_met=False
         quotations_start=False
         for line in wholequotes:
-            #print toc_met, quotations_start, len(quotations) ,line
+            #print toc_met, quotations_start, len(quotations) ,len(line), line
             if not toc_met and re.match('^\s*-+\s*$', line) is not None: 
                 toc_met = True
                 next
-            if toc_met and not quotations_start and re.match('^QUOTATIONS', line) is not None:
+            if toc_met and not quotations_start and re.match('^\s*QUOTATIONS', line) is not None:
                 quotations_start=True
             if toc_met and quotations_start:
                 quotations.append(line)

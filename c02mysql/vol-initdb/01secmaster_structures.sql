@@ -40,7 +40,7 @@ CREATE TABLE `tDailyPrice_yahoo` (
   KEY `index_symbol` (`symbol`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tDailyQuote_hkex` (
+CREATE TABLE `tHKEX_Quotation` (
   `symbol` varchar(15) NOT NULL,
   `Date` datetime NOT NULL,
   `Currency` varchar(3) NULL,
