@@ -45,15 +45,17 @@ class QuotSpider(scrapy.Spider):
             #{'symbol': '83199.HK', 'stockSales': [], 'name': u'CSOP 5YCGBOND-R'}^M
             for s in row['stockSales']:
                 #'stockSales': [{'vol': u'3000', 'serial': 'M00001', 'price': u'24.80', 'flag': u'Y'}]
-                stmt = """INSERT IGNORE 
-                INTO tHKEX_Sales (symbol, Date, Serial, Flag, Price, Volume)  
-                          VALUES ('%s',   '%s', '%s',   '%s', %f,    %d )
+                stmt = """INSERT INTO 
+                 tHKEX_Sales (symbol, Date, Serial, Flag, Price, Volume)  
+                      VALUES ('%s',   '%s', '%s',   '%s', %f,    %d )
+                  ON DUPLICATE KEY UPDATE Flag='%s'
                 """ % ( row['symbol'], 
                 thedate.strftime('%Y-%m-%d'), 
                 s['serial'],
                 s['flag'],
                 float(s['price']),
-                int(s['vol'])
+                int(s['vol']),
+                s['flag']
                 )
                 #print stmt
                 r = cursor.execute(stmt)
