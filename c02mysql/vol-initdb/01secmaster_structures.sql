@@ -54,7 +54,7 @@ CREATE TABLE `tHKEX_Quotation` (
   `Turnover` bigint NULL,
   PRIMARY KEY (`symbol`,`Date`),
   KEY `index_symbol` (`symbol`),
-  KEY `index_date` (`Date`),
+  KEY `index_date` (`Date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tHKEX_Sales` (
@@ -64,7 +64,10 @@ CREATE TABLE `tHKEX_Sales` (
   `Flag` varchar(3) NULL,
   `Price` decimal(19,4) NULL,
   `Volume` int NULL,
-  PRIMARY KEY (`symbol`,`Date`,`Serial`)
+  PRIMARY KEY (`symbol`,`Date`,`Serial`),
+  KEY `index_symbol_date` (`symbol`,`Date`),
+  KEY `index_symbol` (`symbol`),
+  KEY `index_date` (`Date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE VIEW `vDaily` AS
