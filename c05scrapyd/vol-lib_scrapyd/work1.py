@@ -20,11 +20,11 @@ class QuotSpider(scrapy.Spider):
         if thedate is None:
             return
         
-        #quotes = self.getQuotes(wholequotes)
-        #self.saveQuotes(thedate, quotes)
+        quotes = self.getQuotes(wholequotes)
+        self.saveQuotes(thedate, quotes)
         
         sales = self.getSales(wholequotes)
-        #self.saveSales(thedate, sales)
+        self.saveSales(thedate, sales)
         
     ################################################################
     ################################################################
@@ -41,18 +41,24 @@ class QuotSpider(scrapy.Spider):
         ##
         conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
         cursor = conn.cursor()
-        for row in trades:
-            stmt = """INSERT INTO tHKEX_Trade (symbol, Date)  VALUES   ('%s',   '%s')
-            ON DUPLICATE KEY UPDATE Currency='%s'
-            """ % ( row['symbol'], thedate.strftime('%Y-%m-%d'), row['cur'] )
-            r = cursor.execute(stmt)
+        for row in sales:
+            #{'symbol': '83199.HK', 'stockSales': [], 'name': u'CSOP 5YCGBOND-R'}^M
+            for s in row['stockSales']:
+                #'stockSales': [{'vol': u'3000', 'serial': 'M00001', 'price': u'24.80', 'flag': u'Y'}]
+                stmt = """INSERT IGNORE 
+                INTO tHKEX_Sales (symbol, Date, Serial, Flag, Price, Volume)  
+                          VALUES ('%s',   '%s', '%s',   '%s', %f,    %d )
+                """ % ( row['symbol'], 
+                thedate.strftime('%Y-%m-%d'), 
+                s['serial'],
+                s['flag'],
+                float(s['price']),
+                int(s['vol'])
+                )
+                #print stmt
+                r = cursor.execute(stmt)
+            conn.commit()
             
-            stmt = "UPDATE tHKEX_Quotation SET "
-            stmt = stmt + " Currency='%s' " % (row['cur'])
-            if 'tover' in row:  stmt = stmt + ", Turnover=%d " %(row['tover'])
-            stmt = stmt + " WHERE symbol = '%s' and Date = '%s'" %(row['symbol'], thedate.strftime('%Y-%m-%d'))
-            #r = cursor.execute(stmt)
-            #conn.commit()
         conn.close()
     
     ################################################################
@@ -76,8 +82,8 @@ class QuotSpider(scrapy.Spider):
                 stockDict['stockSales'] = stockSales
                 sales.append(stockDict)
                 
-        for t in sales:
-            print t
+        #for t in sales:
+        #    print t
             
         return sales
         
