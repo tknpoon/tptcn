@@ -10,7 +10,8 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 today=180117
 
-for u in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*; find raw/hkex_quot -name \*${today}\*htm\*)`
+#for u in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*; find raw/hkex_quot -name \*${today}\*htm\*)`
+for u in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*)`
 do
   url=`printf "http://web/%s" $u | sed -e 's/.gz$//'`
 

@@ -22,8 +22,9 @@ class QuotSpider(scrapy.Spider):
         
         #quotes = self.getQuotes(wholequotes)
         #self.saveQuotes(thedate, quotes)
-        trades = self.getTrades(wholequotes)
-        self.saveTrades(thedate, trades)
+        
+        sales = self.getSales(wholequotes)
+        #self.saveSales(thedate, sales)
         
     ################################################################
     ################################################################
@@ -36,7 +37,7 @@ class QuotSpider(scrapy.Spider):
     
     ################################################################
     ################################################################
-    def saveTrades(self, thedate, trades):
+    def saveSales(self, thedate, sales):
         ##
         conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
         cursor = conn.cursor()
@@ -55,27 +56,58 @@ class QuotSpider(scrapy.Spider):
         conn.close()
     
     ################################################################
-    def getTrades(self, wholequotes):
-        trades=[]
-        tradeList = self.getTradeList(wholequotes)
-        print "start"
-        for trade in tradeList:
+    def getSales(self, wholequotes):
+        sales=[]
+        stockTradeLines = self.getStockTradeLine(wholequotes)
+        #
+        for line in stockTradeLines:
+            stockDict={}
             # 83199 CSOP 5YCGBOND-R  < >[ ]/-//[ 1,000-101.75 ]< >
-            mm = re.search('^\s*(\d+)\D(.+)\s*\<(.+)\>\s*\[(.+)\]/-//\s*\[(.+)\]\s*\<(.+)\>', trade)
+            mm = re.search('^\s*(\d+)\D(.+)\s*\<(.+)\>\s*\[(.+)\]/-//\s*\[(.+)\]\s*\<(.+)\>', line)
             if mm:
-                print "@@", mm.group(1).strip(), mm.group(2).strip()
-                print "@@", mm.group(1).strip(), mm.group(3).strip()
-                print "@@", mm.group(1).strip(), mm.group(4).strip()
-                print "@@", mm.group(1).strip(), mm.group(5).strip()
-                print "@@", mm.group(1).strip(), mm.group(6).strip()
-                print "++++++++++++++++++++++++++"
+                stockDict['symbol'] = '{:04d}.HK'.format(int(mm.group(1).strip()))
+                stockDict['name'] = mm.group(2).strip()
+                
+                stockSales=[]
+                stockSales.extend(self.splitTrades('A', mm.group(3).strip()))
+                stockSales.extend(self.splitTrades('M', mm.group(4).strip()))
+                stockSales.extend(self.splitTrades('P', mm.group(5).strip()))
+                stockSales.extend(self.splitTrades('U', mm.group(6).strip()))
+                stockDict['stockSales'] = stockSales
+                sales.append(stockDict)
+                
+        for t in sales:
+            print t
             
-        print "end"
-        return trades
-            
+        return sales
         
     ################################################################
-    def getTradeList(self, wholequotes):
+    def splitTrades(self, sess, tradeline):
+        trades = []
+        serial=1
+        
+        line = tradeline.strip()
+        
+        pattern='^([^\d\,\.]*)([,\.\d]+)-([,\.\d]+)\s+(.*)$'
+        m = re.search(pattern, line)
+        while (m):
+            #print line
+            d = {}
+            d['serial'] = "%s%05d" % (sess, serial)
+            d['flag'] = m.group(1).strip() if m.group(1) else ""
+            d['vol'] = m.group(2).replace(',', '')
+            d['price'] = m.group(3).replace(',', '')
+            #print d
+            trades.append(d)
+            #
+            serial = serial + 1
+            line = m.group(4).strip() if m.group(4) else ""
+            m = re.search(pattern, line)
+            
+        return trades
+        
+    ################################################################
+    def getStockTradeLine(self, wholequotes):
         tradeList=[]
         trade=""
         inTrade=False
@@ -131,11 +163,11 @@ class QuotSpider(scrapy.Spider):
         conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
         cursor = conn.cursor()
         for row in quotes:
-            stmt = """INSERT INTO tHKEX_Quotation (symbol, Date)  VALUES   ('%s',   '%s')
-            ON DUPLICATE KEY UPDATE Currency='%s'
-            """ % ( row['symbol'], thedate.strftime('%Y-%m-%d'), row['cur'] )
+            stmt = """INSERT INTO tHKEX_Quotation (symbol, Date, Name)  VALUES   ('%s', '%s', '%s')
+            ON DUPLICATE KEY UPDATE Name='%s'
+            """ % ( row['symbol'], thedate.strftime('%Y-%m-%d'), row['name'] , row['name'] )
             r = cursor.execute(stmt)
-            
+
             stmt = "UPDATE tHKEX_Quotation SET "
             stmt = stmt + " Currency='%s' " % (row['cur'])
             if 'pclose' in row: stmt = stmt + ", PrevClose=%f " %(row['pclose'])

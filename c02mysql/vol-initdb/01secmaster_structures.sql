@@ -60,7 +60,7 @@ CREATE TABLE `tHKEX_Quotation` (
 CREATE TABLE `tHKEX_Sales` (
   `symbol` varchar(15) NOT NULL,
   `Date` datetime NOT NULL,
-  `Serial` int NOT NULL,
+  `Serial` varchar(9) NOT NULL,
   `Flag` varchar(3) NULL,
   `Price` decimal(19,4) NULL,
   `Volume` int NULL,
