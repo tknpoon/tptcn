@@ -169,8 +169,8 @@ class QuotSpider(scrapy.Spider):
         conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
         cursor = conn.cursor()
         for row in quotes:
-            stmt = """INSERT INTO tHKEX_Quotation (symbol, Date, Name)  VALUES   ('%s', '%s', '%s')
-            ON DUPLICATE KEY UPDATE Name='%s'
+            stmt = """INSERT INTO tHKEX_Quotation (symbol, Date, Name)  VALUES   ("%s", "%s", "%s")
+            ON DUPLICATE KEY UPDATE Name="%s"
             """ % ( row['symbol'], thedate.strftime('%Y-%m-%d'), row['name'] , row['name'] )
             r = cursor.execute(stmt)
 

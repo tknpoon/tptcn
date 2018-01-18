@@ -26,7 +26,7 @@ do
    --rm \
    -t \
    tknpoon/private:c05scrapyd \
-   scrapy runspider /var/lib/scrapyd/work.py
+   scrapy runspider /var/lib/scrapyd/work1.py
 
   echo ====== Done working on $url
 done

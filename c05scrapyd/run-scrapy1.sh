@@ -8,6 +8,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 [ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $CURDIR/vol-lib_scrapyd
 
+#today=180117
 today=1
 
 for u in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*; find raw/hkex_quot -name \*${today}\*htm\*)`
