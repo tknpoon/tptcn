@@ -60,11 +60,11 @@ CREATE TABLE `tHKEX_Quotation` (
 CREATE TABLE `tHKEX_Sales` (
   `symbol` varchar(15) NOT NULL,
   `Date` datetime NOT NULL,
-  `Sequence` int NOT NULL,
-  `TradeType` varchar(1) NULL,
+  `Serial` int NOT NULL,
+  `Flag` varchar(3) NULL,
   `Price` decimal(19,4) NULL,
   `Volume` int NULL,
-  PRIMARY KEY (`symbol`,`Date`,`Sequence`)
+  PRIMARY KEY (`symbol`,`Date`,`Serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE VIEW `vDaily` AS
