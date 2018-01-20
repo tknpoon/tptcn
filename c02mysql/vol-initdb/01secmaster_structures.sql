@@ -63,7 +63,7 @@ CREATE TABLE `tHKEX_Sales` (
   `Serial` varchar(9) NOT NULL,
   `Flag` varchar(3) NULL,
   `Price` decimal(19,4) NULL,
-  `Volume` int NULL,
+  `Volume` bigint NULL,
   PRIMARY KEY (`symbol`,`Date`,`Serial`),
   KEY `index_symbol_date` (`symbol`,`Date`),
   KEY `index_symbol` (`symbol`),
