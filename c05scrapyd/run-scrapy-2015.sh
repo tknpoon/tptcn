@@ -9,7 +9,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 [ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $CURDIR/vol-lib_scrapyd
 [ ! -d $VOLDIR/vol-lib_scrapyd ] && mkdir -p $VOLDIR/vol-lib_scrapyd
 
-for u in `(cd $HOME/store/; ls raw/hkex_gem/2018/*.gz; ls raw/hkex_quot/2018/*.gz)`
+for u in `(cd $HOME/store/; ls raw/hkex_quot/2015/*.gz)`
 do
   url=`printf "http://web/%s" $u | sed -e 's/.gz$//'`
   docker run \
