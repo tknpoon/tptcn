@@ -22,10 +22,12 @@ class QuotSpider(scrapy.Spider):
         
         quotes = self.getQuotes(wholequotes)
         self.saveQuotes(thedate, quotes)
+        quotes = None
         
         sales = self.getSales(wholequotes)
         self.saveSales(thedate, sales)
-        
+        sales = None
+
     ################################################################
     ################################################################
     def getDate(self, wholequotes):
