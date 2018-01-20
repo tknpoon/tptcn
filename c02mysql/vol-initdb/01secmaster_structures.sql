@@ -43,6 +43,7 @@ CREATE TABLE `tDailyPrice_yahoo` (
 CREATE TABLE `tHKEX_Quotation` (
   `symbol` varchar(15) NOT NULL,
   `Date` datetime NOT NULL,
+  `Name` varchar(20) NULL,
   `Currency` varchar(3) NULL,
   `PrevClose` decimal(19,4) NULL,
   `High` decimal(19,4) NULL,
