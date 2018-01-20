@@ -59,8 +59,12 @@ class QuotSpider(scrapy.Spider):
                 int(s['vol']),
                 s['flag']
                 )
-                #print stmt
-                r = cursor.execute(stmt)
+                try:
+                    r = cursor.execute(stmt)
+                except Exception, e:
+                    print stmt
+                    raise
+                
             conn.commit()
             
         conn.close()
@@ -176,7 +180,11 @@ class QuotSpider(scrapy.Spider):
             stmt = """INSERT INTO tHKEX_Quotation (symbol, Date, Name)  VALUES   ("%s", "%s", "%s")
             ON DUPLICATE KEY UPDATE Name="%s"
             """ % ( row['symbol'], thedate.strftime('%Y-%m-%d'), row['name'] , row['name'] )
-            r = cursor.execute(stmt)
+            try:
+                r = cursor.execute(stmt)
+            except Exception, e:
+                print stmt
+                raise
 
             stmt = "UPDATE tHKEX_Quotation SET "
             stmt = stmt + " Currency='%s' " % (row['cur'])
@@ -189,7 +197,12 @@ class QuotSpider(scrapy.Spider):
             if 'vol' in row:    stmt = stmt + ", Volume=%d " %(row['vol'])
             if 'tover' in row:  stmt = stmt + ", Turnover=%d " %(row['tover'])
             stmt = stmt + " WHERE symbol = '%s' and Date = '%s'" %(row['symbol'], thedate.strftime('%Y-%m-%d'))
-            r = cursor.execute(stmt)
+            try:
+                r = cursor.execute(stmt)
+            except Exception, e:
+                print stmt
+                raise
+
             conn.commit()
         conn.close()
     

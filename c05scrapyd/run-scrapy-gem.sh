@@ -7,17 +7,17 @@ CURDIR=`cd $(dirname $0); pwd`
 VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 [ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $CURDIR/vol-lib_scrapyd
+[ ! -d $VOLDIR/vol-lib_scrapyd ] && mkdir -p $VOLDIR/vol-lib_scrapyd
 
-#today=180117
-today=1
+files=`(cd $HOME/store/; ls raw/hkex_gem/*/*.gz)`
+echo $files
 
-#for u in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*; find raw/hkex_quot -name \*${today}\*htm\*)`
-for u in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*)`
+for u in $files
 do
   url=`printf "http://web/%s" $u | sed -e 's/.gz$//'`
-
   docker run \
    -v $CURDIR/vol-lib_scrapyd:/var/lib/scrapyd \
+   -v $VOLDIR/vol-lib_scrapyd:/tmp/log \
    --link c04nginx:web \
    --link c02mysql:db \
    -e MYSQL_USER=$MYSQL_USER \
@@ -26,9 +26,8 @@ do
    -e URL_TO_SCRAP=$url \
    -e PYTHONDONTWRITEBYTECODE=true \
    --rm \
-   -t \
    tknpoon/private:c05scrapyd \
-   scrapy runspider /var/lib/scrapyd/work1.py
+   /bin/bash -c 'scrapy runspider /var/lib/scrapyd/work1.py >/tmp/log/`basename $URL_TO_SCRAP`.log 2>&1 '
 
   echo ====== Done working on $url
 done
