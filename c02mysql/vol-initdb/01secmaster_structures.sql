@@ -46,6 +46,7 @@ CREATE TABLE `tHKEX_Quotation` (
   `Name` varchar(20) NULL,
   `Currency` varchar(3) NULL,
   `PrevClose` decimal(19,4) NULL,
+  `Open` decimal(19,4) NULL,
   `High` decimal(19,4) NULL,
   `Low` decimal(19,4) NULL,
   `Close` decimal(19,4) NULL,
