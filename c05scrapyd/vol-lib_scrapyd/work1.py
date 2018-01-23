@@ -16,15 +16,17 @@ class QuotSpider(scrapy.Spider):
         for line in response.css("::text").extract():
             wholequotes.extend(line.replace("\r\n", "\n").splitlines())
         thedate = self.getDate(wholequotes)
-        #print "thedate",thedate
+        print "thedate",thedate
         if thedate is None:
             return
         
         quotes = self.getQuotes(wholequotes)
+        print "quotes count:", len(quotes)
         self.saveQuotes(thedate, quotes)
         quotes = None
         
         sales = self.getSales(wholequotes)
+        print "sales count:", len(sales)
         self.saveSales(thedate, sales)
         sales = None
 

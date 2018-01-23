@@ -10,7 +10,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 docker exec \
  $CONTAINER_NAME \
  bash -c 'exec mysqldump --no-data $MYSQL_DATABASE -u$MYSQL_USER -p"$MYSQL_PASSWORD"' \
- | gzip > /tmp/secmaster-01-structure.sql.gz
+  > /tmp/secmaster-01-structure.sql
 # -e MYSQL_DATABASE=secmaster \
 # -e MYSQL_USER=$MYSQL_USER -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
 
