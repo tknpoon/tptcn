@@ -26,12 +26,12 @@ CREATE TABLE `tDailyPrice` (
   `vendorName` varchar(10) NOT NULL,
   `symbol` varchar(10) NOT NULL,
   `priceDate` datetime NOT NULL,
-  `openPrice` decimal(10,3) DEFAULT NULL,
-  `highPrice` decimal(10,3) DEFAULT NULL,
-  `lowPrice` decimal(10,3) DEFAULT NULL,
-  `closePrice` decimal(10,3) DEFAULT NULL,
+  `openPrice` decimal(14,4) DEFAULT NULL,
+  `highPrice` decimal(14,4) DEFAULT NULL,
+  `lowPrice` decimal(14,4) DEFAULT NULL,
+  `closePrice` decimal(14,4) DEFAULT NULL,
   `volume` bigint(20) DEFAULT NULL,
-  `adjClosePrice` decimal(10,3) DEFAULT NULL,
+  `adjClosePrice` decimal(14,4) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`priceDate`,`vendorName`),
   KEY `index_vendor` (`vendorName`),
   KEY `index_symbol` (`symbol`)
@@ -48,11 +48,11 @@ DROP TABLE IF EXISTS `tDailyPrice_yahoo`;
 CREATE TABLE `tDailyPrice_yahoo` (
   `symbol` varchar(10) NOT NULL,
   `Date` datetime NOT NULL,
-  `Open` decimal(10,3) DEFAULT NULL,
-  `High` decimal(10,3) DEFAULT NULL,
-  `Low` decimal(10,3) DEFAULT NULL,
-  `Close` decimal(10,3) DEFAULT NULL,
-  `Adj Close` decimal(10,3) DEFAULT NULL,
+  `Open` decimal(14,4) DEFAULT NULL,
+  `High` decimal(14,4) DEFAULT NULL,
+  `Low` decimal(14,4) DEFAULT NULL,
+  `Close` decimal(14,4) DEFAULT NULL,
+  `Adj Close` decimal(14,4) DEFAULT NULL,
   `Volume` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`),
   KEY `index_symbol` (`symbol`)
@@ -71,13 +71,13 @@ CREATE TABLE `tHKEX_Quotation` (
   `Date` datetime NOT NULL,
   `Name` varchar(20) NOT NULL,
   `Currency` varchar(3) DEFAULT NULL,
-  `PrevClose` decimal(10,3) DEFAULT NULL,
-  `Open` decimal(10,3) DEFAULT NULL,
-  `High` decimal(10,3) DEFAULT NULL,
-  `Low` decimal(10,3) DEFAULT NULL,
-  `Close` decimal(10,3) DEFAULT NULL,
-  `Bid` decimal(10,3) DEFAULT NULL,
-  `Ask` decimal(10,3) DEFAULT NULL,
+  `PrevClose` decimal(14,4) DEFAULT NULL,
+  `Open` decimal(14,4) DEFAULT NULL,
+  `High` decimal(14,4) DEFAULT NULL,
+  `Low` decimal(14,4) DEFAULT NULL,
+  `Close` decimal(14,4) DEFAULT NULL,
+  `Bid` decimal(14,4) DEFAULT NULL,
+  `Ask` decimal(14,4) DEFAULT NULL,
   `Volume` bigint(20) DEFAULT NULL,
   `Turnover` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`),
@@ -98,7 +98,7 @@ CREATE TABLE `tHKEX_Sales` (
   `Date` datetime NOT NULL,
   `Serial` varchar(9) NOT NULL,
   `Flag` varchar(1) DEFAULT NULL,
-  `Price` decimal(10,3) DEFAULT NULL,
+  `Price` decimal(14,4) DEFAULT NULL,
   `Volume` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`,`Serial`),
   KEY `index_symbol_date` (`symbol`,`Date`),
@@ -118,8 +118,8 @@ CREATE TABLE `tSymbol` (
   `symbol` varchar(10) NOT NULL,
   `preferredVendor` varchar(10) DEFAULT NULL,
   `availVendors` varchar(30) DEFAULT NULL,
-  `currency` varchar(10) DEFAULT NULL,
-  `name` varchar(25) DEFAULT NULL,
+  `currency` varchar(3) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -182,4 +182,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-23 10:40:11
+-- Dump completed on 2018-01-24 13:46:48
