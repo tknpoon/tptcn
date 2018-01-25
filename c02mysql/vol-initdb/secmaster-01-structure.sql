@@ -69,10 +69,9 @@ DROP TABLE IF EXISTS `tHKEX_Quotation`;
 CREATE TABLE `tHKEX_Quotation` (
   `symbol` varchar(10) NOT NULL,
   `Date` datetime NOT NULL,
-  `Name` varchar(20) NOT NULL,
+  `Name` varchar(25) NOT NULL,
   `Currency` varchar(3) DEFAULT NULL,
   `PrevClose` decimal(10,3) DEFAULT NULL,
-  `Open` decimal(10,3) DEFAULT NULL,
   `High` decimal(10,3) DEFAULT NULL,
   `Low` decimal(10,3) DEFAULT NULL,
   `Close` decimal(10,3) DEFAULT NULL,
@@ -119,7 +118,7 @@ CREATE TABLE `tSymbol` (
   `preferredVendor` varchar(10) DEFAULT NULL,
   `availVendors` varchar(30) DEFAULT NULL,
   `currency` varchar(3) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
