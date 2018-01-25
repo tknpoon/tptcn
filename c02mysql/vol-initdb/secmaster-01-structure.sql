@@ -26,12 +26,12 @@ CREATE TABLE `tDailyPrice` (
   `vendorName` varchar(10) NOT NULL,
   `symbol` varchar(10) NOT NULL,
   `priceDate` datetime NOT NULL,
-  `openPrice` decimal(14,4) DEFAULT NULL,
-  `highPrice` decimal(14,4) DEFAULT NULL,
-  `lowPrice` decimal(14,4) DEFAULT NULL,
-  `closePrice` decimal(14,4) DEFAULT NULL,
+  `openPrice` decimal(10,3) DEFAULT NULL,
+  `highPrice` decimal(10,3) DEFAULT NULL,
+  `lowPrice` decimal(10,3) DEFAULT NULL,
+  `closePrice` decimal(10,3) DEFAULT NULL,
   `volume` bigint(20) DEFAULT NULL,
-  `adjClosePrice` decimal(14,4) DEFAULT NULL,
+  `adjClosePrice` decimal(10,3) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`priceDate`,`vendorName`),
   KEY `index_vendor` (`vendorName`),
   KEY `index_symbol` (`symbol`)
@@ -48,11 +48,11 @@ DROP TABLE IF EXISTS `tDailyPrice_yahoo`;
 CREATE TABLE `tDailyPrice_yahoo` (
   `symbol` varchar(10) NOT NULL,
   `Date` datetime NOT NULL,
-  `Open` decimal(14,4) DEFAULT NULL,
-  `High` decimal(14,4) DEFAULT NULL,
-  `Low` decimal(14,4) DEFAULT NULL,
-  `Close` decimal(14,4) DEFAULT NULL,
-  `Adj Close` decimal(14,4) DEFAULT NULL,
+  `Open` decimal(10,3) DEFAULT NULL,
+  `High` decimal(10,3) DEFAULT NULL,
+  `Low` decimal(10,3) DEFAULT NULL,
+  `Close` decimal(10,3) DEFAULT NULL,
+  `Adj Close` decimal(10,3) DEFAULT NULL,
   `Volume` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`),
   KEY `index_symbol` (`symbol`)
@@ -118,7 +118,7 @@ CREATE TABLE `tSymbol` (
   `preferredVendor` varchar(10) DEFAULT NULL,
   `availVendors` varchar(30) DEFAULT NULL,
   `currency` varchar(3) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -181,7 +181,7 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-25 20:00:16
+-- Dump completed on 2018-01-25 22:23:12
 -- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
 -- Host: localhost    Database: secmaster
@@ -210,12 +210,12 @@ CREATE TABLE `tDailyPrice` (
   `vendorName` varchar(10) NOT NULL,
   `symbol` varchar(10) NOT NULL,
   `priceDate` datetime NOT NULL,
-  `openPrice` decimal(14,4) DEFAULT NULL,
-  `highPrice` decimal(14,4) DEFAULT NULL,
-  `lowPrice` decimal(14,4) DEFAULT NULL,
-  `closePrice` decimal(14,4) DEFAULT NULL,
+  `openPrice` decimal(10,3) DEFAULT NULL,
+  `highPrice` decimal(10,3) DEFAULT NULL,
+  `lowPrice` decimal(10,3) DEFAULT NULL,
+  `closePrice` decimal(10,3) DEFAULT NULL,
   `volume` bigint(20) DEFAULT NULL,
-  `adjClosePrice` decimal(14,4) DEFAULT NULL,
+  `adjClosePrice` decimal(10,3) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`priceDate`,`vendorName`),
   KEY `index_vendor` (`vendorName`),
   KEY `index_symbol` (`symbol`)
@@ -232,11 +232,11 @@ DROP TABLE IF EXISTS `tDailyPrice_yahoo`;
 CREATE TABLE `tDailyPrice_yahoo` (
   `symbol` varchar(10) NOT NULL,
   `Date` datetime NOT NULL,
-  `Open` decimal(14,4) DEFAULT NULL,
-  `High` decimal(14,4) DEFAULT NULL,
-  `Low` decimal(14,4) DEFAULT NULL,
-  `Close` decimal(14,4) DEFAULT NULL,
-  `Adj Close` decimal(14,4) DEFAULT NULL,
+  `Open` decimal(10,3) DEFAULT NULL,
+  `High` decimal(10,3) DEFAULT NULL,
+  `Low` decimal(10,3) DEFAULT NULL,
+  `Close` decimal(10,3) DEFAULT NULL,
+  `Adj Close` decimal(10,3) DEFAULT NULL,
   `Volume` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`),
   KEY `index_symbol` (`symbol`)
@@ -302,7 +302,7 @@ CREATE TABLE `tSymbol` (
   `preferredVendor` varchar(10) DEFAULT NULL,
   `availVendors` varchar(30) DEFAULT NULL,
   `currency` varchar(3) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -387,4 +387,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-25 20:00:18
+-- Dump completed on 2018-01-25 22:23:12
