@@ -95,9 +95,9 @@ DROP TABLE IF EXISTS `tHKEX_Sales`;
 CREATE TABLE `tHKEX_Sales` (
   `symbol` varchar(10) NOT NULL,
   `Date` datetime NOT NULL,
-  `Serial` varchar(9) NOT NULL,
+  `Serial` varchar(7) NOT NULL,
   `Flag` varchar(1) DEFAULT NULL,
-  `Price` decimal(14,4) DEFAULT NULL,
+  `Price` decimal(10,3) DEFAULT NULL,
   `Volume` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`,`Serial`),
   KEY `index_symbol_date` (`symbol`,`Date`),
@@ -181,7 +181,7 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-25 14:00:45
+-- Dump completed on 2018-01-25 20:00:16
 -- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
 -- Host: localhost    Database: secmaster
@@ -279,9 +279,9 @@ DROP TABLE IF EXISTS `tHKEX_Sales`;
 CREATE TABLE `tHKEX_Sales` (
   `symbol` varchar(10) NOT NULL,
   `Date` datetime NOT NULL,
-  `Serial` varchar(9) NOT NULL,
+  `Serial` varchar(7) NOT NULL,
   `Flag` varchar(1) DEFAULT NULL,
-  `Price` decimal(14,4) DEFAULT NULL,
+  `Price` decimal(10,3) DEFAULT NULL,
   `Volume` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`,`Serial`),
   KEY `index_symbol_date` (`symbol`,`Date`),
@@ -387,4 +387,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-25 14:00:45
+-- Dump completed on 2018-01-25 20:00:18
