@@ -8,7 +8,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 
 gunzip -c ~/data/secmaster-03-hkex.sql.gz \
-| docker exec \
+| docker exec -i \
  $CONTAINER_NAME \
- bash -c 'exec mysql -u$MYSQL_USER -p"$MYSQL_PASSWORD" ' 
+ bash -c 'exec mysql -u$MYSQL_USER -p"$MYSQL_PASSWORD" $MYSQL_DATABASE ' 
 
