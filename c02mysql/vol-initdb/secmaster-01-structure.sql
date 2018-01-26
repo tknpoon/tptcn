@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `tDailyPrice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tDailyPrice` (
-  `symbol` varchar(10) NOT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `date` datetime NOT NULL,
   `open` decimal(10,3) DEFAULT NULL,
   `high` decimal(10,3) DEFAULT NULL,
@@ -45,10 +45,10 @@ DROP TABLE IF EXISTS `tHKEX_Quotation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tHKEX_Quotation` (
-  `symbol` varchar(10) NOT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `Date` datetime NOT NULL,
-  `Name` varchar(25) DEFAULT NULL,
-  `Currency` varchar(3) DEFAULT NULL,
+  `Name` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Currency` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `PrevClose` decimal(10,3) DEFAULT NULL,
   `High` decimal(10,3) DEFAULT NULL,
   `Low` decimal(10,3) DEFAULT NULL,
@@ -71,10 +71,10 @@ DROP TABLE IF EXISTS `tHKEX_Sales`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tHKEX_Sales` (
-  `symbol` varchar(10) NOT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `Date` datetime NOT NULL,
-  `Serial` varchar(7) NOT NULL,
-  `Flag` varchar(1) DEFAULT NULL,
+  `Serial` varchar(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Flag` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `Price` decimal(10,3) DEFAULT NULL,
   `Volume` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`,`Serial`),
@@ -92,11 +92,11 @@ DROP TABLE IF EXISTS `tSymbol`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tSymbol` (
-  `symbol` varchar(10) NOT NULL,
-  `preferredVendor` varchar(10) DEFAULT NULL,
-  `availVendors` varchar(30) DEFAULT NULL,
-  `currency` varchar(3) DEFAULT NULL,
-  `name` varchar(30) DEFAULT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `preferredVendor` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `availVendors` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `currency` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -109,7 +109,7 @@ DROP TABLE IF EXISTS `tVendor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tVendor` (
-  `name` varchar(10) NOT NULL,
+  `name` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -122,7 +122,7 @@ DROP TABLE IF EXISTS `tYAHOO_Daily`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tYAHOO_Daily` (
-  `symbol` varchar(10) NOT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `Date` datetime NOT NULL,
   `Open` decimal(10,3) DEFAULT NULL,
   `High` decimal(10,3) DEFAULT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE `tYAHOO_Daily` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-26 11:16:30
+-- Dump completed on 2018-01-26 15:54:55
 -- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
 -- Host: localhost    Database: secmaster
@@ -170,7 +170,7 @@ DROP TABLE IF EXISTS `tDailyPrice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tDailyPrice` (
-  `symbol` varchar(10) NOT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `date` datetime NOT NULL,
   `open` decimal(10,3) DEFAULT NULL,
   `high` decimal(10,3) DEFAULT NULL,
@@ -192,10 +192,10 @@ DROP TABLE IF EXISTS `tHKEX_Quotation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tHKEX_Quotation` (
-  `symbol` varchar(10) NOT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `Date` datetime NOT NULL,
-  `Name` varchar(25) DEFAULT NULL,
-  `Currency` varchar(3) DEFAULT NULL,
+  `Name` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Currency` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `PrevClose` decimal(10,3) DEFAULT NULL,
   `High` decimal(10,3) DEFAULT NULL,
   `Low` decimal(10,3) DEFAULT NULL,
@@ -218,10 +218,10 @@ DROP TABLE IF EXISTS `tHKEX_Sales`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tHKEX_Sales` (
-  `symbol` varchar(10) NOT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `Date` datetime NOT NULL,
-  `Serial` varchar(7) NOT NULL,
-  `Flag` varchar(1) DEFAULT NULL,
+  `Serial` varchar(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Flag` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `Price` decimal(10,3) DEFAULT NULL,
   `Volume` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`,`Serial`),
@@ -239,11 +239,11 @@ DROP TABLE IF EXISTS `tSymbol`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tSymbol` (
-  `symbol` varchar(10) NOT NULL,
-  `preferredVendor` varchar(10) DEFAULT NULL,
-  `availVendors` varchar(30) DEFAULT NULL,
-  `currency` varchar(3) DEFAULT NULL,
-  `name` varchar(30) DEFAULT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `preferredVendor` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `availVendors` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `currency` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -256,7 +256,7 @@ DROP TABLE IF EXISTS `tVendor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tVendor` (
-  `name` varchar(10) NOT NULL,
+  `name` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -269,7 +269,7 @@ DROP TABLE IF EXISTS `tYAHOO_Daily`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tYAHOO_Daily` (
-  `symbol` varchar(10) NOT NULL,
+  `symbol` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `Date` datetime NOT NULL,
   `Open` decimal(10,3) DEFAULT NULL,
   `High` decimal(10,3) DEFAULT NULL,
@@ -286,6 +286,7 @@ CREATE TABLE `tYAHOO_Daily` (
 -- Dumping routines for database 'secmaster'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `pDaily` */;
+ALTER DATABASE `secmaster` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -303,6 +304,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `secmaster` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -313,4 +315,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-26 11:16:30
+-- Dump completed on 2018-01-26 15:54:55
