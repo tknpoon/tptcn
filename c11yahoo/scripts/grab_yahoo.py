@@ -19,7 +19,7 @@ def save_sql(symbol, df):
     cursor = conn.cursor()
     for index, row in df.iterrows():
         #print index,row
-        stmt = """REPLACE INTO tDailyPrice_yahoo (symbol, Date, Open, High, Low, Close, Volume, `Adj Close`) 
+        stmt = """REPLACE INTO tYAHOO_Daily (symbol, Date, Open, High, Low, Close, Volume, `Adj Close`) 
             VALUES ('%s','%s',%f,%f,%f,%f,%d,%f)
             """ % (symbol, index, row['Open'], row['High'], row['Low'], row['Close'], row['Volume'], row['Adj Close'])
         #print stmt
@@ -36,7 +36,7 @@ def grabyahoo(symbol):
     ##
     conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
     if not grabAll:
-        conn.query("select max(Date) from tDailyPrice_yahoo where symbol = '%s' " % (symbol) )
+        conn.query("select max(Date) from tYAHOO_Daily where symbol = '%s' " % (symbol) )
         r=conn.use_result()
         while (True) :
             row = r.fetch_row()
