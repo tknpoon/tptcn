@@ -9,7 +9,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 [ ! -d $CURDIR/vol-initdb ]  && mkdir -p $CURDIR/vol-initdb
 
 vv=""
-for i in $CURDIR/vol-initdb/*sql* $HOME/data/*sql*
+for i in `ls $CURDIR/vol-initdb/ | grep sql` `ls $VOLDIR/vol-datadir/ | grep sql`
 do
  f=`basename $i`
  vv="$vv -v $CURDIR/vol-initdb/$f:/docker-entrypoint-initdb.d/$f"
