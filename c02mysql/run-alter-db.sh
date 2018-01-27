@@ -30,6 +30,15 @@ ALTER TABLE tHKEX_Sales
  CHANGE Flag Flag VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 "
 
+stmt="
+alter table tDailyPrice convert to character set utf8 collate utf8_unicode_ci;
+alter table tSymbol convert to character set utf8 collate utf8_unicode_ci;
+alter table tVendor convert to character set utf8 collate utf8_unicode_ci;
+alter table tYAHOO_Daily convert to character set utf8 collate utf8_unicode_ci;
+alter table tHKEX_Quotation convert to character set utf8 collate utf8_unicode_ci;
+alter table tHKEX_Sales convert to character set utf8 collate utf8_unicode_ci;
+"
+
 echo "$stmt" | \
 docker exec -i \
   $CONTAINER_NAME \
