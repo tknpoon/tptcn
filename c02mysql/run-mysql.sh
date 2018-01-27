@@ -8,9 +8,15 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 [ ! -d $VOLDIR/vol-datadir ] && mkdir -p $VOLDIR/vol-datadir
 [ ! -d $CURDIR/vol-initdb ]  && mkdir -p $CURDIR/vol-initdb
 
+vv=""
+for i in $CURDIR/vol-initdb/*sql* $HOME/data/*sql*
+do
+ vv="$vv -v $CURDIR/vol-initdb/$i:/docker-entrypoint-initdb.d/$i"
+done
+
 docker run \
  -v $VOLDIR/vol-datadir:/var/lib/mysql \
- -v $CURDIR/vol-initdb:/docker-entrypoint-initdb.d \
+ $vv \
  --name $CONTAINER_NAME \
  --env-file $HOME/.self_env \
  -p 12336:3306 \
