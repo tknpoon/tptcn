@@ -20,7 +20,7 @@ do
  vv="$vv -v $HOME/data/$f:/docker-entrypoint-initdb.d/$f"
 done
 
-echo docker run \
+docker run \
  -v $VOLDIR/vol-datadir:/var/lib/mysql \
  $vv \
  --name $CONTAINER_NAME \
