@@ -1,5 +1,4 @@
 #!/bin/bash
-. $HOME/.self_env
 
 CONTAINER_NAME=c02mysql
 
@@ -13,9 +12,7 @@ docker run \
  -v $VOLDIR/vol-datadir:/var/lib/mysql \
  -v $CURDIR/vol-initdb:/docker-entrypoint-initdb.d \
  --name $CONTAINER_NAME \
- -e MYSQL_DATABASE=secmaster \
- -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
- -e MYSQL_USER=$MYSQL_USER -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
+ --env-file $HOME/.self_env \
  -p 12336:3306 \
  -d \
  --restart=always \

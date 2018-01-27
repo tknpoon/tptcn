@@ -1,5 +1,5 @@
 #!/bin/bash
-. $HOME/.self_env
+#. $HOME/.self_env
 
 CURDIR=`cd $(dirname $0);pwd`
 CONTAINER_NAME=$(basename `(cd $CURDIR; pwd)`)
@@ -13,9 +13,12 @@ docker run \
  -v $VOLDIR/vol-working:/working \
  -v $SCRIPTDIR:/scripts \
  --link c02mysql:db \
- -e MYSQL_USER=$MYSQL_USER \
- -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
- -e MYSQL_DB=$MYSQL_DB \
+ --env-file $HOME/.self_env \
  --rm -i \
  tknpoon/private:$CONTAINER_NAME \
  bash -c "mysql --host=db --database=$MYSQL_DB --user=$MYSQL_USER --password=$MYSQL_PASSWORD < /scripts/replace_yahoo.sql"
+
+# -e MYSQL_USER=$MYSQL_USER \
+# -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
+# -e MYSQL_DB=$MYSQL_DB \
+

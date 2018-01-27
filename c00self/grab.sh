@@ -1,4 +1,6 @@
 #!/bin/bash
+set -a 
+. $HOME/.self_env
 ####
 function dl {
     url=$1

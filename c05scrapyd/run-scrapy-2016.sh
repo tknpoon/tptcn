@@ -1,5 +1,4 @@
 #!/bin/bash
-. $HOME/.self_env
 
 CONTAINER_NAME=c05scrapyd
 
@@ -20,11 +19,8 @@ do
    -v $VOLDIR/vol-lib_scrapyd:/tmp/log \
    --link c04nginx:web \
    --link c02mysql:db \
-   -e MYSQL_USER=$MYSQL_USER \
-   -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
-   -e MYSQL_DB=$MYSQL_DB \
+   --env-file $HOME/.self_env \
    -e URL_TO_SCRAP=$url \
-   -e PYTHONDONTWRITEBYTECODE=true \
    --rm \
    tknpoon/private:c05scrapyd \
    /bin/bash -c 'scrapy runspider /var/lib/scrapyd/work1.py >/tmp/log/`basename $URL_TO_SCRAP`.log 2>&1 '

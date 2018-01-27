@@ -1,5 +1,4 @@
 #!/bin/bash
-. $HOME/.self_env
 
 CONTAINER_NAME=c05scrapyd
 
@@ -18,11 +17,8 @@ do
    -v $CURDIR/vol-lib_scrapyd:/var/lib/scrapyd \
    --link c04nginx:web \
    --link c02mysql:db \
-   -e MYSQL_USER=$MYSQL_USER \
-   -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
-   -e MYSQL_DB=$MYSQL_DB \
+   --env-file $HOME/.self_env \
    -e URL_TO_SCRAP=$url \
-   -e PYTHONDONTWRITEBYTECODE=true \
    --rm \
    -t \
    tknpoon/private:c05scrapyd \

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -a
 . $HOME/.self_env
 
 CONTAINER_NAME=g00temp
@@ -11,9 +12,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 docker run \
  -v $VOLDIR/vol-datadir:/scrapyproj \
  --link c02mysql:db \
- -e MYSQL_USER=$MYSQL_USER \
- -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
- -e MYSQL_DB=$MYSQL_DB \
+ --env-file $HOME/.self_env \
  --name $CONTAINER_NAME \
  --rm -ti \
  tknpoon/private:$CONTAINER_NAME \

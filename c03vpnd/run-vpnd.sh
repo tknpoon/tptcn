@@ -11,7 +11,7 @@ CHAPSECRET=${VOLDIR}/vol-datadir/chap-secret
 
 docker run \
  --name c03vpnd \
- --env-file ~/.self_env \
+ --env-file $HOME/.self_env \
  --restart=always \
  -p 500:500/udp \
  -p 4500:4500/udp \

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -a
 . $HOME/.self_env
 
 CONTAINER_NAME=g00temp

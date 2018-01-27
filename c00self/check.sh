@@ -1,4 +1,5 @@
 #!/bin/bash
+set -a
 . $HOME/.self_env
 
 ####
@@ -64,8 +65,7 @@ CURDIR=`cd $(dirname $0);pwd`
 mainjob $dstr>/tmp/tele.message
 
 docker run \
- -e TOKEN=$TELEGRAM_TOKEN \
- -e CHAT_ID=$TELEGRAM_CHAT_ID \
+ --env-file $HOME/.self_env \
  -v /tmp/tele.message:/tmp/tele.message \
  -v $CURDIR/send_telegram.py:/send_telegram.py \
  --rm -i \
