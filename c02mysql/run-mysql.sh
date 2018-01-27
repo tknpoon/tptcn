@@ -11,10 +11,11 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 vv=""
 for i in $CURDIR/vol-initdb/*sql* $HOME/data/*sql*
 do
- vv="$vv -v $CURDIR/vol-initdb/$i:/docker-entrypoint-initdb.d/$i"
+ f=`basename $i`
+ vv="$vv -v $CURDIR/vol-initdb/$f:/docker-entrypoint-initdb.d/$f"
 done
 
-docker run \
+echo docker run \
  -v $VOLDIR/vol-datadir:/var/lib/mysql \
  $vv \
  --name $CONTAINER_NAME \
