@@ -7,6 +7,6 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 docker exec \
  $CONTAINER_NAME \
- bash -c 'exec mysqldump --no-create-info $MYSQL_DATABASE -u$MYSQL_USER -p"$MYSQL_PASSWORD" tHKEX_Quotation tHKEX_Sales' \
+ bash -c 'exec mysqldump --no-create-info -u$MYSQL_USER -p"$MYSQL_PASSWORD" --databases $MYSQL_DB --tables tHKEX_Quotation tHKEX_Sales' \
   | gzip > ~/data/secmaster-03-hkex.sql.gz
 
