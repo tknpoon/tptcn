@@ -36,7 +36,7 @@ class QuotSpider(scrapy.Spider):
     ################################################################
     def saveQuotes(self, thedate, quotes):
         ##
-        conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+        conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
         cursor = conn.cursor()
         for row in quotes:
             stmt = """INSERT INTO tHKEX_Quotation (symbol, Date)  VALUES   ('%s',   '%s')

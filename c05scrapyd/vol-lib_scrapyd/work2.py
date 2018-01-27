@@ -32,7 +32,7 @@ class QuotSpider(scrapy.Spider):
     ################################################################
     def saveQuotesOpen(self, thedate):
         ##
-        conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+        conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
         cursor = conn.cursor()
         stmt = """UPDATE 
           `tHKEX_Quotation` AS t1, 
@@ -69,7 +69,7 @@ class QuotSpider(scrapy.Spider):
     ################################################################
     def saveSales(self, thedate, sales):
         ##
-        conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+        conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
         cursor = conn.cursor()
         for row in sales:
             #{'symbol': '83199.HK', 'stockSales': [], 'name': u'CSOP 5YCGBOND-R'}^M
@@ -202,7 +202,7 @@ class QuotSpider(scrapy.Spider):
     ################################################################
     def saveQuotes(self, thedate, quotes):
         ##
-        conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+        conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
         cursor = conn.cursor()
         for row in quotes:
             stmt = """INSERT INTO tHKEX_Quotation (symbol, Date, Name)  VALUES   ("%s", "%s", "%s")

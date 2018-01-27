@@ -15,7 +15,7 @@ grabAll = False
 ##############################
 def save_sql(symbol, df):
     ##
-    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
     cursor = conn.cursor()
     for index, row in df.iterrows():
         #print index,row
@@ -34,7 +34,7 @@ def grabyahoo(symbol):
     start='01/01/1990'
     end=dt.date.today().strftime('%m/%d/%Y')
     ##
-    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
     if not grabAll:
         conn.query("select max(Date) from tYAHOO_Daily where symbol = '%s' " % (symbol) )
         r=conn.use_result()
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
     #Get a list of RIC
     symlist=[]
-    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
     conn.query("select symbol from tSymbol where availVendors like '%yahoo%' ")
     r=conn.use_result()
     

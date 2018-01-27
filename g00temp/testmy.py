@@ -15,7 +15,7 @@ def grabyahoo(symbol):
     start='01/01/1990'
     end=dt.date.today().strftime('%m/%d/%Y')
     ##
-    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
     conn.query("select max(Date) from tDailyPrice_yahoo where symbol = '%s' " % (symbol) )
     r=conn.use_result()
     while (True) :
@@ -27,7 +27,7 @@ def grabyahoo(symbol):
     qt.dropna(inplace = True)
     
     ##
-    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
     cursor = conn.cursor()
     for index, row in qt.iterrows():
         #print index,row
@@ -46,7 +46,7 @@ def grabyahoo(symbol):
 ##############################
 # main
 if __name__ == '__main__':
-    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DB'])
+    conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
     conn.query("select symbol from tSymbol where availVendors like '%test%' ")
     r=conn.use_result()
     
