@@ -16,6 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Current Database: `secmaster`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `secmaster` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
+
+USE `secmaster`;
+
+--
 -- Table structure for table `tDailyPrice`
 --
 
@@ -96,8 +104,47 @@ CREATE TABLE `tSymbol` (
   `preferredVendor` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `availVendors` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `currency` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `name` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`symbol`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tSymbolMeta`
+--
+
+DROP TABLE IF EXISTS `tSymbolMeta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tSymbolMeta` (
+  `symbol` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(10) COLLATE utf8_unicode_ci NOT NULL COMMENT 'source / split / dividend / rename',
+  `date` datetime NOT NULL COMMENT 'startDate for source / exDate for dividend / eventDate for others',
+  `vendor` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'for source',
+  `code` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'for source',
+  `endData` datetime DEFAULT NULL COMMENT 'source',
+  `value` decimal(10,3) DEFAULT NULL COMMENT 'split ratio / dividend',
+  PRIMARY KEY (`symbol`,`type`,`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tTR_Daily`
+--
+
+DROP TABLE IF EXISTS `tTR_Daily`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tTR_Daily` (
+  `symbol` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `Date` datetime NOT NULL,
+  `Open` decimal(10,3) DEFAULT NULL,
+  `High` decimal(10,3) DEFAULT NULL,
+  `Low` decimal(10,3) DEFAULT NULL,
+  `Close` decimal(10,3) DEFAULT NULL,
+  `Volume` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`symbol`,`Date`),
+  KEY `index_symbol` (`symbol`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -144,7 +191,7 @@ CREATE TABLE `tYAHOO_Daily` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-27  2:06:55
+-- Dump completed on 2018-01-27 11:05:47
 -- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
 -- Host: localhost    Database: secmaster
@@ -243,8 +290,47 @@ CREATE TABLE `tSymbol` (
   `preferredVendor` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `availVendors` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `currency` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `name` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`symbol`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tSymbolMeta`
+--
+
+DROP TABLE IF EXISTS `tSymbolMeta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tSymbolMeta` (
+  `symbol` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(10) COLLATE utf8_unicode_ci NOT NULL COMMENT 'source / split / dividend / rename',
+  `date` datetime NOT NULL COMMENT 'startDate for source / exDate for dividend / eventDate for others',
+  `vendor` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'for source',
+  `code` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'for source',
+  `endData` datetime DEFAULT NULL COMMENT 'source',
+  `value` decimal(10,3) DEFAULT NULL COMMENT 'split ratio / dividend',
+  PRIMARY KEY (`symbol`,`type`,`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tTR_Daily`
+--
+
+DROP TABLE IF EXISTS `tTR_Daily`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tTR_Daily` (
+  `symbol` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `Date` datetime NOT NULL,
+  `Open` decimal(10,3) DEFAULT NULL,
+  `High` decimal(10,3) DEFAULT NULL,
+  `Low` decimal(10,3) DEFAULT NULL,
+  `Close` decimal(10,3) DEFAULT NULL,
+  `Volume` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`symbol`,`Date`),
+  KEY `index_symbol` (`symbol`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -315,4 +401,4 @@ ALTER DATABASE `secmaster` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-27  2:06:56
+-- Dump completed on 2018-01-27 11:05:47
