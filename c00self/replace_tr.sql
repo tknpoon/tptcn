@@ -1,6 +1,6 @@
 USE secmaster;
 
-REPLACE INTO tDailyPrice1 (symbol,date,open,high,low,close,volume)
+REPLACE INTO tDailyPrice (symbol,date,open,high,low,close,volume)
 SELECT 
     t2.symbol, 
     tTR_Daily.Date as date,

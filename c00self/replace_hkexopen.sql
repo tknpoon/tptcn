@@ -1,16 +1,16 @@
 USE secmaster;
 
-REPLACE INTO tDailyPrice1 (symbol,date,open,high,low,close,volume)
+UPDATE tDailyPrice (open)
 SELECT 
     t2.symbol, 
-    tHKEX_Quotation.Date as date,
-    tHKEX_Quotation.PrevClose as open,
-    tHKEX_Quotation.High as high,
-    tHKEX_Quotation.Low as low,
-    tHKEX_Quotation.Close as close,
-    tHKEX_Quotation.Volume as volume
+    tHKEX_Sales.Date as date,
+    tHKEX_Sales.PrevClose as open,
+    tHKEX_Sales.High as high,
+    tHKEX_Sales.Low as low,
+    tHKEX_Sales.Close as close,
+    tHKEX_Sales.Volume as volume
 FROM 
-    tHKEX_Quotation,  
+    tHKEX_Sales,  
     (
     SELECT 
       symbol,
@@ -21,7 +21,7 @@ FROM
     WHERE type='source'
       AND vendor='hkex'
     ) t2
-WHERE tHKEX_Quotation.symbol = t2.code
-  AND tHKEX_Quotation.Date >= t2.startDate
-  AND tHKEX_Quotation.Date <= t2.endDate
+WHERE tHKEX_Sales.symbol = t2.code
+  AND tHKEX_Sales.Date >= t2.startDate
+  AND tHKEX_Sales.Date <= t2.endDate
 
