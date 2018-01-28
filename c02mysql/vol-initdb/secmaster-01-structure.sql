@@ -122,7 +122,7 @@ CREATE TABLE `tSymbolMeta` (
   `date` datetime NOT NULL COMMENT 'startDate for source / exDate for dividend / eventDate for others',
   `vendor` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'for source',
   `code` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'for source',
-  `endData` datetime DEFAULT NULL COMMENT 'source',
+  `endDate` datetime DEFAULT NULL COMMENT 'source',
   `value` decimal(10,3) DEFAULT NULL COMMENT 'split ratio / dividend',
   PRIMARY KEY (`symbol`,`type`,`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -215,4 +215,4 @@ ALTER DATABASE `secmaster` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-27 11:54:36
+-- Dump completed on 2018-01-28 14:44:27
