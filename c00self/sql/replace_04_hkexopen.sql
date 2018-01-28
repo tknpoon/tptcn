@@ -1,7 +1,7 @@
 USE secmaster;
 
 UPDATE 
-  tDailyPrice1 dest,
+  tDailyPrice dest,
   (
     SELECT
       tmeta.symbol,
