@@ -6,37 +6,38 @@ CURDIR=`cd $(dirname $0); pwd`
 VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 stmt="
-  SELECT 
-    tmeta.symbol, 
+  SELECT
+    tmeta.symbol,
     topen.Date as date,
     topen.Price as open
-  FROM 
+  FROM
     (
-        SELECT s1.symbol, s1.date, s1.Price
-        FROM
-          tHKEX_Sales s1
-          JOIN (SELECT symbol, Date, MIN(Serial) as Serial
+      SELECT s1.symbol, s1.date, s1.Price
+      FROM
+        tHKEX_Sales s1
+        JOIN (SELECT symbol, Date, MIN(Serial) as Serial
                 FROM tHKEX_Sales
                 WHERE tHKEX_Sales.Flag NOT IN ('P','M','D','C')
                 GROUP BY symbol, Date
-          ) s2
-          ON s1.symbol = s2.symbol
-          AND s1.Date = s2.Date
-          AND s1.Serial = s2.Serial
-  WHERE s1.symbol = '1686.HK'
+        ) s2
+        ON s1.symbol = s2.symbol
+        AND s1.Date = s2.Date
+        AND s1.Serial = s2.Serial
+      WHERE 1
+        AND s1.date >= '2018-01-24'
     ) topen,
     (
-      SELECT 
+      SELECT
         symbol,
         code,
-        IFNULL(Date,DATE(NOW())) AS startDate, 
+        IFNULL(Date,DATE(NOW())) AS startDate,
         IFNULL(endDate,DATE(NOW())) AS endDate
       FROM tSymbolMeta
-  WHERE symbol = '1686.HK'
-      AND type='source'
+      WHERE 1
+        AND type='source'
         AND vendor='hkex'
     ) tmeta
-  WHERE tmeta.symbol = '1686.HK'
+  WHERE 1
     AND topen.symbol = tmeta.code
     AND topen.date >= tmeta.startDate
     AND topen.date <= tmeta.endDate
