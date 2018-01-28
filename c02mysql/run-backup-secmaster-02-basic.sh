@@ -16,6 +16,7 @@ docker exec \
   --databases $MYSQL_DATABASE --tables \
    tSymbol \
    tSymbolMeta \
+   tTR_Daily \
    tVendor \
 ' >> $CURDIR/vol-initdb/secmaster-02-basic.sql
 
