@@ -16,7 +16,7 @@ docker run \
  -v $SCRIPTDIR:/scripts \
  --link c02mysql:db \
  --env-file $HOME/.self_env \
- --rm -i \
+ --rm \
  tknpoon/private:$CONTAINER_NAME \
  python /scripts/grab_yahoo.py $PARAM
 
