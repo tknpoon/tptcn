@@ -7,7 +7,7 @@ scripts="$scripts c00self/check.sh"
 
 for s in $scripts
 do 
- echo ==== working on.... /home/ubuntu/repo/tptcn/$s
+ echo ==== working on.... /home/ubuntu/repo/tptcn/$s `date`
  /bin/bash /home/ubuntu/repo/tptcn/$s
 done
 
