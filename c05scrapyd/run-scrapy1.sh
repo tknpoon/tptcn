@@ -1,5 +1,4 @@
 #!/bin/bash
-#. $HOME/.self_env
 
 CONTAINER_NAME=c05scrapyd
 
@@ -9,7 +8,7 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 [ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $CURDIR/vol-lib_scrapyd
 
 #today=180117
-today=1
+today=180131
 
 for u in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*; find raw/hkex_quot -name \*${today}\*htm\*)`
 do
@@ -22,9 +21,8 @@ do
    --env-file $HOME/.self_env \
    -e URL_TO_SCRAP=$url \
    --rm \
-   -t \
    tknpoon/private:c05scrapyd \
    scrapy runspider /var/lib/scrapyd/work1.py
 
-  echo ====== Done working on $url
+  echo ====== Done working on $url `date`
 done
