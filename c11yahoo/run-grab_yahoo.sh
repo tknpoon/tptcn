@@ -19,8 +19,3 @@ docker run \
  --rm \
  tknpoon/private:$CONTAINER_NAME \
  python /scripts/grab_yahoo.py $PARAM
-
-# -e MYSQL_USER=$MYSQL_USER \
-# -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
-# -e MYSQL_DB=$MYSQL_DB \
-

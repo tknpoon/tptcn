@@ -52,7 +52,7 @@ def grabyahoo(symbol):
         save_sql(symbol, qt)
         return symbol
     except:
-        print "Failed to get", symbol
+        print "Failed to get", symbol, source, start, end
         return None
 
     
