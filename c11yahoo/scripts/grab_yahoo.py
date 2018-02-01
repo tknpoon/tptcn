@@ -66,7 +66,8 @@ if __name__ == '__main__':
     #Get a list of RIC
     symlist=[]
     conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
-    conn.query("select symbol from tSymbol where availVendors like '%yahoo%' ")
+    #conn.query("select symbol from tSymbol where availVendors like '%yahoo%' ")
+    conn.query("SELECT DISTINCT code FROM tSymbolMeta WHERE vendor='yahoo'")
     r=conn.use_result()
     
     while (True):
