@@ -205,6 +205,107 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `secmaster` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `pHKEXquote` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`tpuser`@`%` PROCEDURE `pHKEXquote`(IN `fromdate` DATETIME, IN `todate` DATETIME)
+    NO SQL
+REPLACE INTO tDailyPrice (symbol,date,open,high,low,close,volume)
+    SELECT
+        t2.symbol,
+        q.Date as date,
+        IF(q.PrevClose > q.High, q.High, IF(q.PrevClose < q.Low, q.Low, q.PrevClose)) as open,
+        q.High as high,
+        q.Low as low,
+        q.Close as close,
+        q.Volume as volume
+    FROM
+      tHKEX_Quotation q,
+      (
+        SELECT
+          symbol,
+          code,
+          IFNULL(Date,DATE(NOW())) AS startDate,
+          IFNULL(endDate,DATE(NOW())) AS endDate
+        FROM tSymbolMeta
+        WHERE type='source'
+          AND vendor='hkex'
+      ) t2
+    WHERE q.Date >= `fromdate` AND q.Date <= `todate`
+      AND q.symbol = t2.code
+      AND q.Date >= t2.startDate
+      AND q.Date <= t2.endDate ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `pHKEXupdateOpen` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`tpuser`@`%` PROCEDURE `pHKEXupdateOpen`(IN `fromdate` DATETIME, IN `todate` DATETIME)
+    NO SQL
+UPDATE
+  tDailyPrice dest,
+  (
+    SELECT
+      tmeta.symbol,
+      topen.Date as date,
+      topen.Price as open
+    FROM
+      (
+        SELECT s1.symbol, s1.date, s1.Price
+        FROM
+          tHKEX_Sales s1
+          JOIN (SELECT symbol, Date, MIN(Serial) as Serial
+                  FROM tHKEX_Sales
+                  WHERE 1
+                    AND tHKEX_Sales.Date >= `fromdate` AND tHKEX_Sales.Date <= `todate`
+                    AND tHKEX_Sales.Flag NOT IN ('P','M','D','C')
+                  GROUP BY symbol, Date
+          ) s2
+          ON s1.symbol = s2.symbol
+          AND s1.Date = s2.Date
+          AND s1.Serial = s2.Serial
+      ) topen,
+      (
+        SELECT
+          symbol,
+          code,
+          IFNULL(Date,DATE(NOW())) AS startDate,
+          IFNULL(endDate,DATE(NOW())) AS endDate
+        FROM tSymbolMeta
+        WHERE 1
+          AND type='source'
+          AND vendor='hkex'
+      ) tmeta
+    WHERE 1
+      AND topen.symbol = tmeta.code
+      AND topen.date >= tmeta.startDate
+      AND topen.date <= tmeta.endDate
+  ) src
+SET dest.open = src.open
+WHERE dest.symbol = src.symbol
+  AND dest.date = src.date ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -215,4 +316,4 @@ ALTER DATABASE `secmaster` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-30 23:23:03
+-- Dump completed on 2018-02-03  2:12:01
