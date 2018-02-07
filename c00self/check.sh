@@ -62,7 +62,8 @@ fi
 
 CURDIR=`cd $(dirname $0);pwd`
 
-mainjob $dstr>/tmp/tele.message
+hostname>/tmp/tele.message
+mainjob $dstr>>/tmp/tele.message
 
 docker run \
  --env-file $HOME/.self_env \
