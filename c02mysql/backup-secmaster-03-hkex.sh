@@ -9,7 +9,7 @@ docker exec \
  $CONTAINER_NAME \
  bash -c 'echo USE secmaster\; ; echo; exec mysqldump \
  -u$MYSQL_USER -p"$MYSQL_PASSWORD" \
- --no-create-info \
+ --add-drop-table \
  --databases $MYSQL_DATABASE \
  --tables \
   tTR_Daily \
