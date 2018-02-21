@@ -3,6 +3,23 @@ import re,os
 import datetime as dt
 import MySQLdb as my
 
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[2]/td[2]/span/text()
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[2]/td[3]/span/text()
+#
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[3]/td[2]/span/text()
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[3]/td[3]/span/text()
+#
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[4]/td[2]/span/text()
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[4]/td[3]/span/text()
+#
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[5]/td[2]/span/text()
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[5]/td[3]/span/text()
+#
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[6]/td[2]/span/text()
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[6]/td[3]/span/text()
+#
+#//*[@id="content"]/div/table/tbody/tr[1]/td[1]/div[1]/table/tbody/tr[7]/td[2]/span/text()
+#
 
 class QuotSpider(scrapy.Spider):
     name = 'quot'
