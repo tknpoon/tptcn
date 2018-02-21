@@ -23,4 +23,4 @@ echo "call pHKEXquote('$fd', '$td'); call pHKEXupdateOpen('$fd', '$td');" | \
   docker exec -i \
     $CONTAINER_NAME \
     bash -c 'exec mysql $MYSQL_DATABASE -u$MYSQL_USER -p"$MYSQL_PASSWORD"'
-
+echo 'done!!!'
