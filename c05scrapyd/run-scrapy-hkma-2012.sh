@@ -1,4 +1,5 @@
 #!/bin/bash
+today=base2012
 
 CONTAINER_NAME=c05scrapyd
 
@@ -7,7 +8,6 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 [ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $CURDIR/vol-lib_scrapyd
 
-today=base$(date +%Y%m%d)
 
 for u in `(cd $HOME/store/; find raw/hkma -name \*${today}\*html\*)`
 do
