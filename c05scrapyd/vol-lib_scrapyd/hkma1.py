@@ -49,9 +49,9 @@ class hkmaSpider(scrapy.Spider):
     ################################
     def parseNow(self, response):
     # CERTIFICATES OF INDEBTEDNESS
-        s=response.encode('ascii').xpath('//*[@id="content"]//td[contains(text(),"Certificates")]/..').extract()
-        print s
-        print s[0]
+        print "====="
+        print response.xpath('//*[@id="content"]//td[contains(text(),"Total")]/ancestor::table//tr[7]').extract()
+        print "====="
 
         return []
 
