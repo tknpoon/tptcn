@@ -345,4 +345,3 @@ class hkmaSpider(scrapy.Spider):
         conn.commit()
             
         conn.close()
-    
