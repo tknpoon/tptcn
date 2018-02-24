@@ -1,7 +1,8 @@
 #!/bin/bash
 #today=base20180220
-today=base20170720
 today=base20131021
+today=base20170720
+today=base20130121
 
 CONTAINER_NAME=c05scrapyd
 

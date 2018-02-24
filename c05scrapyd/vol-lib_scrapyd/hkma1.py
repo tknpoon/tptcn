@@ -41,8 +41,8 @@ class hkmaSpider(scrapy.Spider):
 #        else: ## self.thedate >= dt.datetime(2013,7,1):
 #            thelist= self.parseLatest(response)
 #            
-        if self.thedate >= dt.datetime(2013,7,1):
-            thelist= self.parseNow(response)
+        #if self.thedate >= dt.datetime(2013,7,1):
+        thelist= self.parseNow(response)
 
             
         #return self.saveDay(thelist)
@@ -56,7 +56,10 @@ class hkmaSpider(scrapy.Spider):
 #In [3]: re.sub(r'(:[a-z]+)', r'<span>\1</span>', method)
 #Out[3]: 'images/<span>:id</span>/huge'
 
-        table= response.xpath('//*[@id="content"]//td[contains(text(),"Total")]/ancestor::table')
+        #table= response.xpath('//*[@id="content"]//td[contains(text(),"Total")]/ancestor::table')
+        table= response.xpath('//*[contains(text(),"Total")]/ancestor::table')
+        print "=x===="
+        print table
         print "====="
         print re.sub('mn.*$', '', table.xpath('.//tr[2]//td').extract()[-2].encode("utf-8").replace('\r','').replace('\n',''))
         print re.sub('mn.*$', '', table.xpath('.//tr[2]//td').extract()[-1].encode("utf-8").replace('\r','').replace('\n',''))
