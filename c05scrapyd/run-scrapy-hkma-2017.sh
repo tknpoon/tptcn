@@ -1,8 +1,5 @@
 #!/bin/bash
-#today=base20180220
-today=base20131021
-today=base20170720
-today=base200
+today=base2017
 
 CONTAINER_NAME=c05scrapyd
 

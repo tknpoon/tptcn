@@ -1,4 +1,5 @@
 #!/bin/bash
+today=base2013
 
 CONTAINER_NAME=c05scrapyd
 
@@ -7,7 +8,6 @@ VOLDIR=$HOME/vol/$CONTAINER_NAME
 
 [ ! -d $CURDIR/vol-lib_scrapyd ] && mkdir -p $CURDIR/vol-lib_scrapyd
 
-today=base2013
 
 for u in `(cd $HOME/store/; find raw/hkma -name \*${today}\*html\*)`
 do
@@ -22,7 +22,7 @@ do
    -e URL_TO_SCRAP=$url \
    --rm \
    tknpoon/private:c05scrapyd \
-   scrapy runspider /var/lib/scrapyd/hkma.py
+   scrapy runspider /var/lib/scrapyd/hkma1.py
 
   echo ====== Done working on $url `date`
 done

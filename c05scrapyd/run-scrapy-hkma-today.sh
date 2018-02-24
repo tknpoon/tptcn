@@ -22,7 +22,7 @@ do
    -e URL_TO_SCRAP=$url \
    --rm \
    tknpoon/private:c05scrapyd \
-   scrapy runspider /var/lib/scrapyd/hkma.py
+   scrapy runspider /var/lib/scrapyd/hkma1.py
 
   echo ====== Done working on $url `date`
 done

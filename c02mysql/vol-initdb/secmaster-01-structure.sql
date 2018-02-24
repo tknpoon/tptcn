@@ -93,6 +93,30 @@ CREATE TABLE `tHKEX_Sales` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tHKMA`
+--
+
+DROP TABLE IF EXISTS `tHKMA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tHKMA` (
+  `Date` datetime NOT NULL,
+  `CertIndebtAfterDisc` int(11) DEFAULT NULL,
+  `CertIndebtBeforeDisc` int(11) DEFAULT NULL,
+  `GovtCirAfterDisc` int(11) DEFAULT NULL,
+  `GovtCirBeforeDisc` int(11) DEFAULT NULL,
+  `CloseAggBalAfterDisc` int(11) DEFAULT NULL,
+  `CloseAggBalBeforeDisc` int(11) DEFAULT NULL,
+  `OutstandEFNAfterDisc` int(11) DEFAULT NULL,
+  `OutstandEFNBeforeDisc` int(11) DEFAULT NULL,
+  `OutstandEFNBankAfterDisc` int(11) DEFAULT NULL,
+  `OutstandEFNBankBeforeDisc` int(11) DEFAULT NULL,
+  `Total` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tSymbol`
 --
 
@@ -316,4 +340,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-17 22:32:04
+-- Dump completed on 2018-02-24 22:32:08
