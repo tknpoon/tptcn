@@ -49,8 +49,31 @@ class hkmaSpider(scrapy.Spider):
     ################################
     def parseNow(self, response):
     # CERTIFICATES OF INDEBTEDNESS
+    
+        #method = 'images/:id/huge'
+        #re.sub(pattern, repl, string, count=0, flags=0)
+
+#In [3]: re.sub(r'(:[a-z]+)', r'<span>\1</span>', method)
+#Out[3]: 'images/<span>:id</span>/huge'
+
+        table= response.xpath('//*[@id="content"]//td[contains(text(),"Total")]/ancestor::table')
         print "====="
-        print response.xpath('//*[@id="content"]//td[contains(text(),"Total")]/ancestor::table//tr[7]').extract()
+        print re.sub('mn.*$', '', table.xpath('.//tr[2]//td').extract()[-2].encode("utf-8").replace('\r','').replace('\n',''))
+        print re.sub('mn.*$', '', table.xpath('.//tr[2]//td').extract()[-1].encode("utf-8").replace('\r','').replace('\n',''))
+        print "====="
+        print re.sub('mn.*$', '', table.xpath('.//tr[3]//td').extract()[-2].encode("utf-8").replace('\r','').replace('\n',''))
+        print re.sub('mn.*$', '', table.xpath('.//tr[3]//td').extract()[-1].encode("utf-8").replace('\r','').replace('\n',''))
+        print "====="
+        print re.sub('mn.*$', '', table.xpath('.//tr[4]//td').extract()[-2].encode("utf-8").replace('\r','').replace('\n',''))
+        print re.sub('mn.*$', '', table.xpath('.//tr[4]//td').extract()[-1].encode("utf-8").replace('\r','').replace('\n',''))
+        print "====="
+        print re.sub('mn.*$', '', table.xpath('.//tr[5]//td').extract()[-2].encode("utf-8").replace('\r','').replace('\n',''))
+        print re.sub('mn.*$', '', table.xpath('.//tr[5]//td').extract()[-1].encode("utf-8").replace('\r','').replace('\n',''))
+        print "====="
+        print re.sub('mn.*$', '', table.xpath('.//tr[6]//td').extract()[-2].encode("utf-8").replace('\r','').replace('\n',''))
+        print re.sub('mn.*$', '', table.xpath('.//tr[6]//td').extract()[-1].encode("utf-8").replace('\r','').replace('\n',''))
+        print "====="
+        print re.sub('mn.*$', '', table.xpath('.//tr[7]//td').extract()[-1].encode("utf-8").replace('\r','').replace('\n',''))
         print "====="
 
         return []
