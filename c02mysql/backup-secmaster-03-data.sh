@@ -14,7 +14,8 @@ docker exec \
  --tables \
   tTR_Daily \
   tYAHOO_Daily \
+  tHKMA \
   tHKEX_Quotation \
   tHKEX_Sales \
-' | gzip > ~/data/secmaster-03-hkex.sql.gz
+' | gzip > ~/data/secmaster-03-data.sql.gz
 
