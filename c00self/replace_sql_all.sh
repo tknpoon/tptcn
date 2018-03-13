@@ -17,10 +17,20 @@ for s in $CURDIR/sql/*sql;do
       bash -c 'mysql $MYSQL_DATABASE -u$MYSQL_USER -p"$MYSQL_PASSWORD"'
 done
 
+
 fd=1990-01-01
 td=$(date +'%Y-%m-%d')
-echo "call pHKEXquote('$fd', '$td'); call pHKEXupdateOpen('$fd', '$td');" | \
+
+echo =============== working on hkex quote on `date`
+echo "call pHKEXquote('$fd', '$td');" | \
   docker exec -i \
     $CONTAINER_NAME \
     bash -c 'exec mysql $MYSQL_DATABASE -u$MYSQL_USER -p"$MYSQL_PASSWORD"'
+
+echo =============== working on hkex open on `date`
+echo "call pHKEXupdateOpen('$fd', '$td');" | \
+  docker exec -i \
+    $CONTAINER_NAME \
+    bash -c 'exec mysql $MYSQL_DATABASE -u$MYSQL_USER -p"$MYSQL_PASSWORD"'
+
 echo 'done!!!'
