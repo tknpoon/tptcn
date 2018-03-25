@@ -7,5 +7,8 @@ REPLACE INTO tDailyPrice(`symbol`, `date`, `open`, `high`, `low`, `close`, `volu
     y.`Volume` as `volume`,
     y.`Adj Close` as `adjClose`
   FROM `tYAHOO_Daily` AS y
-  WHERE y.`symbol` IN 
+  WHERE 
+    WEEKDAY(`tYAHOO_Daily`.`Date`) < 6
+   AND 
+    y.`symbol` IN 
     (SELECT `tSymbol`.`symbol` FROM `tSymbol` WHERE `preferredVendor`='yahoo')
