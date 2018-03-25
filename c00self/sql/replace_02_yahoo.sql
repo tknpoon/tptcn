@@ -22,6 +22,7 @@ FROM
       AND vendor='yahoo'
     ) t2
 WHERE tYAHOO_Daily.symbol = t2.code
+  AND WEEKDAY(tYAHOO_Daily.Date) < 6
   AND tYAHOO_Daily.Date >= t2.startDate
   AND tYAHOO_Daily.Date <= t2.endDate
 
