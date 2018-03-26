@@ -41,7 +41,8 @@ def grabyahoo(symbol):
         while (True) :
             row = r.fetch_row()
             if len(row) == 0 or row[0][0] is None: break
-            start= row[0][0].strftime('%m/%d/%Y')
+            startdate= row[0][0] - dt.timedelta(days=7)
+            start= startdate.strftime('%m/%d/%Y')
         conn.close()
 
     try:
