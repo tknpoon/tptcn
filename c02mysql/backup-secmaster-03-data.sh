@@ -13,6 +13,7 @@ docker exec \
  --databases $MYSQL_DATABASE \
  --tables \
   tTR_Daily \
+  tCorax \
   tYAHOO_Daily \
   tHKMA \
   tHKEX_Quotation \

@@ -24,6 +24,24 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `secmaster` /*!40100 DEFAULT CHARACTER 
 USE `secmaster`;
 
 --
+-- Table structure for table `tCorax`
+--
+
+DROP TABLE IF EXISTS `tCorax`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tCorax` (
+  `symbol` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `announceDate` datetime NOT NULL,
+  `effectiveDate` datetime NOT NULL,
+  `coraxType` enum('D','S','J') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Dividend/Split/Join',
+  `coraxValue` decimal(10,4) DEFAULT NULL,
+  `coraxDetails` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`symbol`,`announceDate`,`effectiveDate`,`coraxType`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tDailyPrice`
 --
 
@@ -340,4 +358,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-05 21:22:10
+-- Dump completed on 2018-05-12 21:22:08
