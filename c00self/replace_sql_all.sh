@@ -33,4 +33,8 @@ echo "call pHKEXupdateOpen('$fd', '$td');" | \
     $CONTAINER_NAME \
     bash -c 'exec mysql $MYSQL_DATABASE -u$MYSQL_USER -p"$MYSQL_PASSWORD"'
 
+
+echo =============== working on export_data.sh `date`
+/bin/bash /home/ubuntu/repo/tptcn/c00self/export_data.sh
+
 echo 'done!!!'
