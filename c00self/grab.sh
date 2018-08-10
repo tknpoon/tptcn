@@ -7,7 +7,7 @@ function dl {
     dest=$2
     echo $url
     echo $dest
-    code=`curl -A "Mozilla/5.0" -o $dest --silent --write-out '%{http_code}\n' $url`
+    code=`curl -L -A "Mozilla/5.0" -o $dest --silent --write-out '%{http_code}\n' $url`
     [ $code -eq 404 ] && [ -f $dest ] && rm -f $dest
     echo $code
 }
