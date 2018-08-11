@@ -24,6 +24,23 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `secmaster` /*!40100 DEFAULT CHARACTER 
 USE `secmaster`;
 
 --
+-- Table structure for table `#tempTable`
+--
+
+DROP TABLE IF EXISTS `#tempTable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `#tempTable` (
+  `a` bigint(20) DEFAULT NULL,
+  `b` bigint(20) DEFAULT NULL,
+  `c` bigint(20) DEFAULT NULL,
+  `d` bigint(20) DEFAULT NULL,
+  KEY `ix_#tempTable_a` (`a`),
+  KEY `ix_#tempTable_b` (`b`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tCorax`
 --
 
@@ -171,6 +188,21 @@ CREATE TABLE `tSymbolMeta` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tTADaily`
+--
+
+DROP TABLE IF EXISTS `tTADaily`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tTADaily` (
+  `symbol` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `RSI14` decimal(7,3) DEFAULT NULL,
+  PRIMARY KEY (`symbol`,`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tTR_Daily`
 --
 
@@ -187,6 +219,22 @@ CREATE TABLE `tTR_Daily` (
   `Volume` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`symbol`,`Date`),
   KEY `index_symbol` (`symbol`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tTest`
+--
+
+DROP TABLE IF EXISTS `tTest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tTest` (
+  `a` bigint(20) DEFAULT NULL,
+  `b` bigint(20) DEFAULT NULL,
+  `c` bigint(20) DEFAULT NULL,
+  `d` bigint(20) DEFAULT NULL,
+  KEY `theindex` (`a`,`b`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -358,4 +406,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-04 21:22:03
+-- Dump completed on 2018-08-11 21:22:07
