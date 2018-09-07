@@ -19,7 +19,7 @@ docker run \
  -e URL_TO_SCRAP=$url \
  --rm \
  tknpoon/private:c05scrapyd \
- /bin/bash -c 'scrapy runspider /var/lib/scrapyd/ccl.py  >/tmp/log/`basename $URL_TO_SCRAP`.log 2>&1 '
- ##/bin/bash -c 'scrapy runspider /var/lib/scrapyd/ccl.py >/tmp/log/`basename $URL_TO_SCRAP`.log 2>&1 '
+ /bin/bash -c 'scrapy runspider /var/lib/scrapyd/ccl.py >/tmp/log/`basename $URL_TO_SCRAP`.log 2>&1 '
+ ##/bin/bash -c 'scrapy runspider /var/lib/scrapyd/ccl.py'
 
 echo ====== Done working on $url

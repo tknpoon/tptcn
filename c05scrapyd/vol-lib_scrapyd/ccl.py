@@ -17,16 +17,20 @@ class centaSpider(scrapy.Spider):
 		if date_search:
 			ddate = dt.datetime.strptime(date_search.group(1), '%Y/%m/%d')
 			ccl= response.xpath('//*[@id="AutoNumber1"]//td//b[text()[contains(.,"[Centa-City Leading Index]")]]/../../../td[2]//p/text()').extract()[0]
-			self.saveCCL(ddate,ccl)
+			cclLarge= response.xpath('//*[@id="AutoNumber1"]//td//b[text()[contains(.,"[Centa-City (large units) Leading Index]")]]/../../../td[2]//p/text()').extract()[0]
+			cclSmallMedium= response.xpath('//*[@id="AutoNumber1"]//td//b[text()[contains(.,"[Centa-City (small/medium units) Leading Index]")]]/../../../td[2]//p/text()').extract()[0]
+			cclMass= response.xpath('//*[@id="AutoNumber1"]//td//b[text()[contains(.,"[Mass Centa-City Leading Index]")]]/../../../td[2]//p/text()').extract()[0]
+			print ccl, cclLarge, cclSmallMedium, cclMass
+			self.saveCCL(ddate,ccl, cclLarge, cclSmallMedium, cclMass)
         
     ################################################################
-    def saveCCL(self, ddate,ccl):
+    def saveCCL(self, ddate,ccl, cclLarge, cclSmallMedium, cclMass):
         conn = my.connect(host='db', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=os.environ['MYSQL_DATABASE'])
         cursor = conn.cursor()
         stmt = """REPLACE INTO tCenta
-        (Date, CCL)  
-        VALUES ('%s', %s )
-        """ % ( ddate.strftime('%Y-%m-%d'), ccl)
+        (Date, CCL, CCL_Large, CCL_SmallMedium, CCL_Mass)
+        VALUES ('%s', %s , %s , %s , %s )
+        """ % ( ddate.strftime('%Y-%m-%d'), ccl, cclLarge, cclSmallMedium, cclMass)
         try:
             r = cursor.execute(stmt)
         except Exception, e:
