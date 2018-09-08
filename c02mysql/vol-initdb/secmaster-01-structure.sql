@@ -24,20 +24,20 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `secmaster` /*!40100 DEFAULT CHARACTER 
 USE `secmaster`;
 
 --
--- Table structure for table `#tempTable`
+-- Table structure for table `tCenta`
 --
 
-DROP TABLE IF EXISTS `#tempTable`;
+DROP TABLE IF EXISTS `tCenta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `#tempTable` (
-  `a` bigint(20) DEFAULT NULL,
-  `b` bigint(20) DEFAULT NULL,
-  `c` bigint(20) DEFAULT NULL,
-  `d` bigint(20) DEFAULT NULL,
-  KEY `ix_#tempTable_a` (`a`),
-  KEY `ix_#tempTable_b` (`b`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `tCenta` (
+  `Date` date NOT NULL,
+  `CCL` float NOT NULL,
+  `CCL_Large` float DEFAULT NULL,
+  `CCL_SmallMedium` float DEFAULT NULL,
+  `CCL_Mass` float DEFAULT NULL,
+  PRIMARY KEY (`Date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Centa net Data';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -406,4 +406,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-01 21:22:03
+-- Dump completed on 2018-09-08 21:22:02
