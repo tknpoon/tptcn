@@ -8,7 +8,7 @@ docker run \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
  -d --rm \
- --network my-attachable-overlay \
+ --network d_tptcn_overlay \
  -p 20080:80 \
  nginx:alpine
 
