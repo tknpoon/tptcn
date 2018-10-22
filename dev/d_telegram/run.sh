@@ -1,5 +1,5 @@
 #!/bin/bash
-#. $HOME/.self_env
+
 
 DIRNAME=`dirname $0`
 TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
