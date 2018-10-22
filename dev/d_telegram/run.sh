@@ -1,16 +1,14 @@
 #!/bin/bash
 #. $HOME/.self_env
 
-CONTAINER_NAME=c01telegram
+DIRNAME=`dirname $0`
+CON_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 docker run \
- --name $CONTAINER_NAME \
+ --name $CON_NAME \
  --env-file $HOME/.self_env \
- -p 11025:25 \
+ -p 10025:25 \
  -d \
  --restart=always \
  tknpoon/private:$CONTAINER_NAME \
  python /telegram.py
-
-# -e TOKEN=$TELEGRAM_TOKEN \
-# -e CHAT_ID=$TELEGRAM_CHAT_ID \
