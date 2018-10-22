@@ -8,6 +8,7 @@ docker run \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
  -d --rm \
+ --network my-attachable-overlay \
  alpine \
  ash -c 'while [ 1 ]; do sleep 5; done'
 

@@ -9,6 +9,7 @@ docker run \
  --env-file $HOME/.self_env \
  -p 10025:25 \
  -d \
+ --network my-attachable-overlay \
  --restart=always \
  tknpoon/private:$CONTAINER_NAME \
  python /telegram.py
