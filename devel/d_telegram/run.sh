@@ -11,5 +11,5 @@ docker run \
  -d \
  --network my-attachable-overlay \
  --restart=always \
- tknpoon/private:$CONTAINER_NAME \
+ tknpoon/private:$TAG_NAME \
  python /telegram.py
