@@ -9,6 +9,6 @@ docker run \
  --env-file $HOME/.self_env \
  -d --rm \
  --network my-attachable-overlay \
- --publish published=20080,target=80 \
+ -p 20080:80 \
  nginx:alpine
 
