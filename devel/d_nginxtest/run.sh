@@ -7,9 +7,8 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 docker run \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
- -p 20025:25 \
- -d \
+ -d --rm \
  --network my-attachable-overlay \
- --restart=always \
- tknpoon/private:$TAG_NAME \
- python /telegram.py
+ --publish published=20080,target=80 \
+ nginx:alpine
+
