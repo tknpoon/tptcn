@@ -8,10 +8,15 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 [ "${TAG_NAME:0:2}" == "p_" ] && PORTBASE=40000
 [ "${TAG_NAME:0:2}" == "g_" ] && PORTBASE=50000
 
+PORT80=`expr $PORTBASE + 80`
+
+####################################
 docker run \
- --name $TAG_NAME \
+ --name ${TAG_NAME} \
  --env-file $HOME/.self_env \
- -d --rm \
+ -e PMA_HOST=${TAG_NAME:0:2}mysql \
+ -p ${PORT80}:80 \
+ --restart=always \
+ -d \
  --network ${TAG_NAME:0:2}tptcn_overlay \
- tknpoon/private:$TAG_NAME \
- sleep infinity
+phpmyadmin/phpmyadmin
