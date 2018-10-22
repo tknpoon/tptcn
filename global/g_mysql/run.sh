@@ -10,12 +10,24 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 PORT3306=`expr $PORTBASE + 3306`
 
+####################################
+vv=""
+for i in `ls $DIRNAME/vol-initdb/ | grep \.sql`; do
+ vv="$vv -v $CURDIR/vol-initdb/`basename $i`:/docker-entrypoint-initdb.d/`basename $i`"
+done
+#for i in `ls $HOME/data/ | grep \.sql` ; do
+# vv="$vv -v $HOME/data/`basename $i`:/docker-entrypoint-initdb.d/`basename $i`"
+#done
+
+####################################
 docker run \
+ -v $VOLDIR/vol-datadir:/var/lib/mysql \
+ $vv \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
- -p ${PORT25}:25 \
+ -p ${PORT3306}:3306 \
  -d \
- --network ${TAG_NAME:0:2}tptcn_overlay \
  --restart=always \
- tknpoon/private:$TAG_NAME \
- python /telegram.py
+ mysql:5.7 \
+ --character-set-server=utf8mb4 \
+ --collation-server=utf8mb4_unicode_ci
