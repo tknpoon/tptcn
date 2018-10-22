@@ -7,6 +7,7 @@ RUN pip install --upgrade pip
 RUN pip install --upgrade telepot 
 
 COPY telegram.py /telegram.py 
+COPY send_telegram.py /send_telegram.py 
 
 EXPOSE 25
 
