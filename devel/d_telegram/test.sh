@@ -3,9 +3,10 @@
 
 DIRNAME=`dirname $0`
 TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
+#TAG_NAME=d_telegram
 
-echo testertester | \
 docker exec \
- -i $TAG_NAME \
- python /send_telegram.py
+ $TAG_NAME \
+ sendemail -f frommail@tknpoon -t someone@somewhere.com -s d_telegram -m "test test"
+
 
