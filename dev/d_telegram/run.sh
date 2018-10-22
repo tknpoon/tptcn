@@ -2,10 +2,10 @@
 #. $HOME/.self_env
 
 DIRNAME=`dirname $0`
-CON_NAME=$(cd $DIRNAME ; basename `pwd`)
+TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 docker run \
- --name $CON_NAME \
+ --name $TAG_NAME \
  --env-file $HOME/.self_env \
  -p 10025:25 \
  -d \
