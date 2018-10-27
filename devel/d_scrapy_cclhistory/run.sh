@@ -21,5 +21,5 @@ docker run \
  -v $DIRNAME/cclhistory.py:/var/lib/scrapyd/cclhistory.py \
  -ti \
  --rm \
- vimagick/scrapyd \
+ tknpoon/private:$TAG_NAME \
  /bin/bash -c 'scrapy runspider /var/lib/scrapyd/cclhistory.py '
