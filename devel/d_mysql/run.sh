@@ -13,8 +13,8 @@ PORT3306=`expr $PORTBASE + 3306`
 CURDIR=`cd $(dirname $0); pwd`
 VOLDIR=$HOME/vol/$TAG_NAME
 
-[ ! -d $VOLDIR/vol-datadir ] && mkdir -p $VOLDIR/vol-datadir
 [ ! -d $CURDIR/vol-initdb ]  && mkdir -p $CURDIR/vol-initdb
+[ ! -d $VOLDIR/vol-datadir ] && mkdir -p $VOLDIR/vol-datadir
 
 vv=""
 for i in `find $CURDIR/vol-initdb/ -name \*.sql\*`  ; do
@@ -26,8 +26,10 @@ docker run \
  $vv \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
- -p $PORT3306:3306 \
+ -e MYSQL_DATABASE=${TAG_NAME:0:2}master \
+ --network ${TAG_NAME:0:2}tptcn_overlay \
  -d \
+ -p $PORT3306:3306 \
  --restart=always \
  mysql:5.7 \
  --character-set-server=utf8mb4 \
