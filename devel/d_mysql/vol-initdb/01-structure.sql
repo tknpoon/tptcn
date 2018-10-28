@@ -27,28 +27,27 @@ DROP TABLE IF EXISTS `tTest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tTest` (
+  `ID` int NOT NULL AUTO_INCREMENT,
   `Date` date NOT NULL,
   `symbol` VARCHAR(10) NULL,
   `a` bigint(20) DEFAULT NULL,
   `b` bigint(20) DEFAULT NULL,
   `c` bigint(20) DEFAULT NULL,
   `d` bigint(20) DEFAULT NULL,
-  KEY `theindex` (`a`,`b`) USING BTREE
+  PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-ALTER TABLE `tTest`
-  ADD PRIMARY KEY (`Date`,`symbol`);
 COMMIT;
 
 
 DROP TABLE IF EXISTS `tCenta`;
 CREATE TABLE `tCenta` (
+  `ID` int NOT NULL AUTO_INCREMENT,
   `Date` date NOT NULL,
   `CCL` float NULL,
   `CCL_Large` float DEFAULT NULL,
   `CCL_SmallMedium` float DEFAULT NULL,
   `CCL_Mass` float DEFAULT NULL
+  PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Centa net Data';
-ALTER TABLE `tCenta`
-  ADD PRIMARY KEY (`Date`);
 COMMIT;
 
