@@ -39,15 +39,15 @@ CREATE TABLE `tTest` (
 COMMIT;
 
 
-DROP TABLE IF EXISTS `tCenta`;
-CREATE TABLE `tCenta` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `Date` date NOT NULL,
-  `CCL` float NULL,
-  `CCL_Large` float DEFAULT NULL,
-  `CCL_SmallMedium` float DEFAULT NULL,
-  `CCL_Mass` float DEFAULT NULL
-  PRIMARY KEY (ID)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Centa net Data';
-COMMIT;
-
+DROP TABLE IF EXISTS `tCenta_CCL`;
+CREATE TABLE `tCenta_CCL` (
+ `ID` int(11) NOT NULL AUTO_INCREMENT,
+ `FromDate` date NOT NULL,
+ `ToDate` date NOT NULL,
+ `CCL` float DEFAULT NULL,
+ `CCL_Large` float DEFAULT NULL,
+ `CCL_SmallMedium` float DEFAULT NULL,
+ `CCL_Mass` float DEFAULT NULL,
+ PRIMARY KEY (`ID`),
+ UNIQUE KEY `FromDate` (`FromDate`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Centa net Data'
