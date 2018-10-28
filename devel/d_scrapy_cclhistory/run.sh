@@ -19,7 +19,6 @@ docker run \
  --env-file $HOME/.self_env \
  -e URL_TO_SCRAP=$url \
  -v $DIRNAME/cclhistory.py:/var/lib/scrapyd/cclhistory.py \
- -ti \
  --rm \
  vimagick/scrapyd \
  /bin/bash -c 'scrapy runspider /var/lib/scrapyd/cclhistory.py '

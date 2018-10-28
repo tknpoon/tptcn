@@ -19,7 +19,7 @@ docker run \
  -e DB_HOST=${TAG_NAME:0:2}mysql \
  -e DB_DATABASE=${TAG_NAME:0:2}master \
  --network ${TAG_NAME:0:2}tptcn_overlay \
- -d \
+ -d --rm \
  -p $(ifconfig -a | grep inet|grep 192.168.8.|cut -d: -f2|cut -d' ' -f1):${PORT3000}:3000 \
 tknpoon/private:$TAG_NAME \
 bash -c 'xmysql -h $DB_HOST -u $DB_USER -p $DB_PASS -d $DB_DATABASE -r 0.0.0.0'

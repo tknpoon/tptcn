@@ -54,8 +54,7 @@ class centaSpider(scrapy.Spider):
         #print table, urllib.urlencode(dict)
         selected = self.apiget(table, {k: dict[k] for k in ['FromDate'] } )
         #print "selected::",selected
-        
-        
+                
         if len(selected) == 0:
             #print "POST"
             url = "%s/%s" % (urlbase ,table)
@@ -77,6 +76,22 @@ class centaSpider(scrapy.Spider):
             return json.loads( the_page)
         else:
             return []
+    ########################
+    def apidelete(self, table, dict):
+        selected = self.apiget(table, dict)
+        #print selected
+        if len(selected) <= 0: 
+            return []
+
+        bulkIDs = [r['ID'] for r in selected]
+        url = "%s/%s/bulk?_ids=%s" % (urlbase ,table,  ','.join(str(v) for v in bulkIDs)  )
+        req = urllib2.Request(url)
+        req.get_method = lambda: 'DELETE'
+        
+        response = urllib2.urlopen(req)
+        the_page = response.read()
+
+        return json.loads( the_page)
     ################################
     def parse(self, response):
         #tbl = response.xpath('//*[@id="AutoNumber1"]').extract()
