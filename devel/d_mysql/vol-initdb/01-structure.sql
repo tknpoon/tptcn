@@ -20,7 +20,6 @@
 --
 
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `d_master` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
-
 USE `d_master`;
 
 
@@ -28,12 +27,28 @@ DROP TABLE IF EXISTS `tTest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tTest` (
+  `Date` date NOT NULL,
+  `symbol` VARCHAR(10) NULL,
   `a` bigint(20) DEFAULT NULL,
   `b` bigint(20) DEFAULT NULL,
   `c` bigint(20) DEFAULT NULL,
   `d` bigint(20) DEFAULT NULL,
   KEY `theindex` (`a`,`b`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+ALTER TABLE `tTest`
+  ADD PRIMARY KEY (`Date`,`symbol`);
+COMMIT;
 
--- Dump completed on 2018-10-20 21:22:03
+
+DROP TABLE IF EXISTS `tCenta`;
+CREATE TABLE `tCenta` (
+  `Date` date NOT NULL,
+  `CCL` float NULL,
+  `CCL_Large` float DEFAULT NULL,
+  `CCL_SmallMedium` float DEFAULT NULL,
+  `CCL_Mass` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Centa net Data';
+ALTER TABLE `tCenta`
+  ADD PRIMARY KEY (`Date`);
+COMMIT;
+

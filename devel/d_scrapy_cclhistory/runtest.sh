@@ -11,15 +11,12 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 #PORT25=`expr $PORTBASE + 25`
 
 #
-url=http://202.72.14.52/p2/cci/SearchHistory.aspx
-
 docker run \
- --name $TAG_NAME \
+ --name test_$TAG_NAME \
  --network ${TAG_NAME:0:2}tptcn_overlay \
  --env-file $HOME/.self_env \
- -e URL_TO_SCRAP=$url \
- -v $DIRNAME/cclhistory.py:/var/lib/scrapyd/cclhistory.py \
+ -v $DIRNAME/testtest.py:/var/lib/scrapyd/testtest.py \
  -ti \
  --rm \
- vimagick/scrapyd \
- /bin/bash -c 'scrapy runspider /var/lib/scrapyd/cclhistory.py '
+ vimagick/scrapyd  /usr/bin/python /var/lib/scrapyd/testtest.py
+

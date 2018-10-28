@@ -30,7 +30,7 @@ class centaSpider(scrapy.Spider):
             print tbl
         else:
             #for c in self.ffdata:
-            for c in ['CCL_mass', 'CCL']:
+            for c in [ 'CCL' ]:
                 iformdata = self.ffdata[c].copy()
                 iformdata.update( { 'TextBox1' : '1990', 'DropDownList1' : '1', 'TextBox2' : '1'} )
                 iformdata.update( { 'TextBox3' : '2019', 'DropDownList2' : '1', 'TextBox4' : '1'} )
@@ -40,7 +40,7 @@ class centaSpider(scrapy.Spider):
                     callback=self.parsedata,
                     meta={'ccltype': c}
                 )
-                
+
     ################################
     def parsedata(self, response):
         trs = response.xpath('//*[@id="AutoNumber1"]//tr') #.extract()
