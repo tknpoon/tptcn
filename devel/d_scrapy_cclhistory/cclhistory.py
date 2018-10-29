@@ -6,7 +6,7 @@ import urllib, urllib2, json
 
 from scrapy.exceptions import DropItem
 
-urlbase = "http://%s_xmysql:3000/api" %(os.environ['STAGE'])
+urlbase = "http://%s_xmysqlrw:3000/api" %(os.environ['STAGE'])
 
 
 ###########################################################
