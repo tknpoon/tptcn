@@ -8,6 +8,7 @@
 ```
 for d in `docker ps --filter 'name=_xmysql' --format '{{.Names}}'`; do
  docker kill $d
+ sleep 3
  `find /home/ubuntu/repo/tptcn -name $d`/run.sh
 done
 ```
