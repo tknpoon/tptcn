@@ -11,3 +11,8 @@ for d in `docker ps --filter 'name=_xmysql' --format '{{.Names}}'`; do
  `find /home/ubuntu/repo/tptcn -name d_xmysql`/run.sh
 done
 ```
+```
+for d in `find /home/ubuntu/repo/tptcn -name d_xmysql`; do
+ $d/run.sh
+done
+```
