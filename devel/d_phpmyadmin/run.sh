@@ -16,9 +16,9 @@ VOLDIR=$HOME/vol/$TAG_NAME
 docker run \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
- -e PMA_HOST=${TAG_NAME:0:2}mysql \
+ -e PMA_HOST=g_mysql \
  --network ${TAG_NAME:0:2}tptcn_overlay \
- -d \
+ -d --rm \
  -p ${PORT80}:80 \
 phpmyadmin/phpmyadmin
 

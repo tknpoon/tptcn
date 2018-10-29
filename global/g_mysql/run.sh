@@ -10,25 +10,34 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 PORT3306=`expr $PORTBASE + 3306`
 
-####################################
+CURDIR=`cd $(dirname $0); pwd`
+VOLDIR=$HOME/vol/$TAG_NAME
+
+[ ! -d $VOLDIR/vol-datadir ] && mkdir -p $VOLDIR/vol-datadir
+
 vv=""
-for i in `ls $DIRNAME/vol-initdb/ | grep \.sql`; do
- vv="$vv -v $CURDIR/vol-initdb/`basename $i`:/docker-entrypoint-initdb.d/`basename $i`"
-done
-#for i in `ls $HOME/data/ | grep \.sql` ; do
-# vv="$vv -v $HOME/data/`basename $i`:/docker-entrypoint-initdb.d/`basename $i`"
+#[ ! -d $CURDIR/vol-initdb ]  && mkdir -p $CURDIR/vol-initdb
+#for i in `find $CURDIR/vol-initdb/ -name \*.sql\*`  ; do
+# vv="$vv -v $i:/docker-entrypoint-initdb.d/`basename $i`"
 #done
 
-####################################
 docker run \
  -v $VOLDIR/vol-datadir:/var/lib/mysql \
  $vv \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
- -p ${PORT3306}:3306 \
+ -e MYSQL_DATABASE=${TAG_NAME:0:2}master \
  -d \
- --restart=always \
  --network ${TAG_NAME:0:2}tptcn_overlay \
+ -p $PORT3306:3306 \
+ --restart=always \
  mysql:5.7 \
  --character-set-server=utf8mb4 \
  --collation-server=utf8mb4_unicode_ci
+
+sleep 5
+docker network connect d_tptcn_overlay $TAG_NAME
+docker network connect u_tptcn_overlay $TAG_NAME
+docker network connect p_tptcn_overlay $TAG_NAME
+#Usage:  docker network connect [OPTIONS] NETWORK CONTAINER
+

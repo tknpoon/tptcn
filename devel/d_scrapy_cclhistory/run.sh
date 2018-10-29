@@ -18,6 +18,7 @@ docker run \
  --network ${TAG_NAME:0:2}tptcn_overlay \
  --env-file $HOME/.self_env \
  -e URL_TO_SCRAP=$url \
+ -e STAGE=${TAG_NAME:0:1} \
  -v $DIRNAME/cclhistory.py:/var/lib/scrapyd/cclhistory.py \
  --rm \
  vimagick/scrapyd \

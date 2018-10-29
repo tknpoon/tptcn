@@ -16,8 +16,8 @@ VOLDIR=$HOME/vol/$TAG_NAME
 docker run \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
- -e DB_HOST=${TAG_NAME:0:2}mysql \
- -e DB_DATABASE=${TAG_NAME:0:2}master \
+ -e DB_HOST=g_mysql \
+ -e DB_DATABASE=g_master \
  --network ${TAG_NAME:0:2}tptcn_overlay \
  -d --rm \
  -p $(ifconfig -a | grep inet|grep 192.168.8.|cut -d: -f2|cut -d' ' -f1):${PORT3000}:3000 \

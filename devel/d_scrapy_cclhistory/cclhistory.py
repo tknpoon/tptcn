@@ -6,7 +6,7 @@ import urllib, urllib2, json
 
 from scrapy.exceptions import DropItem
 
-urlbase = "http://d_xmysql:3000/api"
+urlbase = "http://%s_xmysql:3000/api" %(os.environ['STAGE'])
 
 
 ###########################################################
@@ -15,6 +15,7 @@ class centaSpider(scrapy.Spider):
     urlToScrap = os.environ['URL_TO_SCRAP']
     scrapToDate =  dt.datetime.now()
     scrapFromDate = scrapToDate - dt.timedelta(days=40)
+    #scrapFromDate = scrapToDate - dt.timedelta(days=365*30)
     start_urls = [urlToScrap]
 
     download_delay = 5.0
@@ -101,16 +102,34 @@ class centaSpider(scrapy.Spider):
             print tbl
         else:
             #for c in self.ffdata:
-            for c in ['CCL','CCL_HK','CCL_KLN','CCL_NTE','CCL_NTW','CCL_L','CCL_SM','CCL_mass']:
-                iformdata = self.ffdata[c].copy()
-                iformdata.update( { 'TextBox1' : self.scrapFromDate.strftime('%Y'), 'DropDownList1' : self.scrapFromDate.strftime('%m'), 'TextBox2' : self.scrapFromDate.strftime('%d')} )
-                iformdata.update( { 'TextBox3' : self.scrapToDate.strftime('%Y'), 'DropDownList2' : self.scrapToDate.strftime('%m'), 'TextBox4' : self.scrapToDate.strftime('%d')} )
-                yield scrapy.FormRequest.from_response(
-                    response,
-                    formdata=iformdata,
-                    callback=self.parsedata,
-                    meta={'ccltype': c}
-                )
+            if True: #True means weekly jobs
+                for c in ['CCL','CCL_HK','CCL_KLN','CCL_NTE','CCL_NTW','CCL_L','CCL_SM','CCL_mass']:
+                    fdate = self.scrapFromDate
+                    tdate = self.scrapToDate
+                    iformdata = self.ffdata[c].copy()
+                    iformdata.update( { 'TextBox1' : fdate.strftime('%Y'), 'DropDownList1' : fdate.strftime('%m'), 'TextBox2' : fdate.strftime('%d')} )
+                    iformdata.update( { 'TextBox3' : tdate.strftime('%Y'), 'DropDownList2' : tdate.strftime('%m'), 'TextBox4' : tdate.strftime('%d')} )
+                    yield scrapy.FormRequest.from_response(
+                        response,
+                        formdata=iformdata,
+                        callback=self.parsedata,
+                        meta={'ccltype': c}
+                    )
+            else:
+                for c in ['CCL','CCL_HK','CCL_KLN','CCL_NTE','CCL_NTW','CCL_L','CCL_SM']:
+                    for y in range(1993,2019,1):
+                        fdate = dt.datetime.strptime('%d/01/01' %(y),  "%Y/%m/%d")
+                        tdate = fdate + dt.timedelta(days=366)
+                        
+                        iformdata = self.ffdata[c].copy()
+                        iformdata.update( { 'TextBox1' : fdate.strftime('%Y'), 'DropDownList1' : fdate.strftime('%m'), 'TextBox2' : fdate.strftime('%d')} )
+                        iformdata.update( { 'TextBox3' : tdate.strftime('%Y'), 'DropDownList2' : tdate.strftime('%m'), 'TextBox4' : tdate.strftime('%d')} )
+                        yield scrapy.FormRequest.from_response(
+                            response,
+                            formdata=iformdata,
+                            callback=self.parsedata,
+                            meta={'ccltype': c}
+                        )
 
     ################################
     def parsedata(self, response):
@@ -127,7 +146,7 @@ class centaSpider(scrapy.Spider):
                     response.meta['ccltype'] : tds[1].extract(),
                     }
                 print rowdict
-                print self.apiupdate('tCenta_CCL', rowdict)
+                print self.apiupdate('%s_Centa_CCL' %(os.environ['STAGE']), rowdict)
             except:
                 pass
         print "END"
