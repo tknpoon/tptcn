@@ -15,7 +15,7 @@ done
 ```
 #### OR start them if not started yet
 ```
-for d in `find /home/ubuntu/repo/tptcn -name \*_xmysql\*`; do
+for d in `find /home/ubuntu/repo/tptcn -name \*_xmysql\* -type d`; do
  $d/run.sh
 done
 ```
