@@ -11,5 +11,6 @@ RUN apt-get install -y mysql-utilities
 RUN pip install --upgrade pip
 RUN pip install --upgrade dj-database-url regex
 RUN pip install --upgrade sqlalchemy MySQL-python
-RUN pip install pandas pandas_datareader==0.5.0
+RUN pip install pandas==0.21.0
+RUN pip install pandas_datareader==0.5.0
 

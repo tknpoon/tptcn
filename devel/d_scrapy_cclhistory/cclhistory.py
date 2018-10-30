@@ -93,6 +93,7 @@ class centaSpider(scrapy.Spider):
         the_page = response.read()
 
         return json.loads( the_page)
+        
     ################################
     def parse(self, response):
         #tbl = response.xpath('//*[@id="AutoNumber1"]').extract()
