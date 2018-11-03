@@ -6,7 +6,7 @@ import urllib, urllib2, json
 
 from scrapy.exceptions import DropItem
 
-urlbase = "http://%s_xmysqlrw:3000/api" %(os.environ['STAGE'])
+urlbase = "http://%s_dbapi:3000/api" %(os.environ['STAGE'])
 
 
 ###########################################################
@@ -31,68 +31,43 @@ class centaSpider(scrapy.Spider):
         'CCL_mass': {'R1': 'v4'},
     }
     
-    ########################
-    def apiget(self, table, dict):
-        #print table, urllib.urlencode(dict)
-        i=0
-        querystr=""
-        for elem in dict:
-            if i == 0:
-                querystr = "_where=(%s,eq,%s)" %(elem, dict[elem])
-            else:
-                querystr = querystr + "~and(%s,eq,%s)" %(elem, dict[elem])
-            i = i + 1
-        url = "%s/%s?%s" % (urlbase,table,querystr)
-        print url
+    #######################
+    # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
+    def apiGet(self, table, selectdictlist):
+        querylist=[]
+        for dict in selectdictlist:
+            querylist.append("%s[%s]=%s" %(dict['fld'], dict['op'], dict['val']))
+        url = "%s/%s?%s" % (urlbase,table, '&'.join(querylist))
+        # print url
         req = urllib2.Request(url)
-        response = urllib2.urlopen(req)
-        the_page = response.read()
-
-        return json.loads(the_page)
+        try :
+            response = urllib2.urlopen(req)
+            return json.loads(response.read())
+        except urllib2.HTTPError:
+            return {}
 
     ########################
-    def apiupdate(self, table, dict):
-        #print table, urllib.urlencode(dict)
-        selected = self.apiget(table, {k: dict[k] for k in ['FromDate'] } )
-        #print "selected::",selected
-                
-        if len(selected) == 0:
-            #print "POST"
+    # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
+    # valuedict : {fld : value, fld, value, ...}
+    def apiUpsert(self, table, selectdictlist, valuedict):
+        centaResult = self.apiGet(table, selectdictlist )
+        # print centaResult
+        if 'result' in centaResult: #found, update with PUT
+            for row in centaResult['json']:
+                url = "%s/%s/%d" % (urlbase ,table, row['ID'])
+                # print url, urllib.urlencode(valuedict)
+                req = urllib2.Request(url, data=urllib.urlencode(valuedict), headers={'Content-type':'application/x-www-form-urlencoded'} )
+                req.get_method = lambda: 'PUT'
+                response = urllib2.urlopen(req)
+                return json.loads( response.read())
+        else: #not found, insert with POST
             url = "%s/%s" % (urlbase ,table)
-            req = urllib2.Request(url, data=urllib.urlencode(dict), headers={'Content-type':'application/x-www-form-urlencoded'} )
+            # print url, urllib.urlencode(valuedict)
+            req = urllib2.Request(url, data=urllib.urlencode(valuedict), headers={'Content-type':'application/x-www-form-urlencoded'} )
             req.get_method = lambda: 'POST'
             response = urllib2.urlopen(req)
-            the_page = response.read()
-            return json.loads( the_page)
-        elif len(selected) == 1: 
-            #print "PATCH"
-            url = "%s/%s/%d" % (urlbase ,table, selected[0]['ID'] )
-            newvalues = {k: dict[k] for k in dict if k not in ('FromDate', 'ID') } 
-            #print newvalues
-            #{key: a[key] for key in a if key not in keys}
-            req = urllib2.Request(url, data=urllib.urlencode(newvalues), headers={'Content-type':'application/x-www-form-urlencoded'} )
-            req.get_method = lambda: 'PATCH'
-            response = urllib2.urlopen(req)
-            the_page = response.read()
-            return json.loads( the_page)
-        else:
-            return []
-    ########################
-    def apidelete(self, table, dict):
-        selected = self.apiget(table, dict)
-        #print selected
-        if len(selected) <= 0: 
-            return []
-
-        bulkIDs = [r['ID'] for r in selected]
-        url = "%s/%s/bulk?_ids=%s" % (urlbase ,table,  ','.join(str(v) for v in bulkIDs)  )
-        req = urllib2.Request(url)
-        req.get_method = lambda: 'DELETE'
+            return json.loads( response.read())
         
-        response = urllib2.urlopen(req)
-        the_page = response.read()
-
-        return json.loads( the_page)
     ################################
     def parse(self, response):
         #tbl = response.xpath('//*[@id="AutoNumber1"]').extract()
@@ -146,7 +121,8 @@ class centaSpider(scrapy.Spider):
                     response.meta['ccltype'] : tds[1].extract(),
                     }
                 print rowdict
-                print self.apiupdate('Centa_CCL' , rowdict)
+                # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
+                print self.apiUpsert('Centa_CCL' , [{'fld':'FromDate', 'op':'EQ', 'val':rowdict['FromDate']}], rowdict)
             except:
                 pass
         print "END"
