@@ -14,7 +14,7 @@ SCRIPTDIR=$CURDIR/scripts
 docker run \
  -v $VOLDIR/vol-working:/working \
  -v $SCRIPTDIR:/scripts \
- --link c02mysql:db \
+ --link g_mysql:db \
  --env-file $HOME/.self_env \
  --rm \
  tknpoon/private:$CONTAINER_NAME \

@@ -16,7 +16,7 @@ do
   docker run \
    -v $CURDIR/vol-lib_scrapyd:/var/lib/scrapyd \
    --link c04nginx:web \
-   --link c02mysql:db \
+   --link g_mysql:db \
    --env-file $HOME/.self_env \
    -e URL_TO_SCRAP=$url \
    --rm \

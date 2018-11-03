@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONTAINER_NAME=c02mysql
+CONTAINER_NAME=g_mysql
 
 CURDIR=`cd $(dirname $0); pwd`
 
