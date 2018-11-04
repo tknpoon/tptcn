@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIRNAME=`dirname $0`
+DIRNAME=`cd $(dirname $0); pwd`
 CURDIR=`cd $(dirname $0); pwd`
 TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
@@ -9,15 +9,16 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 [ "${TAG_NAME:0:2}" == "p_" ] && PORTBASE=40000
 [ "${TAG_NAME:0:2}" == "g_" ] && PORTBASE=50000
 
+PORT80=`expr $PORTBASE + 80`
+
+#
 docker run \
- --name ${TAG_NAME}_`date +%s` \
+ --name $TAG_NAME \
+ --network ${TAG_NAME:0:2}tptcn_overlay \
  --env-file $HOME/.self_env \
  -e STAGE=${TAG_NAME:0:1} \
- -v ${CURDIR}/entrypoint.py:/entrypoint.py \
- --network ${TAG_NAME:0:2}tptcn_overlay \
+ -v $HOME/store:/usr/share/nginx/html:ro \
+ -v $CURDIR/nginx-default.conf:/etc/nginx/conf.d/default.conf:ro \
+ -p ${PORT80}:80 \
  -d --rm \
- tknpoon/private:$TAG_NAME \
- python /entrypoint.py 
-
-# -ti \
-
+ nginx

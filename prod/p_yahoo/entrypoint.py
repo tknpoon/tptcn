@@ -5,10 +5,28 @@ import json,math,time,os, sys, urllib, urllib2
 import datetime as dt
 import pandas_datareader.data as web
 from multiprocessing import Pool
+import MySQLdb as my
+from sqlalchemy import create_engine
 
 ## global variables
 
 urlbase = "http://%s_dbapi:3000/api" %(os.environ['STAGE'])
+
+##############################
+def save_sql(symbol, df):
+    ##
+    conn = my.connect(host='g_mysql', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db='%s_master'%(os.environ['STAGE']))
+    cursor = conn.cursor()
+    for index, row in df.iterrows():
+        #print index,row
+        stmt = """REPLACE INTO yahoo_daily (symbol, Date, Open, High, Low, Close, Volume, `Adj Close`) 
+            VALUES ('%s','%s',%f,%f,%f,%f,%d,%f)
+            """ % (symbol, index, row['Open'], row['High'], row['Low'], row['Close'], row['Volume'], row['Adj Close'])
+        #print stmt
+        r = cursor.execute(stmt)
+        #print "Exec result:",r
+    conn.commit()
+    conn.close()
 
 #######################
 # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
@@ -63,21 +81,21 @@ def grabyahoo(symbol_date):
     except:
         print "Failed to get", symbol, source, startdate, end
         return None
-    #print symbol, len(qt.index)
     ##
     if qt is not None:
-        df = qt.reset_index()
-        df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
-        dd = df.to_dict('records')
-        
-        for d in  dd:
-            selectlist= [   {'fld':'Date', 'op':'EQ', 'val':d['Date']},
-                            {'fld':'symbol', 'op':'EQ', 'val':symbol},
-                        ]
-            #print selectlist
-            d['symbol'] = symbol
-            upsertresult = apiUpsert('yahoo_daily' , selectlist, d)
-            print upsertresult['result'] if 'result' in upsertresult else "failed" , "upsert", selectlist
+        print symbol, len(qt.index)
+        save_sql(symbol, qt)
+        #df = qt.reset_index()
+        #df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
+        #dd = df.to_dict('records')
+        #for d in  dd:
+        #    selectlist= [   {'fld':'Date', 'op':'EQ', 'val':d['Date']},
+        #                    {'fld':'symbol', 'op':'EQ', 'val':symbol},
+        #                ]
+        #    print selectlist
+        #    d['symbol'] = symbol
+        #    upsertresult = apiUpsert('yahoo_daily' , selectlist, d)
+        #    print upsertresult['result'] if 'result' in upsertresult else "failed" , "upsert", selectlist
 
     return symbol
 
@@ -85,7 +103,7 @@ def grabyahoo(symbol_date):
 ##############################
 # main
 if __name__ == '__main__':
-    startdate = (dt.datetime.today() - dt.timedelta(days=30)).strftime('%Y-%m-%d')
+    startdate = (dt.datetime.today() - dt.timedelta(days=10)).strftime('%Y-%m-%d')
     if len(sys.argv) > 1 and sys.argv[1] == "all":
         startdate = '1990-01-01'
     
@@ -96,11 +114,11 @@ if __name__ == '__main__':
         for row in result['json']:
             symdatelist.append( [row['symbol'] , startdate])
             
-    print symdatelist
+    #print symdatelist
     
     
     # Grab the bars
-    use_pool = True
+    use_pool = False
     if use_pool :
         Pool(4).map(grabyahoo, symdatelist)
     else:
