@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DIRNAME=`cd $(dirname $0); pwd`
+CURDIR=`cd $(dirname $0); pwd`
 TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 [ "${TAG_NAME:0:2}" == "d_" ] && PORTBASE=20000
@@ -19,7 +20,7 @@ docker run \
  --env-file $HOME/.self_env \
  -e URL_TO_SCRAP=$url \
  -e STAGE=${TAG_NAME:0:1} \
- -v $DIRNAME/cclhistory.py:/var/lib/scrapyd/cclhistory.py \
+ -v $CURDIR/cclhistory.py:/var/lib/scrapyd/cclhistory.py \
  --rm \
  vimagick/scrapyd \
  /bin/bash -c 'scrapy runspider /var/lib/scrapyd/cclhistory.py '
