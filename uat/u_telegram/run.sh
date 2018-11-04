@@ -14,8 +14,7 @@ docker run \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
  -p ${PORT25}:25 \
- -d \
+ -d --rm \
  --network ${TAG_NAME:0:2}tptcn_overlay \
- --restart=always \
  tknpoon/private:$TAG_NAME \
  python /telegram.py
