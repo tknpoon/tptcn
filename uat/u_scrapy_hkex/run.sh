@@ -11,7 +11,6 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 
 today=$(date +%y%m%d)
-today=181102
 
 for hkexfile in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*; find raw/hkex_quot -name \*${today}\*htm\* )`
 do

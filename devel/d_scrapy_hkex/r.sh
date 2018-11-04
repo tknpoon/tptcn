@@ -12,7 +12,7 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 today=$(date +%y%m%d)
 
-for hkexfile in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*; find raw/hkex_quot -name \*${today}\*htm\* )`
+for hkexfile in `(cd $HOME/store/; find raw/hkex_gem -name \*18102\*htm\*; find raw/hkex_quot -name \*18102\*htm\* ; find raw/hkex_gem -name \*18103\*htm\*; find raw/hkex_quot -name \*18103\*htm\* ; find raw/hkex_gem -name \*1811\*htm\*; find raw/hkex_quot -name \*1811\*htm\* )`
 do
  gzfile=`printf "/tmp/store/%s" $hkexfile`
 
