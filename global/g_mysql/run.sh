@@ -26,16 +26,16 @@ docker run \
  $vv \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
- -e MYSQL_DATABASE=${TAG_NAME:0:2}master \
+ -e MYSQL_DATABASE=${TAG_NAME:0:1}_master \
  -d \
- --network ${TAG_NAME:0:2}tptcn_overlay \
+ --network ${TAG_NAME:0:1}_tptcn_overlay \
  -p $PORT3306:3306 \
  --restart=always \
  mysql:5.7 \
  --character-set-server=utf8mb4 \
  --collation-server=utf8mb4_unicode_ci
 
-sleep 5
+sleep 10
 docker network connect d_tptcn_overlay $TAG_NAME
 docker network connect u_tptcn_overlay $TAG_NAME
 docker network connect p_tptcn_overlay $TAG_NAME

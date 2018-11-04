@@ -2,10 +2,10 @@
 scripts=""
 scripts="$scripts c11yahoo/run-grab_yahoo.sh"
 scripts="$scripts c00self/grab.sh"
-scripts="$scripts c05scrapyd/run-scrapy-hkma-today.sh"
-scripts="$scripts c05scrapyd/run-scrapy-hkex-today.sh"
-scripts="$scripts c00self/replace_sql.sh"
-scripts="$scripts c00self/export_data.sh"
+#scripts="$scripts c05scrapyd/run-scrapy-hkma-today.sh"
+#scripts="$scripts c05scrapyd/run-scrapy-hkex-today.sh"
+#scripts="$scripts c00self/replace_sql.sh"
+#scripts="$scripts c00self/export_data.sh"
 scripts="$scripts c00self/check.sh"
 
 for s in $scripts

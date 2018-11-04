@@ -114,7 +114,7 @@ if __name__ == '__main__':
         for row in result['json']:
             symdatelist.append( [row['symbol'] , startdate])
             
-    #print symdatelist
+    print symdatelist
     
     
     # Grab the bars
