@@ -13,8 +13,8 @@ docker run \
  --name ${TAG_NAME}_`date +%s` \
  --env-file $HOME/.self_env \
  -e STAGE=${TAG_NAME:0:1} \
- -d --rm \
- -v ${CURDIR}/grab_yahoo.py:/grab_yahoo.py \
+ -v ${CURDIR}/entrypoint.py:/entrypoint.py \
  --network ${TAG_NAME:0:2}tptcn_overlay \
+ -d --rm \
  tknpoon/private:$TAG_NAME \
- python /grab_yahoo.py all
+ python /entrypoint.py all
