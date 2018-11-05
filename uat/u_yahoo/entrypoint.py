@@ -103,8 +103,7 @@ def grabyahoo(symbol_date):
 if __name__ == '__main__':
     earliestDate = dt.datetime.today() - dt.timedelta(days=10)
     if len(sys.argv) > 1 and sys.argv[1] == "all":
-        earliestDate = dt.date(1990, 1, 1)
-        #earliestDate = dt.date(2017, 1, 1)
+        earliestDate = dt.datetime(1990, 1, 1)
         
     #Get a list of RIC
     symdatelist=[]
