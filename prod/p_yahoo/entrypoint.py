@@ -68,57 +68,60 @@ def apiUpsert(table, selectdictlist, valuedict):
 
 ##############################
 def grabyahoo(symbol_date):
-    [symbol,startdate] = symbol_date
+    [symbol,start_date] = symbol_date
     
     source='yahoo'
-    end=dt.date.today().strftime('%m/%d/%Y')
-    ##
-    qt = None
-    try:
-        qt= web.DataReader(symbol, source, startdate, end)
-        qt.dropna(inplace = True)
-        #print qt
-    except:
-        print "Failed to get", symbol, source, startdate, end
-        return None
-    ##
-    if qt is not None:
-        print symbol, len(qt.index)
-        save_sql(symbol, qt)
-        #df = qt.reset_index()
-        #df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
-        #dd = df.to_dict('records')
-        #for d in  dd:
-        #    selectlist= [   {'fld':'Date', 'op':'EQ', 'val':d['Date']},
-        #                    {'fld':'symbol', 'op':'EQ', 'val':symbol},
-        #                ]
-        #    print selectlist
-        #    d['symbol'] = symbol
-        #    upsertresult = apiUpsert('yahoo_daily' , selectlist, d)
-        #    print upsertresult['result'] if 'result' in upsertresult else "failed" , "upsert", selectlist
 
+    toDate = dt.datetime.today()
+    
+    totalRows = 0
+    while (start_date < toDate ) :
+        fromDate = toDate - dt.timedelta(days=70)
+        
+        qt = None
+        try:
+            qt= web.DataReader(symbol, source, fromDate.strftime('%m/%d/%Y'), toDate.strftime('%m/%d/%Y'))
+            qt.dropna(inplace = True)
+        except:
+            qt = None
+        ##
+        if qt is not None and len(qt.index) > 0:
+            totalRows = totalRows + len(qt.index)
+            #print symbol, len(qt.index)
+            save_sql(symbol, qt)
+        else:
+            break
+
+        print "Getting", symbol, fromDate, toDate, totalRows, "rows."
+        toDate = fromDate
+    print "Got", symbol, "from", start_date, totalRows, "rows."
     return symbol
 
     
 ##############################
 # main
 if __name__ == '__main__':
-    startdate = (dt.datetime.today() - dt.timedelta(days=10)).strftime('%Y-%m-%d')
+    earliestDate = dt.datetime.today() - dt.timedelta(days=10)
     if len(sys.argv) > 1 and sys.argv[1] == "all":
-        startdate = '1990-01-01'
-    
+        earliestDate = dt.date(1990, 1, 1)
+        #earliestDate = dt.date(2017, 1, 1)
+        
     #Get a list of RIC
     symdatelist=[]
     result= apiGet('hkex_listings', {})
     if 'result' in result:
         for row in result['json']:
-            symdatelist.append( [row['symbol'] , startdate])
+            symdatelist.append( [row['symbol'] , earliestDate])
             
-    print symdatelist
-    
+    #symdatelist=[]
+    #symdatelist.append( ['1686.HK', earliestDate])
+    #symdatelist.append( ['2318.HK', earliestDate])
+    #symdatelist.append( ['0008.HK', earliestDate])
+    #symdatelist.append( ['0003.HK', earliestDate])
+    #print symdatelist
     
     # Grab the bars
-    use_pool = False
+    use_pool = True
     if use_pool :
         Pool(4).map(grabyahoo, symdatelist)
     else:
