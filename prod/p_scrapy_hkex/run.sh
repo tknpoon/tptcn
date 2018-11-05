@@ -25,7 +25,7 @@ do
  -e GZFILE=$gzfile \
  -v $CURDIR/entrypoint.py:/var/lib/scrapyd/entrypoint.py \
  -v $HOME/store:/tmp/store \
- --rm \
+ -d --rm \
  tknpoon/private:${TAG_NAME} \
  /bin/bash -c 'cp $GZFILE / ; gunzip /`basename $GZFILE`; scrapy runspider /var/lib/scrapyd/entrypoint.py'
 

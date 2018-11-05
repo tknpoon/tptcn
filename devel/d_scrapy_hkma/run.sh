@@ -28,7 +28,7 @@ do
  -e GZFILE_TO_SCRAP=$gzfile \
  -v $CURDIR/entrypoint.py:/var/lib/scrapyd/entrypoint.py \
  -v $HOME/store:/tmp/store \
- --rm \
+ -d --rm \
  vimagick/scrapyd \
  /bin/bash -c 'cp $GZFILE_TO_SCRAP / ; cd /;gunzip `basename $GZFILE_TO_SCRAP`; scrapy runspider /var/lib/scrapyd/entrypoint.py'
 done
