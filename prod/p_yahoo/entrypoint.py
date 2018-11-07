@@ -28,44 +28,6 @@ def save_sql(symbol, df):
     conn.commit()
     conn.close()
 
-#######################
-# selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
-def apiGet(table, selectdictlist):
-    querylist=[]
-    for dict in selectdictlist:
-        querylist.append("%s[%s]=%s" %(dict['fld'], dict['op'], dict['val']))
-    url = "%s/%s?%s" % (urlbase,table, '&'.join(querylist))
-    # print url
-    req = urllib2.Request(url)
-    try :
-        response = urllib2.urlopen(req)
-        return json.loads(response.read())
-    except urllib2.HTTPError:
-        return {}
-        
-########################
-# selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
-# valuedict : {fld : value, fld, value, ...}
-def apiUpsert(table, selectdictlist, valuedict):
-    centaResult = apiGet(table, selectdictlist )
-    # print centaResult
-    if 'result' in centaResult: #found, update with PUT
-        for row in centaResult['json']:
-            url = "%s/%s/%d" % (urlbase ,table, row['ID'])
-            # print url, urllib.urlencode(valuedict)
-            req = urllib2.Request(url, data=urllib.urlencode(valuedict), headers={'Content-type':'application/x-www-form-urlencoded'} )
-            req.get_method = lambda: 'PUT'
-            response = urllib2.urlopen(req)
-            return json.loads( response.read())
-    else: #not found, insert with POST
-        url = "%s/%s" % (urlbase ,table)
-        # print url, urllib.urlencode(valuedict)
-        req = urllib2.Request(url, data=urllib.urlencode(valuedict), headers={'Content-type':'application/x-www-form-urlencoded'} )
-        req.get_method = lambda: 'POST'
-        response = urllib2.urlopen(req)
-        return json.loads( response.read())
-
-
 ##############################
 def grabyahoo(symbol_date):
     [symbol,start_date] = symbol_date
@@ -107,11 +69,16 @@ if __name__ == '__main__':
         
     #Get a list of RIC
     symdatelist=[]
-    result= apiGet('hkex_listings', {})
-    if 'result' in result:
-        for row in result['json']:
-            symdatelist.append( [row['symbol'] , earliestDate])
-            
+    conn = my.connect(host='g_mysql', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db='%s_master'%(os.environ['STAGE']))
+    conn.query("SELECT DISTINCT `symbol` FROM `hkex_listings` ")
+    r=conn.use_result()
+    while (True):
+        row = r.fetch_row()
+        if len(row) == 0: break
+        symdatelist.append( [ row[0][0] , earliestDate])
+    conn.close()
+    #
+
     #symdatelist=[]
     #symdatelist.append( ['1686.HK', earliestDate])
     #symdatelist.append( ['2318.HK', earliestDate])
