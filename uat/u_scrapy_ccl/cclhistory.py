@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import scrapy
 import re,os
@@ -5,9 +6,6 @@ import datetime as dt
 import urllib, urllib2, json
 
 from scrapy.exceptions import DropItem
-
-urlbase = "http://%s_dbapi:3000/api" %(os.environ['STAGE'])
-
 
 ###########################################################
 class centaSpider(scrapy.Spider):
@@ -31,43 +29,38 @@ class centaSpider(scrapy.Spider):
         'CCL_mass': {'R1': 'v4'},
     }
     
-    #######################
-    # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
-    def apiGet(self, table, selectdictlist):
-        querylist=[]
-        for dict in selectdictlist:
-            querylist.append("%s[%s]=%s" %(dict['fld'], dict['op'], dict['val']))
-        url = "%s/%s?%s" % (urlbase,table, '&'.join(querylist))
-        # print url
-        req = urllib2.Request(url)
-        try :
-            response = urllib2.urlopen(req)
-            return json.loads(response.read())
-        except urllib2.HTTPError:
-            return {}
-
     ########################
-    # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
     # valuedict : {fld : value, fld, value, ...}
-    def apiUpsert(self, table, selectdictlist, valuedict):
-        centaResult = self.apiGet(table, selectdictlist )
-        # print centaResult
-        if 'result' in centaResult: #found, update with PUT
-            for row in centaResult['json']:
-                url = "%s/%s/%d" % (urlbase ,table, row['ID'])
-                # print url, urllib.urlencode(valuedict)
-                req = urllib2.Request(url, data=urllib.urlencode(valuedict), headers={'Content-type':'application/x-www-form-urlencoded'} )
-                req.get_method = lambda: 'PUT'
-                response = urllib2.urlopen(req)
-                return json.loads( response.read())
-        else: #not found, insert with POST
-            url = "%s/%s" % (urlbase ,table)
-            # print url, urllib.urlencode(valuedict)
-            req = urllib2.Request(url, data=urllib.urlencode(valuedict), headers={'Content-type':'application/x-www-form-urlencoded'} )
-            req.get_method = lambda: 'POST'
-            response = urllib2.urlopen(req)
-            return json.loads( response.read())
+    ##############################
+    def save_sql(self, table, valuedict):
+        ##
+        conn = my.connect(host='g_mysql', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db='%s_master'%(os.environ['STAGE']))
+        cursor = conn.cursor()
+        #INSERT INTO t1 (a,b,c) VALUES (1,2,3)  ON DUPLICATE KEY UPDATE c=c+1;
+        #print index,row
+        stmt = "INSERT INTO %s (" %(table)
+        for k in valuedict.keys():
+            stmt = stmt + "`%s`," % ( valuedict[k])
+        stmt = stmt[-1:] + ") "
         
+        stmt = stmt + " VALUES("
+        for k in valuedict.keys():
+            stmt = stmt + "%s," % ( valuedict[k] )
+        stmt = stmt[-1:] + ") "
+        
+        stmt = stmt + "ON DUPLICATE KEY UPDATE "
+        for k in valuedict.keys():
+            if k == 'FromDate': next
+            stmt = stmt + "`%s`," % ( valuedict[k] )
+        stmt = stmt[-1:] 
+
+        print stmt
+        #r = cursor.execute(stmt)
+        #print "Exec result:",r
+        
+        conn.commit()
+        conn.close()
+
     ################################
     def parse(self, response):
         #tbl = response.xpath('//*[@id="AutoNumber1"]').extract()
@@ -76,9 +69,9 @@ class centaSpider(scrapy.Spider):
         if len(tbl) > 0:
             print tbl
         else:
-            #for c in self.ffdata:
             if True: #True means weekly jobs
-                for c in ['CCL','CCL_HK','CCL_KLN','CCL_NTE','CCL_NTW','CCL_L','CCL_SM','CCL_mass']:
+                #for c in ['CCL','CCL_HK','CCL_KLN','CCL_NTE','CCL_NTW','CCL_L','CCL_SM','CCL_mass']:
+                for c in ['CCL']:
                     fdate = self.scrapFromDate
                     tdate = self.scrapToDate
                     iformdata = self.ffdata[c].copy()
@@ -91,7 +84,7 @@ class centaSpider(scrapy.Spider):
                         meta={'ccltype': c}
                     )
             else:
-                for c in ['CCL','CCL_HK','CCL_KLN','CCL_NTE','CCL_NTW','CCL_L','CCL_SM']:
+                for c in ['CCL','CCL_HK','CCL_KLN','CCL_NTE','CCL_NTW','CCL_L','CCL_SM','CCL_mass']:
                     for y in range(1993,2019,1):
                         fdate = dt.datetime.strptime('%d/01/01' %(y),  "%Y/%m/%d")
                         tdate = fdate + dt.timedelta(days=366)
@@ -111,18 +104,15 @@ class centaSpider(scrapy.Spider):
         trs = response.xpath('//*[@id="AutoNumber1"]//tr') #.extract()
         #print len(trs)
         for tr in trs :  #skip the header
-            try:
-                tds = tr.xpath('td/text()')
-                [fromstr, tostr] = tds[0].extract().split('-')
-                #
-                rowdict = {
-                    'FromDate':dt.datetime.strptime(fromstr.strip(), "%Y/%m/%d").strftime("%Y-%m-%d"),
-                    'ToDate':dt.datetime.strptime(tostr.strip(),   "%Y/%m/%d").strftime("%Y-%m-%d"),
-                    response.meta['ccltype'] : tds[1].extract(),
-                    }
-                print rowdict
-                # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
-                print self.apiUpsert('Centa_CCL' , [{'fld':'FromDate', 'op':'EQ', 'val':rowdict['FromDate']}], rowdict)
-            except:
-                pass
+            tds = tr.xpath('td/text()')
+            print tds[0].extract()
+            [fromstr, tostr] = tds[0].extract().split('-')
+            #
+            rowdict = {
+                'FromDate':dt.datetime.strptime(fromstr.strip(), "%Y/%m/%d").strftime("%Y-%m-%d"),
+                'ToDate':dt.datetime.strptime(tostr.strip(),   "%Y/%m/%d").strftime("%Y-%m-%d"),
+                response.meta['ccltype'] : tds[1].extract(),
+                }
+            print rowdict
+            self.save_sql('Centa_CCL' , rowdict)
         print "END"

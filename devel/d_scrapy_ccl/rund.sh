@@ -12,7 +12,7 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 #PORT25=`expr $PORTBASE + 25`
 
 #
-url=http://202.72.14.52/p2/cci/SearchHistory.aspx
+url=http://www1.centadata.com/cci/cci_e.htm
 
 docker run \
  --name $TAG_NAME \
@@ -20,7 +20,7 @@ docker run \
  --env-file $HOME/.self_env \
  -e URL_TO_SCRAP=$url \
  -e STAGE=${TAG_NAME:0:1} \
- -v $CURDIR/cclhistory.py:/var/lib/scrapyd/cclhistory.py \
- --rm \
- vimagick/scrapyd \
- /bin/bash -c 'scrapy runspider /var/lib/scrapyd/cclhistory.py '
+ -v $CURDIR/entrypoint.py:/var/lib/scrapyd/entrypoint.py \
+ -d --rm \
+ tknpoon/private:$TAG_NAME \
+ /bin/bash -c 'scrapy runspider /var/lib/scrapyd/entrypoint.py '
