@@ -11,7 +11,6 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 
 today=base$(date +%Y%m%d)
-#today=base20181107
 for hkmafile in `(cd $HOME/store/; find raw/hkma -name \*${today}\*html\*)`
 do
  #url=`printf "http://${TAG_NAME:0:1}_nginx/%s" $hkmafile | sed -e 's/.gz$//'`

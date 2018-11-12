@@ -5,7 +5,7 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 STAGE=${TAG_NAME:0:1}
 
-CMD="mysqldump -u\$MYSQL_USER -p\"\$MYSQL_PASSWORD\" $@"
+CMD="mysqldump -u\$MYSQL_USER -p\"\$MYSQL_PASSWORD\" $@ 2>/dev/null"
 
 docker exec -t \
   g_mysql \
