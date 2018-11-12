@@ -1,12 +1,14 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import scrapy
 import re,os, json, urllib,urllib2
 import datetime as dt
+import MySQLdb as my
 
 ################################
 
 class hkmaSpider(scrapy.Spider):
     name = 'hkma'
-    urlbase = "http://%s_dbapi:3000/api" %(os.environ['STAGE'])
 
     urlToScrap = os.environ['URL_TO_SCRAP']
     thedate = dt.datetime.strptime(os.path.basename(urlToScrap)[9:17], '%Y%m%d')
@@ -50,43 +52,6 @@ class hkmaSpider(scrapy.Spider):
 
         return tmpstr
         
-    #######################
-    # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
-    def apiGet(self, table, selectdictlist):
-        querylist=[]
-        for dict in selectdictlist:
-            querylist.append("%s[%s]=%s" %(dict['fld'], dict['op'], dict['val']))
-        url = "%s/%s?%s" % (self.urlbase, table, '&'.join(querylist))
-        # print url
-        req = urllib2.Request(url)
-        try :
-            response = urllib2.urlopen(req)
-            return json.loads(response.read())
-        except urllib2.HTTPError:
-            return {}
-
-    ########################
-    # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
-    # valuedict : {fld : value, fld, value, ...}
-    def apiUpsert(self, table, selectdictlist, valuedict):
-        selectResult = self.apiGet(table, selectdictlist )
-        print selectResult
-        if 'result' in selectResult: #found, update with PUT
-            for row in selectResult['json']:
-                url = "%s/%s/%d" % (self.urlbase ,table, row['ID'])
-                # print url, urllib.urlencode(valuedict)
-                req = urllib2.Request(url, data=urllib.urlencode(valuedict), headers={'Content-type':'application/x-www-form-urlencoded'} )
-                req.get_method = lambda: 'PUT'
-                response = urllib2.urlopen(req)
-                return json.loads( response.read())
-        else: #not found, insert with POST
-            url = "%s/%s" % (self.urlbase ,table)
-            # print url, urllib.urlencode(valuedict)
-            req = urllib2.Request(url, data=urllib.urlencode(valuedict), headers={'Content-type':'application/x-www-form-urlencoded'} )
-            req.get_method = lambda: 'POST'
-            response = urllib2.urlopen(req)
-            return json.loads( response.read())
-
     ################################################################
     def saveDay(self, dlist):
         [
@@ -114,6 +79,19 @@ class hkmaSpider(scrapy.Spider):
         }
         print valuedict
     
-        # selectdictlist : [ {fld : colname, op : EQ, val : value } , ... ]
-        # valuedict : {fld : value, fld, value, ...}
-        self.apiUpsert('hkma_bal', [{'fld':'Date', 'op':'EQ', 'val':self.thedate.strftime('%Y-%m-%d')}], valuedict)
+        conn = my.connect(host='g_mysql', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db='%s_master' % (os.environ['STAGE']))
+        cursor = conn.cursor()
+        
+        placeholders = ', '.join(['%s'] * len(valuedict))
+        columns = ', '.join(valuedict.keys())
+        stmt = "REPLACE INTO %s ( %s ) VALUES ( %s )" % ('hkma_bal', columns, placeholders)
+        
+        print stmt
+        try:
+            r= cursor.execute(stmt, valuedict.values())
+        except Exception, e:
+            print "EXCEPTION", e
+            raise
+        print "Done!"
+        conn.commit()
+        conn.close()

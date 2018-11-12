@@ -11,8 +11,7 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 
 today=base$(date +%Y%m%d)
-#today=base201811
-#file:///127.0.0.1/path/to/file.html
+#today=base20181107
 for hkmafile in `(cd $HOME/store/; find raw/hkma -name \*${today}\*html\*)`
 do
  #url=`printf "http://${TAG_NAME:0:1}_nginx/%s" $hkmafile | sed -e 's/.gz$//'`
@@ -29,6 +28,6 @@ do
  -v $CURDIR/entrypoint.py:/var/lib/scrapyd/entrypoint.py \
  -v $HOME/store:/tmp/store \
  -d --rm \
- vimagick/scrapyd \
+ tknpoon/private:$TAG_NAME \
  /bin/bash -c 'cp $GZFILE_TO_SCRAP / ; cd /;gunzip `basename $GZFILE_TO_SCRAP`; scrapy runspider /var/lib/scrapyd/entrypoint.py'
 done
