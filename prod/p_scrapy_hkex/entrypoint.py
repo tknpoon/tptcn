@@ -53,14 +53,10 @@ class QuotSpider(scrapy.Spider):
                 stmt = """INSERT INTO 
                  hkex_sales (symbol, Date, Serial, Flag, Price, Volume)  
                       VALUES ('%s',   '%s', '%s',   '%s', %f,    %d )
-                  ON DUPLICATE KEY UPDATE Flag='%s'
-                """ % ( row['symbol'], 
-                thedate.strftime('%Y-%m-%d'), 
-                s['serial'],
-                s['flag'],
-                float(s['price']),
-                int(s['vol']),
-                s['flag']
+                  ON DUPLICATE KEY UPDATE Flag='%s', Price=%f, Volume=%d
+                """ % ( row['symbol'], thedate.strftime('%Y-%m-%d'), s['serial'],
+                s['flag'], float(s['price']), int(s['vol']),
+                s['flag'], float(s['price']), int(s['vol'])
                 )
                 try:
                     r = cursor.execute(stmt)
@@ -74,24 +70,56 @@ class QuotSpider(scrapy.Spider):
     
     ################################################################
     def getSales(self, wholequotes):
+        sym_to_mon = '0161.HK'
+
         sales=[]
         stockTradeLines = self.getStockTradeLine(wholequotes)
+        print "#stockTradeLines", len(stockTradeLines)
+        #if len(stockTradeLines) > 0: print stockTradeLines[0]
         #
         for line in stockTradeLines:
             stockDict={}
+            stockSales=[]
             # 83199 CSOP 5YCGBOND-R  < >[ ]/-//[ 1,000-101.75 ]< >
-            mm = re.search('^\s*(\d+)\D(.+)\s*\<(.+)\>\s*\[(.+)\]/-//\s*\[(.+)\]\s*\<(.+)\>', line)
-            if mm:
-                stockDict['symbol'] = '{:04d}.HK'.format(int(mm.group(1).strip()))
-                stockDict['name'] = mm.group(2).strip()
+            #
+            mm_symbol = re.search('^\s*(\d+)\D(.+)$', line)
+            if mm_symbol :
+                stockDict['symbol'] = '{:04d}.HK'.format(int(mm_symbol.group(1).strip()))
+                if stockDict['symbol']==sym_to_mon: print "symbol", stockDict['symbol'], len(stockSales), mm_symbol.group(1).strip()
+                line = mm_symbol.group(2).strip()
+            #
+            mm_name = re.search('^(.+)\s*(\<.*/-//.*)$', line)
+            if mm_name :
+                stockDict['name'] = mm_name.group(1).strip()
+                if stockDict['symbol']==sym_to_mon: print "name  ", stockDict['symbol'], len(stockSales), mm_name.group(1).strip()
+                line = mm_name.group(2).strip()
+            #
+            mm_amauction = re.search('^\<([^\>]+)\>(.*)$', line)
+            if mm_amauction :
+                stockSales.extend(self.splitTrades('A', mm_amauction.group(1).strip()))
+                if stockDict['symbol']==sym_to_mon: print "A     ", stockDict['symbol'], len(stockSales), mm_amauction.group(1).strip()
+                line = mm_amauction.group(2).strip()
+            #
+            mm_am = re.search('^\s*\[(.+)\]\s*/-//\s*(\[.*)$', line)
+            if mm_am :
+                stockSales.extend(self.splitTrades('M', mm_am.group(1).strip()))
+                if stockDict['symbol']==sym_to_mon: print "M     ", stockDict['symbol'], len(stockSales), mm_am.group(1).strip()
+                line = mm_am.group(2).strip()
+            #
+            mm_pm = re.search('^\s*\[(.*)\](.*)$', line)
+            if mm_pm :
+                stockSales.extend(self.splitTrades('P', mm_pm.group(1).strip()))
+                if stockDict['symbol']==sym_to_mon: print "P     ", stockDict['symbol'], len(stockSales), mm_pm.group(1).strip()
+                line = mm_pm.group(2).strip()
+            #
+            mm_pmauction = re.search('^\s*\<(.+)\>\s*$', line)
+            if mm_pmauction :
+                stockSales.extend(self.splitTrades('U', mm_pmauction.group(1).strip()))
+                if stockDict['symbol']==sym_to_mon: print "U     ", stockDict['symbol'], len(stockSales), mm_pmauction.group(1).strip()
                 
-                stockSales=[]
-                stockSales.extend(self.splitTrades('A', mm.group(3).strip()))
-                stockSales.extend(self.splitTrades('M', mm.group(4).strip()))
-                stockSales.extend(self.splitTrades('P', mm.group(5).strip()))
-                stockSales.extend(self.splitTrades('U', mm.group(6).strip()))
-                stockDict['stockSales'] = stockSales
-                sales.append(stockDict)
+            if stockDict['symbol']==sym_to_mon: print "after all", stockDict['symbol'], len(stockSales)
+            stockDict['stockSales'] = stockSales
+            sales.append(stockDict)
                 
         #for t in sales:
         #    print t
@@ -105,7 +133,7 @@ class QuotSpider(scrapy.Spider):
         
         line = tradeline.strip()
         
-        pattern='^([^\d\,\.]*)([,\.\d]+)-([,\.\d]+)\s+(.*)$'
+        pattern='^([^\d\,\.]*)([,\.\d]+)-([,\.\d]+)\s*(.*)$'
         m = re.search(pattern, line)
         while (m):
             #print line
@@ -129,6 +157,7 @@ class QuotSpider(scrapy.Spider):
         trade=""
         inTrade=False
         tradeLines=self.getTradelines(wholequotes)
+        print "#tradeLines", len(tradeLines)
         for line in tradeLines:
             mm = re.match('^\s*\d+', line[:5])
             #print "@@", inTrade, line, mm

@@ -9,10 +9,10 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 [ "${TAG_NAME:0:2}" == "p_" ] && PORTBASE=40000
 [ "${TAG_NAME:0:2}" == "g_" ] && PORTBASE=50000
 
+pattern=$(date +%y%m%d)
+[ $# -gt 0 ] && pattern=$1
 
-today=$(date +%y%m%d)
-
-for hkexfile in `(cd $HOME/store/; find raw/hkex_gem -name \*${today}\*htm\*; find raw/hkex_quot -name \*${today}\*htm\* )`
+for hkexfile in `(cd $HOME/store/; find raw/hkex_gem -name e_G${pattern}\*htm\* ; find raw/hkex_quot -name d${pattern}\*.htm\* )`
 do
  gzfile=`printf "/tmp/store/%s" $hkexfile`
 
