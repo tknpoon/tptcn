@@ -26,6 +26,11 @@ class QuotSpider(scrapy.Spider):
         self.saveQuotes(thedate, quotes)
         quotes = None
         
+        shorts = self.getShorts(wholequotes)
+        print "shorts count:", len(shorts)
+        self.saveShorts(thedate, shorts)
+        shorts = None
+        
         sales = self.getSales(wholequotes)
         print "sales count:", len(sales)
         self.saveSales(thedate, sales)
@@ -323,3 +328,81 @@ class QuotSpider(scrapy.Spider):
                 if re.match('^\s*-+\s*$', line): 
                     break
         return quotations
+    ################################################################
+    ################################################################
+    def saveShorts(self, thedate, shorts):
+        ##
+        conn = my.connect(host=self.dbhost, user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db=self.dbname)
+        cursor = conn.cursor()
+        for row in shorts:
+            stmt = """INSERT INTO `hkex_quotation` (`symbol`, `Date`, `ShortVolume`,`ShortTurnover`)
+            VALUES ("%s", "%s", %d , %d)            
+            ON DUPLICATE KEY UPDATE `ShortVolume`=%d , `ShortTurnover`=%d 
+                 """ % ( row['symbol'] , thedate.strftime('%Y-%m-%d') 
+                 , row['shortvolume'] , row['shortturnover']
+                 , row['shortvolume'] , row['shortturnover']
+                 )
+            #print stmt
+            try:
+                r = cursor.execute(stmt)
+            except Exception, e:
+                #print stmt
+                raise
+
+            conn.commit()
+        conn.close()
+    
+    ################################################################
+    def getShorts(self, wholeshorts):
+        shorts=[]
+        shortList = self.getShortList(wholeshorts)
+        for line in shortList:
+            q = line.replace('&amp;', '&',99)
+            #                         Total Short Selling Turnover         Total Turnover
+            #  CODE  NAME OF STOCK       (SH)           ($)           (SH)                ($)
+            #      3 HK & CHINA GAS     3,290,000    49,395,280      15,024,695       225,458,382
+            #    175 GEELY AUTO        18,894,000   274,130,860      76,759,513     1,125,108,747
+            # % 9169 VANGUARDCHINA-U        1,000         1,000           1,900             1,900
+            #0    5    0    5    0    5    0    5    0    5    0    5    0    5    0    5    0    5    
+            #          1         2         3         4         5         6         7         8
+            symbol = '{:04d}.HK'.format(int(q[2:8].strip()))
+            shortShares = q[25:36].strip().replace(',', '')
+            shortTurnover = q[37:50].strip().replace(',', '')
+
+            t={}
+            t['symbol'] = symbol
+            t['shortvolume'] = int(shortShares)
+            t['shortturnover'] = int(shortTurnover)
+
+            shorts.append(t)
+        return shorts
+        
+    ################################################################
+    def getShortList(self, wholeshorts):
+        shortsList=[]
+        shortLines=self.getShortsReport(wholeshorts)
+        for shortline in shortLines:
+            mm = re.match('^\s*[\s\*\%]\s*\d+\s', shortline)
+            #print "@@", inShort, shortline, mm
+            if mm :
+                shortsList.append(shortline)
+                #print shortline
+        return shortsList
+    ################################################################
+    def getShortsReport(self, wholeshorts):
+        shortrecords=[]
+        
+        toc_met=False
+        shortrecords_start=False
+        for line in wholeshorts:
+            #print toc_met, shortrecords_start, len(shortrecords) ,len(line), line
+            if not toc_met and re.match('^\s*-+\s*$', line) is not None: 
+                toc_met = True
+                next
+            if toc_met and not shortrecords_start and re.match('^\s*SHORT SELLING TURNOVER', line) is not None:
+                shortrecords_start=True
+            if toc_met and shortrecords_start:
+                shortrecords.append(line)
+                if re.match('^\s+Total Shares ', line): 
+                    break
+        return shortrecords
