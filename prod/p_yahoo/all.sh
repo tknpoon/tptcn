@@ -15,6 +15,6 @@ docker run \
  -e STAGE=${TAG_NAME:0:1} \
  -v ${CURDIR}/entrypoint.py:/entrypoint.py \
  --network ${TAG_NAME:0:2}tptcn_overlay \
- -d --rm \
+ --rm \
  tknpoon/private:$TAG_NAME \
  python /entrypoint.py all

@@ -70,7 +70,7 @@ if __name__ == '__main__':
     #Get a list of RIC
     symdatelist=[]
     conn = my.connect(host='g_mysql', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db='%s_master'%(os.environ['STAGE']))
-    conn.query("SELECT DISTINCT `symbol` FROM `hkex_listings` ")
+    conn.query("SELECT DISTINCT `symbol` FROM `symbol_list` WHERE `yahoo_symbol` IS NOT NULL")
     r=conn.use_result()
     while (True):
         row = r.fetch_row()
@@ -87,10 +87,11 @@ if __name__ == '__main__':
     #print symdatelist
     
     # Grab the bars
-    use_pool = True
+    use_pool = False
     if use_pool :
         Pool(4).map(grabyahoo, symdatelist)
     else:
         for sd in symdatelist:
+            #print sd
             grabyahoo(sd)
 

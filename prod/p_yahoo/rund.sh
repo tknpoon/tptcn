@@ -19,5 +19,3 @@ docker run \
  tknpoon/private:$TAG_NAME \
  python /entrypoint.py 
 
-# -ti \
-
