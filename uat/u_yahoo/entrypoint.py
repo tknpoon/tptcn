@@ -10,8 +10,6 @@ from sqlalchemy import create_engine
 
 ## global variables
 
-urlbase = "http://%s_dbapi:3000/api" %(os.environ['STAGE'])
-
 ##############################
 def save_sql(symbol, df):
     ##
@@ -19,10 +17,12 @@ def save_sql(symbol, df):
     cursor = conn.cursor()
     for index, row in df.iterrows():
         #print index,row
-        stmt = """REPLACE INTO yahoo_daily (symbol, Date, Open, High, Low, Close, Volume, `Adj Close`) 
-            VALUES ('%s','%s',%f,%f,%f,%f,%d,%f)
-            """ % (symbol, index, row['Open'], row['High'], row['Low'], row['Close'], row['Volume'], row['Adj Close'])
-        #print stmt
+        stmt = """INSERT INTO yahoo_daily (symbol, Date, Open, High, Low, Close, Volume, `Adj Close`) 
+            VALUES ('%s','%s',%f,%f,%f,%f,%d,%f) 
+            ON DUPLICATE KEY UPDATE `Open`=%f, `High`=%f, `Low`=%f, `Close`=%f, `Volume`=%d, `Adj Close`=%f
+            """ % (symbol, index, row['Open'], row['High'], row['Low'], row['Close'], row['Volume'], row['Adj Close'],
+                                  row['Open'], row['High'], row['Low'], row['Close'], row['Volume'], row['Adj Close']
+                                  )
         r = cursor.execute(stmt)
         #print "Exec result:",r
     conn.commit()
