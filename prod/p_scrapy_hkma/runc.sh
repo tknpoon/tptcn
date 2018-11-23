@@ -10,8 +10,10 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 [ "${TAG_NAME:0:2}" == "g_" ] && PORTBASE=50000
 
 
-today=base$(date +%Y%m%d)
-for hkmafile in `(cd $HOME/store/; find raw/hkma -name \*${today}\*html\*)`
+pattern=$(date +%y%m%d)
+[ $# -gt 0 ] && pattern=$1
+
+for hkmafile in `(cd $HOME/store/; find raw/hkma -name \*${pattern}\*html\*)`
 do
  #url=`printf "http://${TAG_NAME:0:1}_nginx/%s" $hkmafile | sed -e 's/.gz$//'`
  #url=`printf "file:///127.0.0.1/tmp/store/%s" $hkmafile | sed -e 's/.gz$//'`
