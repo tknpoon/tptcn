@@ -32,8 +32,8 @@ docker run \
  -p $PORT3306:3306 \
  --restart=always \
  mysql:5.7 \
- --character-set-server=utf8mb4 \
- --collation-server=utf8mb4_unicode_ci
+ --character-set-server=utf8 \
+ --collation-server=utf8_unicode_ci
 
 sleep 10
 docker network connect d_tptcn_overlay $TAG_NAME
