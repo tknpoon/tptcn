@@ -7,6 +7,6 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 docker exec \
  $TAG_NAME \
- sendemail -f frommail@tknpoon -t someone@somewhere.com -s d_telegram -m "test test"
+ sendemail -f frommail@tknpoon -t someone@somewhere.com -s $TAG_NAME -m "test test"
 
 
