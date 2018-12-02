@@ -27,7 +27,7 @@ do
  -v $HOME/store:/tmp/store \
  --rm \
  tknpoon/private:${TAG_NAME} \
- /bin/bash -c 'gunzip -c $GZFILE | sed -e "s/<pre>//g" | sed -e "s/<\/pre>//g" | sed -e "s/<font[^>]*>//g" | sed -e "s/<\/font>//g"  > /`basename $GZFILE .gz`; scrapy runspider /var/lib/scrapyd/entrypoint.py'
+ /bin/bash -c 'gunzip -c $GZFILE > /`basename $GZFILE .gz`; scrapy runspider /var/lib/scrapyd/entrypoint.py'
 
  echo ====== Done working on $url `date`
 done
