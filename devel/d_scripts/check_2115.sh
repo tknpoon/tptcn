@@ -20,5 +20,5 @@ FROM
 ;
 '
 
-echo $sql | docker exec -i g_mysql mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -E | docker exec -i ${TAG_NAME:0:1}_telegram python /send_telegram.py
+echo $sql | docker exec -i g_mysql mysql -u$MYSQL_USER -p$MYSQL_PASSWORD --vertical | grep -v '^\*\*\*\*' | docker exec -i ${TAG_NAME:0:1}_telegram python /send_telegram.py
 
