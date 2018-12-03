@@ -94,7 +94,7 @@ class QuotSpider(scrapy.Spider):
                 if stockDict['symbol']==sym_to_mon: print "symbol", stockDict['symbol'], len(stockSales), mm_symbol.group(1).strip()
                 line = mm_symbol.group(2).strip()
             #
-            mm_name = re.search('^([^\<]+)\s*(\<.*$)', line)
+            mm_name = re.search('^([^\<\[]+)\s*([\<\[].*$)', line)
             if mm_name :
                 stockDict['name'] = mm_name.group(1).strip()
                 if stockDict['symbol']==sym_to_mon: print "name  ", stockDict['symbol'], len(stockSales), mm_name.group(1).strip()

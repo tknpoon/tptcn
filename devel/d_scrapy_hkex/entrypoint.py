@@ -86,6 +86,7 @@ class QuotSpider(scrapy.Spider):
             stockDict={}
             stockSales=[]
             # 83199 CSOP 5YCGBOND-R  < >[ ]/-//[ 1,000-101.75 ]< >
+            #    26 CHINA MOTOR BUS  < >[ 200-99.55 1,000-99.50 ]< >
             #
             mm_symbol = re.search('^\s*(\d+)\D(.+)$', line)
             if mm_symbol :
@@ -93,7 +94,7 @@ class QuotSpider(scrapy.Spider):
                 if stockDict['symbol']==sym_to_mon: print "symbol", stockDict['symbol'], len(stockSales), mm_symbol.group(1).strip()
                 line = mm_symbol.group(2).strip()
             #
-            mm_name = re.search('^(.+)\s*(\<.*/-//.*)$', line)
+            mm_name = re.search('^([^\<\[]+)\s*([\<\[].*$)', line)
             if mm_name :
                 stockDict['name'] = mm_name.group(1).strip()
                 if stockDict['symbol']==sym_to_mon: print "name  ", stockDict['symbol'], len(stockSales), mm_name.group(1).strip()
@@ -105,13 +106,13 @@ class QuotSpider(scrapy.Spider):
                 if stockDict['symbol']==sym_to_mon: print "A     ", stockDict['symbol'], len(stockSales), mm_amauction.group(1).strip()
                 line = mm_amauction.group(2).strip()
             #
-            mm_am = re.search('^\s*\[(.+)\]\s*/-//\s*(\[.*)$', line)
+            mm_am = re.search('^\s*\[([^\]]+)\]\s*(.*)$', line)
             if mm_am :
                 stockSales.extend(self.splitTrades('M', mm_am.group(1).strip()))
                 if stockDict['symbol']==sym_to_mon: print "M     ", stockDict['symbol'], len(stockSales), mm_am.group(1).strip()
                 line = mm_am.group(2).strip()
             #
-            mm_pm = re.search('^\s*\[(.*)\](.*)$', line)
+            mm_pm = re.search('\[(.*)\](.*)$', line)
             if mm_pm :
                 stockSales.extend(self.splitTrades('P', mm_pm.group(1).strip()))
                 if stockDict['symbol']==sym_to_mon: print "P     ", stockDict['symbol'], len(stockSales), mm_pm.group(1).strip()
