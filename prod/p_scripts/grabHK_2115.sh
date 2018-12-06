@@ -38,9 +38,13 @@ url=`date -d $dstr +https://www.hsi.com.hk/HSI-Net/static/revamp/contents/en/ind
 dlzip $url ~/store/raw/hsi/$(basename $url)
 
 #hkma
-url=`date -d $dstr +https://www.hkma.gov.hk/eng/market-data-and-statistics/monetary-statistics/monetary-base/%Y/%Y%m%d-1.shtml`
+url=`date -d $dstr +https://www.hkma.gov.hk/eng/market-data-and-statistics/monetary-statistics/monetary-base/%Y/%Y%m%d-2.shtml`
 [ ! -d ~/store/raw/hkma/$(date -d $dstr +%Y) ] && mkdir -p ~/store/raw/hkma/$(date -d $dstr +%Y)
 dlzip $url ~/store/raw/hkma/$(date -d $dstr +%Y)/moneybase$(basename $url .shtml).html
+if [ ! -f ~/store/raw/hkma/$(date -d $dstr +%Y)/moneybase$(basename $url .shtml).html.gz ]; then
+  url=`date -d $dstr +https://www.hkma.gov.hk/eng/market-data-and-statistics/monetary-statistics/monetary-base/%Y/%Y%m%d-1.shtml`
+  dlzip $url ~/store/raw/hkma/$(date -d $dstr +%Y)/moneybase$(basename $url .shtml).html
+fi
 
 #hkex_quot
 url=`date -d $dstr +http://www.hkex.com.hk/eng/stat/smstat/dayquot/d%y%m%de.htm`
