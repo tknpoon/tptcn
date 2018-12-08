@@ -5,19 +5,19 @@ set -a
 function dl {
     url=$1
     dest=$2
-    echo $url
-    echo $dest
-    code=`curl -L -A "Mozilla/5.0" -o $dest --silent --write-out '%{http_code}\n' $url`
+    echo "$url"
+    echo "$dest"
+    code=`curl -L -A "Mozilla/5.0" -o $dest --silent --write-out '%{http_code}\n' "$url"`
     [ $code -eq 404 ] && [ -f $dest ] && rm -f $dest
     echo $code
 }
 
 ####
 function dlzip {
-    url=$1
-    dest=$2
-    dl $url $dest
-    [ -f $dest ] &&  gzip --force $dest
+    url="$1"
+    dest="$2"
+    dl "$url" "$dest"
+    [ -f "$dest" ] &&  gzip --force "$dest"
 }
 
 #### main
@@ -41,10 +41,6 @@ dlzip $url ~/store/raw/hsi/$(basename $url)
 url=`date -d $dstr +https://www.hkma.gov.hk/eng/market-data-and-statistics/monetary-statistics/monetary-base/%Y/%Y%m%d-2.shtml`
 [ ! -d ~/store/raw/hkma/$(date -d $dstr +%Y) ] && mkdir -p ~/store/raw/hkma/$(date -d $dstr +%Y)
 dlzip $url ~/store/raw/hkma/$(date -d $dstr +%Y)/moneybase$(basename $url .shtml).html
-if [ ! -f ~/store/raw/hkma/$(date -d $dstr +%Y)/moneybase$(basename $url .shtml).html.gz ]; then
-  url=`date -d $dstr +https://www.hkma.gov.hk/eng/market-data-and-statistics/monetary-statistics/monetary-base/%Y/%Y%m%d-1.shtml`
-  dlzip $url ~/store/raw/hkma/$(date -d $dstr +%Y)/moneybase$(basename $url .shtml).html
-fi
 
 #hkex_quot
 url=`date -d $dstr +http://www.hkex.com.hk/eng/stat/smstat/dayquot/d%y%m%de.htm`
@@ -71,4 +67,8 @@ url=`date -d $dstr +http://www.hkex.com.hk/eng/stat/dmstat/dayrpt/dqe%y%m%d.zip`
 [ ! -d ~/store/raw/hkex_stko/$(date -d $dstr +%Y) ] && mkdir -p ~/store/raw/hkex_stko/$(date -d $dstr +%Y)
 dl $url ~/store/raw/hkex_stko/$(date -d $dstr +%Y)/$(basename $url)
 
+#hkab
+url=`date -d $dstr +http://www.hkab.org.hk/hibor/listRates.do\?lang=en\&Submit=Search\&year=%Y\&month=%m\&day=%d`
+[ ! -d ~/store/raw/hkab/$(date -d $dstr +%Y) ] && mkdir -p ~/store/raw/hkab/$(date -d $dstr +%Y)
+dlzip "$url" ~/store/raw/hkab/$(date -d $dstr +%Y)/$(date -d $dstr +hkab%Y%m%d.htm)
 
