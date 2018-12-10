@@ -9,12 +9,14 @@ sql='
 USE `p_master`;
 SELECT 
 `hkma`.`Date` AS `hkmaDate` , `hkma`.`Count` AS `hkmaCount`  ,
+`hkab`.`Date` AS `hkabDate` , `hkab`.`Count` AS `hkabCount`  ,
 `quot`.`Date` AS `quoteDate`  , `quot`.`Count` AS `quotesCount`  , 
 `sales`.`Date` AS `salesDate`  , `sales`.`Count` AS `salesCount`  ,
 `ccl`.`ToDate` AS `cclDate` , `ccl`.`CCL` AS `cclCCL`  
 FROM
 (SELECT `ToDate`,`CCL`  FROM `Centa_CCL` ORDER BY `ToDate` DESC LIMIT 0,1) AS `ccl`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkma_bal` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `hkma`,
+(SELECT `Date`,COUNT(*) AS `Count` FROM `hkab` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `hkab`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkex_quotation` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `quot`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkex_sales` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `sales`
 ;
