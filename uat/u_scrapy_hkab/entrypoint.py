@@ -64,6 +64,11 @@ class hkabSpider(scrapy.Spider):
         [tdate, von, v1w, v2w, v1m, v2m , v3m , v6m, v12m] = dlist
         print dlist
         
+        #skip if all data are None
+        if von is None and v1w is None and v2w is None and v1m is None and v2m is None and v3m is None and v6m is None and v12m is None:
+            return
+        
+        
         conn = my.connect(host='g_mysql', user=os.environ['MYSQL_USER'],passwd=os.environ['MYSQL_PASSWORD'],db='%s_master' % (os.environ['STAGE']))
         cursor = conn.cursor()
         
@@ -89,3 +94,4 @@ class hkabSpider(scrapy.Spider):
             print "done:" , stmt
             
         conn.close()
+        return
