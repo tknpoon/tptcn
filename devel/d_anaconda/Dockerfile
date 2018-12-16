@@ -26,10 +26,10 @@ ENV PATH /home/ubuntu/anaconda2/bin:$PATH
 RUN conda install PyMySql
 RUN conda install -c quantopian ta-lib 
 RUN conda update --all
+
 # Configuring access to Jupyter
 RUN mkdir /home/ubuntu/notebooks
 RUN jupyter notebook --generate-config --allow-root
 RUN echo "c.NotebookApp.password = u'sha1:fe1698e7a652:4e05f2b1a694074e87e35039be56114c703e2a6f'" >> /home/ubuntu/.jupyter/jupyter_notebook_config.py
-
 
 
