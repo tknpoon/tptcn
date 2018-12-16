@@ -13,8 +13,9 @@ PORT=`expr $PORTBASE + 8888`
 docker run \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
- --expose ${PORT} --publish-all \
+ -p ${PORT}:8888 \
  -d --rm \
  --network ${TAG_NAME:0:2}tptcn_overlay \
+ -v $HOME/notebooks:/home/ubuntu/notebooks \
  tknpoon/private:$TAG_NAME \
- jupyter notebook --allow-root --notebook-dir=/home/ubuntu/notebooks --ip='*' --port=${PORT} --no-browser
+ jupyter notebook --allow-root --notebook-dir=/home/ubuntu/notebooks --ip=0.0.0.0 --port=8888 --no-browser
