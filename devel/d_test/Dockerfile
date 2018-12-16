@@ -1,15 +1,28 @@
 FROM ubuntu:18.04
 
-RUN apt-get update; apt-get upgrade -y
+# Updating Ubuntu packages
+RUN apt-get update && apt-get upgrade -y 
 
-RUN apt-get install -y build-essential
 RUN apt-get install -y wget
+RUN apt-get install -y bzip2 sudo
+RUN apt-get install -y build-essential
 
-RUN cd /tmp; \
-	wget http://sourceforge.net/projects/ta-lib/files/ta-lib/0.4.0/ta-lib-0.4.0-src.tar.gz; \
-	tar -xzf ta-lib-0.4.0-src.tar.gz; \
-	cd ta-lib; \
-	./configure ; make; make install; \
-	cd ..; \
-	rm ta-lib-0.4.0-src.tar.gz; \
-	rm -rf ta-lib
+# Add user ubuntu with no password, add to sudo group
+RUN adduser --disabled-password --gecos '' ubuntu
+RUN adduser ubuntu sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+USER ubuntu
+WORKDIR /home/ubuntu/
+RUN chmod a+rwx /home/ubuntu/
+
+# Anaconda installing
+# Anaconda installing
+RUN wget --quiet https://repo.anaconda.com/archive/Anaconda2-5.3.1-Linux-x86_64.sh -O- > ~/anaconda.sh && bash ~/anaconda.sh -b && rm ~/anaconda.sh
+
+# Set path to conda
+ENV PATH /home/ubuntu/anaconda2/bin:$PATH
+
+# Updating Anaconda packages
+RUN conda install PyMySql
+RUN conda install -c quantopian ta-lib 
+RUN conda update --all
