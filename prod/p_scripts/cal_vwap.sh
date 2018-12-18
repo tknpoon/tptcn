@@ -12,7 +12,7 @@ UPDATE
   ( SELECT symbol, Date, (SUM(Price * Volume)/SUM(Volume)) AS VWAP
     FROM hkex_sales
     WHERE symbol IN (SELECT symbol FROM diary WHERE market='HK' )
-      AND Date >= DATE_SUB(NOW(), INTERVAL 20 DAY)
+      AND Date >= DATE_SUB(NOW(), INTERVAL 5 DAY)
     GROUP BY symbol, Date
   ) AS src
 SET dest.VWAP = src.VWAP
@@ -25,7 +25,7 @@ UPDATE
   ( SELECT symbol, Date, (SUM(Price * Volume)/SUM(Volume)) AS VWAP
     FROM hkex_sales
     WHERE symbol IN (SELECT symbol FROM diary WHERE market='HK' )
-      AND Date >= DATE_SUB(NOW(), INTERVAL 20 DAY)
+      AND Date >= DATE_SUB(NOW(), INTERVAL 5 DAY)
       AND LEFT(Serial,1) = 'A'
     GROUP BY symbol, Date
   ) AS src
@@ -39,7 +39,7 @@ UPDATE
   ( SELECT symbol, Date, (SUM(Price * Volume)/SUM(Volume)) AS VWAP
     FROM hkex_sales
     WHERE symbol IN (SELECT symbol FROM diary WHERE market='HK' )
-      AND Date >= DATE_SUB(NOW(), INTERVAL 20 DAY)
+      AND Date >= DATE_SUB(NOW(), INTERVAL 5 DAY)
       AND LEFT(Serial,1) = 'M'
     GROUP BY symbol, Date
   ) AS src
@@ -53,7 +53,7 @@ UPDATE
   ( SELECT symbol, Date, (SUM(Price * Volume)/SUM(Volume)) AS VWAP
     FROM hkex_sales
     WHERE symbol IN (SELECT symbol FROM diary WHERE market='HK' )
-      AND Date >= DATE_SUB(NOW(), INTERVAL 20 DAY)
+      AND Date >= DATE_SUB(NOW(), INTERVAL 5 DAY)
       AND LEFT(Serial,1) = 'P'
     GROUP BY symbol, Date
   ) AS src
@@ -67,7 +67,7 @@ UPDATE
   ( SELECT symbol, Date, (SUM(Price * Volume)/SUM(Volume)) AS VWAP
     FROM hkex_sales
     WHERE symbol IN (SELECT symbol FROM diary WHERE market='HK' )
-      AND Date >= DATE_SUB(NOW(), INTERVAL 20 DAY)
+      AND Date >= DATE_SUB(NOW(), INTERVAL 5 DAY)
       AND LEFT(Serial,1) = 'U'
     GROUP BY symbol, Date
   ) AS src
