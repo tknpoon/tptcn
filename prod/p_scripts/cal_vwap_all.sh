@@ -13,7 +13,7 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 for y in {2014..2018} ; do
  for m in {1..12} ; do
   for d in {1..31} ; do
-    date -d "$m/$d/$y">/dev/null 2>&1 && \
+    date -d "$m/$d/$y">/dev/null 2>&1 && echo "$y-$m-$d" && \
     docker exec -i g_mysql mysql -u$MYSQL_USER -p$MYSQL_PASSWORD ${TAG_NAME:0:1}_master <<AAA
     UPDATE
       consolidated_daily AS dest,
