@@ -25,6 +25,7 @@ ENV PATH /home/ubuntu/anaconda3/bin:$PATH
 # Updating Anaconda packages
 RUN conda install PyMySql
 RUN conda install -c quantopian ta-lib 
+RUN conda update anaconda
 ### RUN conda update --all
 
 # Configuring access to Jupyter
