@@ -15,17 +15,17 @@ WORKDIR /home/ubuntu/
 RUN chmod a+rwx /home/ubuntu/
 
 # Anaconda installing
-##RUN wget --quiet https://repo.anaconda.com/archive/Anaconda2-5.3.1-Linux-x86_64.sh -O- > ~/anaconda.sh && bash ~/anaconda.sh -b && rm ~/anaconda.sh
-RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh -O- > ~/anaconda.sh && bash ~/anaconda.sh -b && rm ~/anaconda.sh
+RUN wget --quiet https://repo.anaconda.com/archive/Anaconda2-5.3.1-Linux-x86_64.sh -O- > ~/anaconda.sh && bash ~/anaconda.sh -b && rm ~/anaconda.sh
+#RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh -O- > ~/anaconda.sh && bash ~/anaconda.sh -b && rm ~/anaconda.sh
 
 # Set path to conda
-# ENV PATH /home/ubuntu/anaconda2/bin:$PATH
-ENV PATH /home/ubuntu/anaconda3/bin:$PATH
+ENV PATH /home/ubuntu/anaconda2/bin:$PATH
+# ENV PATH /home/ubuntu/anaconda3/bin:$PATH
 
 # Updating Anaconda packages
-RUN conda install PyMySql
-RUN conda install -c quantopian ta-lib 
-RUN conda update anaconda
+#RUN conda install PyMySql
+#RUN conda install -c quantopian ta-lib 
+#RUN conda update anaconda
 ### RUN conda update --all
 
 # Configuring access to Jupyter
