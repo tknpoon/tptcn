@@ -36,3 +36,5 @@ EXPOSE 8888
 RUN mkdir /home/ubuntu/notebooks
 RUN jupyter notebook --generate-config --allow-root
 RUN echo "c.NotebookApp.password = u'sha1:fe1698e7a652:4e05f2b1a694074e87e35039be56114c703e2a6f'" >> /home/ubuntu/.jupyter/jupyter_notebook_config.py
+RUN echo "c.NotebookApp.quit_button = False" >> /home/ubuntu/.jupyter/jupyter_notebook_config.py
+
