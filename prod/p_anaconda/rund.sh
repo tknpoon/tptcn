@@ -16,6 +16,6 @@ docker run \
  -p ${PORT}:8888 \
  -d --restart=always \
  --network ${TAG_NAME:0:2}tptcn_overlay \
- -v $DIRNAME/../${TAG_NAME:0:1}_notebooks:/home/ubuntu/notebooks \
+ -v $(cd $DIRNAME/..;pwd)/${TAG_NAME:0:1}_notebooks:/home/ubuntu/notebooks \
  tknpoon/private:$TAG_NAME \
  /bin/bash -c 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib ; jupyter notebook --allow-root --notebook-dir=/home/ubuntu/notebooks --ip=0.0.0.0 --port=8888 --no-browser'
