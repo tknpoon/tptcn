@@ -1,6 +1,5 @@
 FROM ubuntu:18.04
 
-
 # Updating Ubuntu packages
 RUN apt-get update && apt-get upgrade -y 
 
