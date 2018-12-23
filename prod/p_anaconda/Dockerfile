@@ -28,6 +28,7 @@ RUN wget --quiet https://repo.anaconda.com/archive/Anaconda2-5.3.1-Linux-x86_64.
 # Updating Anaconda packages
 RUN conda install PyMySql
 RUN pip install TA-Lib
+RUN pip install PyAlgoTrade
 #RUN conda update anaconda
 ### RUN conda update --all
 
