@@ -74,13 +74,13 @@ WHERE dest.symbol = src.symbol
 ;
 
 UPDATE consolidated_daily
-SET Close = High
-WHERE Close > High
+SET High = Close
+WHERE High < Close
 ;
 
 UPDATE consolidated_daily
-SET Close = Low
-WHERE Close < Low
+SET Low = Close
+WHERE Low > Close
 ;
 '
 ###############
