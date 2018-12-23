@@ -73,6 +73,15 @@ WHERE dest.symbol = src.symbol
   AND dest.Date = src.Date
 ;
 
+UPDATE consolidated_daily
+SET Close = High
+WHERE Close > High
+;
+
+UPDATE consolidated_daily
+SET Close = Low
+WHERE Close < Low
+;
 '
 ###############
 echo $sql | docker exec -i g_mysql mysql -u$MYSQL_USER -p$MYSQL_PASSWORD ${TAG_NAME:0:1}_master
