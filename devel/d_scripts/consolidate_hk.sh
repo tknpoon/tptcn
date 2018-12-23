@@ -50,8 +50,8 @@ UPDATE
             SELECT diary.symbol AS symbol, hkex_sales.Date AS Date, MIN(hkex_sales.Serial) AS Serial
             FROM
               diary, hkex_sales
-            WHERE
-              diary.symbol = hkex_sales.symbol
+            WHERE diary.symbol = hkex_sales.symbol
+              AND hkex_sales.Flag NOT IN ( "P", "X", "Y", "M")
             GROUP BY symbol, Date
           ) s2
           ON s1.symbol = s2.symbol

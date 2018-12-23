@@ -51,7 +51,7 @@ UPDATE
             FROM
               diary, hkex_sales
             WHERE diary.symbol = hkex_sales.symbol
-              AND hkex_sales.Flag NOT IN( 'P' , 'X')
+              AND hkex_sales.Flag NOT IN ( "P", "X", "Y", "M")
             GROUP BY symbol, Date
           ) s2
           ON s1.symbol = s2.symbol
