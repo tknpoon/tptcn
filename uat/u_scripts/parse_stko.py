@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import zipfile, os, re, pymysql
+import zipfile, os, re, pymysql, glob
 import datetime as dt
 
 #################################
@@ -18,8 +18,12 @@ def saveReport(thedate, slines):
         
         stmts=[]
         for s in slines:
+            #print s
+            s = s.replace(',-,', ',0,')
+            if s[-1:]=='-': s=s[:-1] + '0'
+
             code,name,id,totalVol,callVol,putVol,totalOI,callOI,putOI,IV = s.split(',')
-            intid = int(id.replace("(","").replace(")",""))
+            realid = id.replace("(","").replace(")","").replace(" ","")
             stmts.append("""INSERT INTO `stko_report`
                 ( `Date`,`Code`,`BaseStockName`,`BaseSymbol`,`TotalVol`,`CallVol`,`PutVol`,`TotalOI`,`CallOI`,`PutOI`,`IV`)
                 VALUES("%s","%s","%s",           "%s",       %s,        %s,        %s,      %s,      %s,        %s,    %s )
@@ -34,8 +38,8 @@ def saveReport(thedate, slines):
                 `PutOI`=%s,
                 `IV`=%s
                 ;""" % 
-                (thedate.strftime('%Y-%m-%d'), code, name, "%04d.HK"%(intid), totalVol,callVol,putVol,totalOI,callOI,putOI,IV 
-                                                    ,name, "%04d.HK"%(intid), totalVol,callVol,putVol,totalOI,callOI,putOI,IV 
+                (thedate.strftime('%Y-%m-%d'), code, name, realid, totalVol,callVol,putVol,totalOI,callOI,putOI,IV 
+                                                    ,name, realid, totalVol,callVol,putVol,totalOI,callOI,putOI,IV 
                 )
             )
         for stmt in stmts:
@@ -170,9 +174,16 @@ def parseLines(thelines):
 
 #################################
 ## main
+#for f in glob.glob('/tmp/p/*.csv'):
+#    lines=[]
+#    with open(f, "r+") as myfile:
+#        lines = myfile.readlines()
+#    parseLines(lines)
+
 with zipfile.ZipFile('/tmp/entrypoint.zip') as myzip:
     names = myzip.namelist()
     for name in names:
+        print "Handling %s from %s" % (name, '/tmp/entrypoint.zip')
         lines=[]
         with myzip.open(name) as myfile:
             lines = myfile.readlines()

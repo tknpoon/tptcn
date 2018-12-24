@@ -33,6 +33,8 @@ RUN pip install PyAlgoTrade
 ### RUN conda update --all
 
 # Configuring access to Jupyter
+RUN sudo apt-get install -y unzip p7zip-full
+
 EXPOSE 8888
 RUN mkdir /home/ubuntu/notebooks
 RUN jupyter notebook --generate-config --allow-root
