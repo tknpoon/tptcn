@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 # Updating Ubuntu packages
 RUN apt-get update && apt-get upgrade -y 
 
-RUN apt-get install -y wget bzip2 sudo
+RUN apt-get install -y wget p7zip-full unzip bzip2 sudo
 RUN apt-get install -y build-essential
 
 RUN cd /tmp && wget --quiet http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz -O- | tar xzf -
@@ -27,12 +27,12 @@ RUN wget --quiet https://repo.anaconda.com/archive/Anaconda2-5.3.1-Linux-x86_64.
 
 # Updating Anaconda packages
 RUN conda install PyMySql
-RUN pip install TA-Lib
-RUN pip install PyAlgoTrade
+RUN pip install TA-Lib PyAlgoTrade
 #RUN conda update anaconda
 ### RUN conda update --all
 
 # Configuring access to Jupyter
+
 EXPOSE 8888
 RUN mkdir /home/ubuntu/notebooks
 RUN jupyter notebook --generate-config --allow-root
