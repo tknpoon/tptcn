@@ -1,10 +1,10 @@
 FROM ubuntu:18.04
 
 # Updating Ubuntu packages
-RUN apt-get update && apt-get upgrade -y 
+RUN apt-get update
+RUN apt-get upgrade -y 
 
-RUN apt-get install -y wget p7zip-full unzip bzip2 sudo
-RUN apt-get install -y build-essential
+RUN apt-get install -y wget p7zip-full unzip bzip2 sudo build-essential
 
 RUN cd /tmp && wget --quiet http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz -O- | tar xzf -
 RUN cd /tmp/ta-lib/ ;./configure; make; make install ; rm -rf /tmp/ta-lib
@@ -22,12 +22,13 @@ RUN wget --quiet https://repo.anaconda.com/archive/Anaconda2-5.3.1-Linux-x86_64.
 #RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh -O- > ~/anaconda.sh && bash ~/anaconda.sh -b && rm ~/anaconda.sh
 
 # Set path to conda
- ENV PATH /home/ubuntu/anaconda2/bin:$PATH
+ENV PATH /home/ubuntu/anaconda2/bin:$PATH
 #ENV PATH /home/ubuntu/anaconda3/bin:$PATH
 
 # Updating Anaconda packages
 RUN conda install PyMySql
-RUN pip install TA-Lib PyAlgoTrade
+RUN pip install TA-Lib
+RUN pip install PyAlgoTrade
 #RUN conda update anaconda
 ### RUN conda update --all
 

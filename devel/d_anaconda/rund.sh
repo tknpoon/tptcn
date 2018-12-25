@@ -14,7 +14,7 @@ docker run \
  --name $TAG_NAME \
  --env-file $HOME/.self_env \
  -p ${PORT}:8888 \
- -d --restart=always \
+ -d --rm \
  --network ${TAG_NAME:0:2}tptcn_overlay \
  -v $(cd $DIRNAME/..;pwd)/${TAG_NAME:0:1}_notebooks:/home/ubuntu/notebooks \
  tknpoon/private:$TAG_NAME \
