@@ -2,11 +2,9 @@
 
 DIRNAME=`dirname $0`
 TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
-BNAME=parse_stko
+BNAME=$(basename $0 .sh)
 
-yy=18
-
-for i in $HOME/store/raw/hkex_stko/20${yy}/dqe${yy}*.zip
+for i in $HOME/store/raw/hkex_hhio/$(date +%Y)/hhio$(date +%y%m%d).zip
 do
   if [ -f $i ]; then
     echo $i

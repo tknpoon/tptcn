@@ -50,7 +50,7 @@ def saveSalesNew(thedates, salesList):
             vOpenInt,vChangeOI = sales.split(',')
             vContractMonthStr=dt.datetime.strptime(vContractMonth,"%b-%y").strftime("%Y%m")
             
-            stmts.append("""INSERT INTO `hsio_sales`
+            stmts.append("""INSERT INTO `hhio_sales`
             (`Date`,`ContractMonth`,`Strike`,`CallPut`,
             `NiteOpen`,`NiteHigh`,`NiteLow`,`NiteClose`,`NiteVolume`,
             `DayOpen`,`DayHigh`,`DayLow`,`DayClose`,`ChangePrice`,`IV`,`DayVolume`,
@@ -82,7 +82,7 @@ def saveSalesNew(thedates, salesList):
 
             vContractMonthStr=dt.datetime.strptime(vContractMonth,"%b-%y").strftime("%Y%m")
             
-            stmts.append("""INSERT INTO `hsio_sales`
+            stmts.append("""INSERT INTO `hhio_sales`
             (`Date`,`ContractMonth`,`Strike`,`CallPut`,
             `DayOpen`,`DayHigh`,`DayLow`,`DayClose`,`ChangePrice`,`IV`,
             `Volume`,

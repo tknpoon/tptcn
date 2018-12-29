@@ -14,6 +14,8 @@ SELECT
 `sales`.`Date` AS `salesDate`  , `sales`.`Count` AS `salesCount`  ,
 `stkorpt`.`Date` AS `stkoRdate`  , `stkorpt`.`Count` AS `stkoRcount`  , 
 `stkosales`.`Date` AS `stkoSdate`  , `stkosales`.`Count` AS `stkoScount`  ,
+`hsio`.`Date` AS `hsioDate`  , `hsio`.`Count` AS `hsioScount`  ,
+`hhio`.`Date` AS `hhioDate`  , `hhio`.`Count` AS `hhioScount`  ,
 `ccl`.`ToDate` AS `cclDate` , `ccl`.`CCL` AS `cclCCL`  
 FROM
 (SELECT `ToDate`,`CCL`  FROM `Centa_CCL` ORDER BY `ToDate` DESC LIMIT 0,1) AS `ccl`,
@@ -21,6 +23,8 @@ FROM
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkab` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `hkab`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `stko_report` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `stkorpt`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `stko_sales` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `stkosales`,
+(SELECT `Date`,COUNT(*) AS `Count` FROM `hsio_sales` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `hsio`,
+(SELECT `Date`,COUNT(*) AS `Count` FROM `hhio_sales` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `hhio`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkex_quotation` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `quot`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkex_sales` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `sales`
 ;
