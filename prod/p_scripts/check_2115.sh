@@ -8,15 +8,15 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 sql='
 USE `p_master`;
 SELECT 
-`hkma`.`Date` AS `hkmaDate` , `hkma`.`Count` AS `hkmaCount`  ,
-`hkab`.`Date` AS `hkabDate` , `hkab`.`Count` AS `hkabCount`  ,
-`quot`.`Date` AS `quoteDate`  , `quot`.`Count` AS `quotesCount`  , 
-`sales`.`Date` AS `salesDate`  , `sales`.`Count` AS `salesCount`  ,
-`stkorpt`.`Date` AS `stkoRdate`  , `stkorpt`.`Count` AS `stkoRcount`  , 
-`stkosales`.`Date` AS `stkoSdate`  , `stkosales`.`Count` AS `stkoScount`  ,
-`hsio`.`Date` AS `hsioDate`  , `hsio`.`Count` AS `hsioScount`  ,
-`hhio`.`Date` AS `hhioDate`  , `hhio`.`Count` AS `hhioScount`  ,
-`ccl`.`ToDate` AS `cclDate` , `ccl`.`CCL` AS `cclCCL`  
+`hkma`.`Date` AS `==hkmaDate` , `hkma`.`Count` AS `hkmaCount`  ,
+`hkab`.`Date` AS `==hkabDate` , `hkab`.`Count` AS `hkabCount`  ,
+`quot`.`Date` AS `==quoteDate`  , `quot`.`Count` AS `quotesCount`  , 
+`sales`.`Date` AS `==salesDate`  , `sales`.`Count` AS `salesCount`  ,
+`stkorpt`.`Date` AS `==stkoRdate`  , `stkorpt`.`Count` AS `stkoRcount`  , 
+`stkosales`.`Date` AS `==stkoSdate`  , `stkosales`.`Count` AS `stkoScount`  ,
+`hsio`.`Date` AS `==hsioDate`  , `hsio`.`Count` AS `hsioScount`  ,
+`hhio`.`Date` AS `==hhioDate`  , `hhio`.`Count` AS `hhioScount`  ,
+`ccl`.`ToDate` AS `==cclDate` , `ccl`.`CCL` AS `cclCCL`  
 FROM
 (SELECT `ToDate`,`CCL`  FROM `Centa_CCL` ORDER BY `ToDate` DESC LIMIT 0,1) AS `ccl`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkma_bal` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `hkma`,
@@ -27,6 +27,13 @@ FROM
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hhio_sales` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `hhio`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkex_quotation` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `quot`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkex_sales` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `sales`
+;
+SELECT "###";
+SELECT MAX(`Date`) AS `today` FROM `consolidated_daily` ;
+SELECT `symbol`,`Close`,`VWAP` FROM `consolidated_daily` 
+WHERE `symbol` IN (SELECT `symbol` FROM `diary` WHERE SUBSTRING(`radar`,-2,1)='1')
+  AND `Date` >= (SELECT MAX(`Date`) FROM `consolidated_daily` )
+ORDER BY `symbol`
 ;
 '
 

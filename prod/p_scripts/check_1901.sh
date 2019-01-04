@@ -7,11 +7,12 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 sql='
 USE `p_master`;
-SELECT MAX(`Date`) AS `today` FROM `consolidated_daily` ;
-SELECT `symbol`,`Close`,`VWAP` FROM `consolidated_daily` 
-WHERE `symbol` IN (SELECT `symbol` FROM `diary` WHERE SUBSTRING(`radar`,-2,1)='1')
-  AND `Date` >= (SELECT MAX(`Date`) FROM `consolidated_daily` )
-ORDER BY `symbol`
+SELECT 
+`ccl`.`ToDate` AS `==cclDate` , `ccl`.`CCL` AS `cclCCL`  
+FROM
+(SELECT `ToDate`,`CCL`  FROM `Centa_CCL` ORDER BY `ToDate` DESC LIMIT 0,1) AS `ccl`
 ;
 '
+
 echo $sql | docker exec -i g_mysql mysql -u$MYSQL_USER -p$MYSQL_PASSWORD --vertical | grep -v '^\*\*\*\*' | docker exec -i ${TAG_NAME:0:1}_telegram python /send_telegram.py
+
