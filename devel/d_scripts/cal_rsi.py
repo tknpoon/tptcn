@@ -68,8 +68,8 @@ for sym in sList:
     ta_Mean = ta.rolling(100,100).mean()
     ta_SD = talib.STDDEV(ta, timeperiod=100)
     #
-    df['rsi'] = ta
-    df['rsi_Mean'] = ta_Mean
-    df['rsi_SD'] = ta_SD
+    df['RSI'] = ta
+    df['RSI_mean'] = ta_Mean
+    df['RSI_sd'] = ta_SD
     #
-    saveDF(sym, df, ['rsi', 'rsi_Mean','rsi_SD'])
+    saveDF(sym, df, ['RSI', 'RSI_mean','RSI_sd'])
