@@ -75,12 +75,17 @@ WHERE dest.symbol = src.symbol
 
 UPDATE consolidated_daily
 SET High = Close
-WHERE High < Close
+WHERE High < Close OR High < 0
 ;
 
 UPDATE consolidated_daily
 SET Low = Close
-WHERE Low > Close
+WHERE Low > Close OR Low < 0
+;
+
+UPDATE consolidated_daily
+SET Open = NULL
+WHERE Open < 0
 ;
 '
 ###############
