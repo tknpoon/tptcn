@@ -10,7 +10,7 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 #  for m in 12 ; do
 #    docker exec -i g_mysql cat 
 
-for y in {2014..2018} ; do
+for y in {2014..2019} ; do
  for m in {1..12} ; do
   for d in {1..31} ; do
     while [ `date +%H` -eq 21 ]; do sleep 60; done
