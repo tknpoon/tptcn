@@ -39,12 +39,11 @@ def saveDF(symbol, df_ta, fldlist):
         stmts=[]
         for index, row in df_ta.iterrows():  #index is the Date
             for fld in fldlist:
-                if not pd.isnull(row[fld]):
-                    sql="""UPDATE `consolidated_daily` SET `%s`=%s
-                    WHERE `%s`='%s' AND `%s`='%s' ;
-                    """ % (fld, round(row[fld],3),
-                    'symbol',symbol, 'Date',index)
-                    stmts.append(sql)
+                sql="""UPDATE `consolidated_daily` SET `%s`=%s
+                WHERE `%s`='%s' AND `%s`='%s' ;
+                """ % (fld,  'NULL' if pd.isnull(row[fld]) else round(row[fld],3)  ,
+                'symbol',symbol, 'Date',index)
+                stmts.append(sql)
 
         for stmt in stmts:
             try:
