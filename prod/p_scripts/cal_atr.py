@@ -63,5 +63,6 @@ sList = getSymbols()
 for sym in sList:
     df = getOHLCV(sym)
     #
+    df['ATR_10'] = talib.ATR(df['High'], df['Low'], df['Close'], timeperiod=10)
     df['NATR_10'] = talib.NATR(df['High'], df['Low'], df['Close'], timeperiod=10)
-    saveDF(sym, df, ['NATR_10'])
+    saveDF(sym, df, ['ATR_10','NATR_10'])
