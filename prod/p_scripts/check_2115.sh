@@ -30,7 +30,7 @@ FROM
 ;
 SELECT "###";
 SELECT MAX(`Date`) AS `today` FROM `consolidated_daily` ;
-SELECT `symbol`,`Close`,`RSI`,`ATR_10`,`VWAP`,`VWAPam`,`VWAPpm` FROM `consolidated_daily` 
+SELECT "++",`symbol`,`Close`,`VWAP`,`VWAPam`,`VWAPpm`,`Volume`,`RSI`,`ATR_10` FROM `consolidated_daily` 
 WHERE `symbol` IN (SELECT `symbol` FROM `diary` WHERE SUBSTRING(`radar`,-2,1)='1')
   AND `Date` >= (SELECT MAX(`Date`) FROM `consolidated_daily` )
 ORDER BY `symbol`
