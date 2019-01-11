@@ -7,8 +7,8 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 sql='
 USE `p_master`;
-SELECT `FromDate`, `ToDate`, `CCL_HK`, `CCL_KLN`, `CCL_NTE`, `CCL_NTW`, `CCL_mass`, `CCL_L`, `CCL_SM`, `CCL` FROM `Centa_CCL` 
-ORDER BY `ToDate` DESC LIMIT 0,1
+SELECT "+++",`FromDate`, `ToDate`, `CCL_HK`, `CCL_KLN`, `CCL_NTE`, `CCL_NTW`, `CCL_mass`, `CCL_L`, `CCL_SM`, `CCL` FROM `Centa_CCL` 
+ORDER BY `ToDate` DESC LIMIT 0,2
 ;
 '
 
