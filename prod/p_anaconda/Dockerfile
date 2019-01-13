@@ -27,6 +27,9 @@ ENV PATH /home/ubuntu/anaconda2/bin:$PATH
 
 # Updating Anaconda packages
 RUN conda install PyMySql
+RUN conda install keras
+RUN conda install tensorflow
+RUN conda install tensorflow-tensorboard
 RUN pip install TA-Lib
 RUN pip install PyAlgoTrade
 #RUN conda update anaconda
