@@ -15,10 +15,8 @@ SELECT
 `stkorpt`.`Date` AS `==stkoRdate`  , `stkorpt`.`Count` AS `stkoRcount`  , 
 `stkosales`.`Date` AS `==stkoSdate`  , `stkosales`.`Count` AS `stkoScount`  ,
 `hsio`.`Date` AS `==hsioDate`  , `hsio`.`Count` AS `hsioScount`  ,
-`hhio`.`Date` AS `==hhioDate`  , `hhio`.`Count` AS `hhioScount`  ,
-`ccl`.`ToDate` AS `==cclDate` , `ccl`.`CCL` AS `cclCCL`  
+`hhio`.`Date` AS `==hhioDate`  , `hhio`.`Count` AS `hhioScount`  
 FROM
-(SELECT `ToDate`,`CCL`  FROM `Centa_CCL` ORDER BY `ToDate` DESC LIMIT 0,1) AS `ccl`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkma_bal` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `hkma`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `hkab` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `hkab`,
 (SELECT `Date`,COUNT(*) AS `Count` FROM `stko_report` GROUP BY `Date` ORDER BY `Date` DESC LIMIT 0,1) AS `stkorpt`,
