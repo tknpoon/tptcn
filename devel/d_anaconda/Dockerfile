@@ -27,6 +27,7 @@ ENV PATH /home/ubuntu/anaconda2/bin:$PATH
 
 # Updating Anaconda packages
 RUN conda install PyMySql
+RUN conda install -c quantopian zipline 
 RUN pip install TA-Lib
 RUN pip install PyAlgoTrade
 #RUN conda update anaconda
