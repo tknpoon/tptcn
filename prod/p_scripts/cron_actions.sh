@@ -3,8 +3,10 @@
 set -a 
 . $HOME/.self_env
 
+HHMM=$(date +%H%M)
+
 #####
-if [ "$(date +%H%M)" == "0020" ]; then
+if [ "$HHMM" == "0020" ]; then
     c=$(docker ps -a -q --filter="name=p_telegram")
     [ "$c" = "" ] && $HOME/repo/tptcn/prod/p_telegram/run.sh
     
@@ -12,14 +14,14 @@ if [ "$(date +%H%M)" == "0020" ]; then
     [ "$c" = "" ] && $HOME/repo/tptcn/global/g_mysql/run.sh
 fi
 ##### Daily @ 11:50
-if [ "$(date +%H%M)" == "1150" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; then
+if [ "$HHMM" == "1150" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; then
     cd $HOME/repo/tptcn/prod
     p_scripts/grabHK_1150.sh
     p_scrapy_hkab/runc.sh
     p_scripts/check_1150.sh
 fi
 ##### Daily @ 21:20
-if [ "$(date +%H%M)" == "2120" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; then
+if [ "$HHMM" == "2120" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; then
     cd $HOME/repo/tptcn/prod
     p_scripts/grabHK_2115.sh
     p_scrapy_hkab/runc.sh
@@ -35,7 +37,7 @@ if [ "$(date +%H%M)" == "2120" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; 
     p_scripts/check_2115.sh
 fi
 ##### CCL @ Fri
-if [ "$(date +%H%M)" == "1220" -a "$(date +%w)" -eq 5 ]; then
+if [ "$HHMM" == "1220" -a "$(date +%w)" -eq 5 ]; then
     cd $HOME/repo/tptcn/prod
     p_scrapy_ccl/runc.sh
     p_scripts/check_ccl.sh
