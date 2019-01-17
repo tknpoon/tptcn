@@ -15,14 +15,16 @@ if [ "$HHMM" == "0020" ]; then
 fi
 ##### Daily @ 11:50
 if [ "$HHMM" == "1150" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; then
-    cd $HOME/repo/tptcn/prod
+    cd $HOME/repo/tptcn
+    cd prod
     p_scripts/grabHK_1150.sh
     p_scrapy_hkab/runc.sh
     p_scripts/check_1150.sh
 fi
 ##### Daily @ 21:20
 if [ "$HHMM" == "2120" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; then
-    cd $HOME/repo/tptcn/prod
+    cd $HOME/repo/tptcn
+    cd prod
     p_scripts/grabHK_2115.sh
     p_scrapy_hkab/runc.sh
     p_scrapy_hkma/runc.sh
@@ -38,7 +40,8 @@ if [ "$HHMM" == "2120" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; then
 fi
 ##### CCL @ Fri
 if [ "$HHMM" == "1220" -a "$(date +%w)" -eq 5 ]; then
-    cd $HOME/repo/tptcn/prod
+    cd $HOME/repo/tptcn
+    cd prod
     p_scrapy_ccl/runc.sh
     p_scripts/check_ccl.sh
 fi
