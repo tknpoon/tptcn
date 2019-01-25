@@ -39,7 +39,7 @@ if [ "$HHMM" == "2120" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; then
     p_scripts/check_2115.sh
 fi
 ##### CCL @ Fri
-if [ "$HHMM" == "1220" -a "$(date +%w)" -eq 5 ]; then
+if [ "$HHMM" == "1620" -a "$(date +%w)" -eq 5 ]; then
     cd $HOME/repo/tptcn
     cd prod
     p_scrapy_ccl/runc.sh
