@@ -13,6 +13,12 @@ if [ "$HHMM" == "0020" ]; then
     c=$(docker ps -a -q --filter="name=g_mysql")
     [ "$c" = "" ] && $HOME/repo/tptcn/global/g_mysql/run.sh
 fi
+##### Daily @ 07:50
+if [ "$HHMM" == "0750" -a "$(date +%w)" -ge 2 -a "$(date +%w)" -le 6 ]; then
+    cd $HOME/repo/tptcn
+    cd prod
+    p_scripts/grab_yahoo.sh
+fi
 ##### Daily @ 11:50
 if [ "$HHMM" == "1150" -a "$(date +%w)" -ge 1 -a "$(date +%w)" -le 5 ]; then
     cd $HOME/repo/tptcn
