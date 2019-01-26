@@ -121,7 +121,7 @@ def load_csv_data(stock, interval='1d', day_begin=(dt.datetime.now()-dt.timedelt
             website = requests.get(url, headers=header, cookies=cookies)
             try:
                 j = json.loads(website.text) #success load json string --> error 
-                print stock, "try again!!!!!!" 
+                print stock, "try again!!!!!!, trycount=" , trycount
                 print website.text
                 time.sleep(2)
             except ValueError,e:
