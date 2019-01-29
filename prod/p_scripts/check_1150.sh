@@ -7,7 +7,7 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 
 sql='
 USE `p_master`;
-SELECT `Date`, `Overnight` AS `ON`, `1W`, `2W`, `1M`, `2M`, `3M`, `6M`, `12M` FROM `hkab` ORDER BY `Date` DESC LIMIT 0,2
+SELECT "+++", `Date`, `Overnight` AS `ON`, `1W`, `2W`, `1M`, `2M`, `3M`, `6M`, `12M` FROM `hkab` ORDER BY `Date` DESC LIMIT 0,2
 ;
 '
 
