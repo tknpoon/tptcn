@@ -1,3 +1,4 @@
+import datetime as dt
 import pymysql, talib, sys, os, tempfile
 import pandas as pd , numpy as np
 
@@ -7,6 +8,7 @@ class HKYahoo:
     symbol=None
     
     daily=None
+    weekly=None
     monthly=None
     yearly=None
     ####################
@@ -33,6 +35,16 @@ class HKYahoo:
         tmpdf['yyyymm'] = tmpdf['Date'].dt.strftime("%Y%m")
         tmpdf['Month_Number'] = tmpdf['Date'].dt.month
         tmpdf['Year'] = tmpdf['Date'].dt.year
+
+        # 'daysoffset' will container the weekday, as integers
+        tmpdf['daysoffset'] = tmpdf['Date'].apply(lambda x: x.weekday())
+        # We apply, row by row (axis=1) a timedelta operation
+        tmpdf['week_start'] = tmpdf.apply(lambda x: x['Date'] - dt.timedelta(days=x['daysoffset']), axis=1)
+
+        ### weekly
+        self.weekly = tmpdf.groupby(['week_start']).agg({'Open':'first', 'High':'max', 'Low':'min', 'Close':'last', 'Volume':'sum','Adj Close':'last'})
+        self.weekly['Count'] =tmpdf.groupby(['week_start']).size()
+        self.weekly = self.weekly.reset_index().set_index('week_start')[['Open','High','Low','Close','Volume','Adj Close','Count']]
 
         ### monthly
         self.monthly = tmpdf.groupby(['Year','Month_Number']).agg({'Open':'first', 'High':'max', 'Low':'min', 'Close':'last', 'Volume':'sum','Adj Close':'last', 'yyyymm':'first'})
