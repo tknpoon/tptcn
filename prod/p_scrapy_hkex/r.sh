@@ -9,10 +9,11 @@ TAG_NAME=$(cd $DIRNAME ; basename `pwd`)
 [ "${TAG_NAME:0:2}" == "p_" ] && PORTBASE=40000
 [ "${TAG_NAME:0:2}" == "g_" ] && PORTBASE=50000
 
+#pattern=$(date +%y%m%d)
+pattern=190204
+[ $# -gt 0 ] && pattern=$1
 
-today=$(date +%y%m%d)
-
-for hkexfile in `(cd $HOME/store/; find raw/hkex_gem -name \*18102\*htm\*; find raw/hkex_quot -name \*18102\*htm\* ; find raw/hkex_gem -name \*18103\*htm\*; find raw/hkex_quot -name \*18103\*htm\* ; find raw/hkex_gem -name \*1811\*htm\*; find raw/hkex_quot -name \*1811\*htm\* )`
+for hkexfile in `(cd $HOME/store/; find raw/hkex_gem -name e_G${pattern}\*htm\* ; find raw/hkex_quot -name d${pattern}\*.htm\* )`
 do
  gzfile=`printf "/tmp/store/%s" $hkexfile`
 
@@ -27,7 +28,8 @@ do
  -v $HOME/store:/tmp/store \
  --rm \
  tknpoon/private:${TAG_NAME} \
- /bin/bash -c 'cp $GZFILE / ; gunzip /`basename $GZFILE`; scrapy runspider /var/lib/scrapyd/entrypoint.py'
+ /bin/bash -c 'gunzip -c $GZFILE | sed -e "s/<pre>//g" | sed -e "s/<\/pre>//g" | sed -e "s/<font[^>]*>//g" | sed -e "s/<\/font>//g"  > /`basename $GZFILE .gz`; scrapy runspider /var/lib/scrapyd/entrypoint.py'
 
  echo ====== Done working on $url `date`
 done
+

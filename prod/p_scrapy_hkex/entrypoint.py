@@ -75,7 +75,7 @@ class QuotSpider(scrapy.Spider):
     
     ################################################################
     def getSales(self, wholequotes):
-        sym_to_mon = '0161.HK'
+        sym_to_mon = '0521.HK'
 
         sales=[]
         stockTradeLines = self.getStockTradeLine(wholequotes)
@@ -102,26 +102,26 @@ class QuotSpider(scrapy.Spider):
             #
             mm_amauction = re.search('^\<([^\>]+)\>(.*)$', line)
             if mm_amauction :
-                stockSales.extend(self.splitTrades('A', mm_amauction.group(1).strip()))
-                if stockDict['symbol']==sym_to_mon: print "A     ", stockDict['symbol'], len(stockSales), mm_amauction.group(1).strip()
+                stockSales.extend(self.splitTrades('A', mm_amauction.group(1).strip().replace('<','').replace('>','').replace('[','').replace(']','') ))
+                if stockDict['symbol']==sym_to_mon: print "A     ", stockDict['symbol'], len(stockSales), mm_amauction.group(1).strip().replace('<','').replace('>','').replace('[','').replace(']','')
                 line = mm_amauction.group(2).strip()
             #
             mm_am = re.search('^\s*\[([^\]]+)\]\s*(.*)$', line)
             if mm_am :
-                stockSales.extend(self.splitTrades('M', mm_am.group(1).strip()))
-                if stockDict['symbol']==sym_to_mon: print "M     ", stockDict['symbol'], len(stockSales), mm_am.group(1).strip()
+                stockSales.extend(self.splitTrades('M', mm_am.group(1).strip().replace('<','').replace('>','').replace('[','').replace(']','') ))
+                if stockDict['symbol']==sym_to_mon: print "M     ", stockDict['symbol'], len(stockSales), mm_am.group(1).strip().replace('<','').replace('>','').replace('[','').replace(']','')
                 line = mm_am.group(2).strip()
             #
             mm_pm = re.search('\[(.*)\](.*)$', line)
             if mm_pm :
-                stockSales.extend(self.splitTrades('P', mm_pm.group(1).strip()))
-                if stockDict['symbol']==sym_to_mon: print "P     ", stockDict['symbol'], len(stockSales), mm_pm.group(1).strip()
+                stockSales.extend(self.splitTrades('P', mm_pm.group(1).strip().replace('<','').replace('>','').replace('[','').replace(']','') ))
+                if stockDict['symbol']==sym_to_mon: print "P     ", stockDict['symbol'], len(stockSales), mm_pm.group(1).strip().replace('<','').replace('>','').replace('[','').replace(']','')
                 line = mm_pm.group(2).strip()
             #
             mm_pmauction = re.search('^\s*\<(.+)\>\s*$', line)
             if mm_pmauction :
-                stockSales.extend(self.splitTrades('U', mm_pmauction.group(1).strip()))
-                if stockDict['symbol']==sym_to_mon: print "U     ", stockDict['symbol'], len(stockSales), mm_pmauction.group(1).strip()
+                stockSales.extend(self.splitTrades('U', mm_pmauction.group(1).strip().replace('<','').replace('>','').replace('[','').replace(']','') ))
+                if stockDict['symbol']==sym_to_mon: print "U     ", stockDict['symbol'], len(stockSales), mm_pmauction.group(1).strip().replace('<','').replace('>','').replace('[','').replace(']','')
                 
             if stockDict['symbol']==sym_to_mon: print "after all", stockDict['symbol'], len(stockSales)
             stockDict['stockSales'] = stockSales
