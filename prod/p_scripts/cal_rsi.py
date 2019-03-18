@@ -28,7 +28,7 @@ def getOHLCV(symbol):
     df = pd.read_sql(sql, conn, index_col=['Date'])
     #conn.commit()
     conn.close()
-    return df.dropna()
+    return df
 
 #################################
 def saveDF(symbol, df_ta, fldlist):
@@ -62,10 +62,14 @@ def saveDF(symbol, df_ta, fldlist):
 sList = getSymbols()
 for sym in sList:
     #if sym != '2388.HK': continue
-    #print sym
+    print sym
     df = getOHLCV(sym)
+    #print df
     #
-    ta = talib.RSI(df['Close'], timeperiod=14)
+    dfClose=df['Close'].dropna()
+    if len(dfClose) <= 100: continue
+    
+    ta = talib.RSI(dfClose, timeperiod=14)
     ta_Mean = ta.rolling(100,100).mean()
     ta_SD = talib.STDDEV(ta, timeperiod=100)
     #
@@ -73,5 +77,4 @@ for sym in sList:
     df['RSI_mean'] = ta_Mean
     df['RSI_sd'] = ta_SD
     #
-    #print df
     saveDF(sym, df, ['RSI', 'RSI_mean','RSI_sd'])

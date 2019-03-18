@@ -28,7 +28,7 @@ def getOHLCV(symbol):
     df = pd.read_sql(sql, conn, index_col=['Date'])
     #conn.commit()
     conn.close()
-    return df.dropna()
+    return df
 
 #################################
 def saveDF(symbol, df_ta, fldlist):
@@ -61,8 +61,10 @@ def saveDF(symbol, df_ta, fldlist):
 ## main
 sList = getSymbols()
 for sym in sList:
-    df = getOHLCV(sym)
+    print sym
+    df = getOHLCV(sym).dropna()
     #
+    if len(df) <= 10: continue
     df['ATR_10'] = talib.ATR(df['High'], df['Low'], df['Close'], timeperiod=10)
     df['NATR_10'] = talib.NATR(df['High'], df['Low'], df['Close'], timeperiod=10)
     saveDF(sym, df, ['ATR_10','NATR_10'])
