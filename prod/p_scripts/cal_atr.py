@@ -28,7 +28,7 @@ def getOHLCV(symbol):
     df = pd.read_sql(sql, conn, index_col=['Date'])
     #conn.commit()
     conn.close()
-    return df
+    return df.dropna()
 
 #################################
 def saveDF(symbol, df_ta, fldlist):
